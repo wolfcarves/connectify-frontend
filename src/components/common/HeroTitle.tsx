@@ -10,11 +10,13 @@ const HeroTitle = () => {
         </h1>
 
         <div className="flex flex-col items-center w-full max-w-[55rem] mx-auto">
-          <p className="text-center text-xl font-medium text-foreground/80 py-[40px] px-0 sm:px-8 leading-[1.5]">
+          <p className="text-center text-xl text-foreground/80 py-[40px] px-0 sm:px-8 leading-[1.5]">
             Built by passionate developer name{' '}
-            <strong className="text-foreground">Rodel Crisosto</strong>, The
-            goal of this simple project is to learn RBAC, Docker, Deployment and
-            Testing.
+            <span className="text-foreground font-semibold">
+              Rodel Crisosto
+            </span>
+            , The goal of this simple project is to learn RBAC, Docker,
+            Deployment and Testing.
           </p>
 
           <div className="space-x-4">

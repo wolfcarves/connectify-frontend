@@ -2,10 +2,8 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormDescription,
   FormLabel,
   FormMessage,
-  useFormField,
 } from '@/components/ui/form';
 
 interface InputProps {
@@ -21,7 +19,6 @@ const Input = ({ name }: InputProps) => {
         <FormItem>
           <FormLabel />
           <FormControl>{/* Your form field */}</FormControl>
-          <FormDescription />
           <FormMessage />
         </FormItem>
       )}

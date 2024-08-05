@@ -1,0 +1,8 @@
+{
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "lucide-react",
+    "postcss",
+    "next/router.d.ts",
+    "next/dist/client/router.d.ts"
+  ]
+}
