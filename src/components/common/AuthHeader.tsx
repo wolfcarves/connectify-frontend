@@ -12,9 +12,7 @@ const AuthHeader = () => {
   return (
     <header>
       <div className="container flex justify-between items-center h-24">
-        <Link href="/">
-          <Logo />
-        </Link>
+        <Logo />
 
         <div className="space-x-3">
           {pathname !== '/signup' && (

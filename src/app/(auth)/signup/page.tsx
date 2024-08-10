@@ -1,8 +1,11 @@
-import React from 'react';
-import SignUpForm from '../_components/SignUpForm';
+import AuthHeader from '@/components/common/AuthHeader';
+import SignUpForm from '@/features/forms/SignUpForm';
 
-const SignUpPage = () => {
-  return <SignUpForm />;
-};
-
-export default SignUpPage;
+export default function SignUpPage() {
+  return (
+    <>
+      <AuthHeader />
+      <SignUpForm />
+    </>
+  );
+}

@@ -1,6 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Urbanist, Raleway } from 'next/font/google';
+import { Urbanist, Raleway, DM_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 
 const urbanist = Urbanist({
@@ -9,7 +9,7 @@ const urbanist = Urbanist({
   variable: '--display-font',
 });
 
-const raleway = Raleway({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--body-font',
@@ -27,9 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${urbanist.className} ${raleway.className}`}>
+      <body className={`${dmSans.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <main className="font-display">{children}</main>
+          <main className="font-body">{children}</main>
         </ThemeProvider>
       </body>
     </html>

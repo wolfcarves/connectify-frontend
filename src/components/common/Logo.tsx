@@ -3,7 +3,7 @@ import { FaCheck } from 'react-icons/fa';
 
 const Logo = () => {
   return (
-    <div>
+    <div className="p-2.5">
       <FaCheck size={18} />
     </div>
   );
