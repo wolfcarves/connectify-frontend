@@ -1,9 +1,19 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
-import Header from '@/components/common/Header';
+import type { Metadata } from 'next';
+import { Urbanist, Raleway } from 'next/font/google';
+import { ThemeProvider } from '@/components/ui/theme-provider';
 
-const inter = Inter({ subsets: ['latin'] });
+const urbanist = Urbanist({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--display-font',
+});
+
+const raleway = Raleway({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--body-font',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,10 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
-
-        <main className="container">{children}</main>
+      <body className={`${urbanist.className} ${raleway.className}`}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          <main className="font-display">{children}</main>
+        </ThemeProvider>
       </body>
     </html>
   );

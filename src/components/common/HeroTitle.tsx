@@ -4,13 +4,13 @@ import { Button } from '../ui/button';
 const HeroTitle = () => {
   return (
     <div className="my-24">
-      <div>
-        <h1 className="text-center text-[4.5rem] font-extrabold">
-          A Todo List Web Application
+      <div className="space-y-6">
+        <h1 className="text-center text-[3rem] leading-[3.5rem] md:leading-[5.5rem] md:text-[4.5rem] font-extrabold bg-clip-text bg-gradient-to-b from-foreground to-foreground/50 text-transparent">
+          Discover All Projects In One Place
         </h1>
 
         <div className="flex flex-col items-center w-full max-w-[55rem] mx-auto">
-          <p className="text-center text-xl text-foreground/80 py-[40px] px-0 sm:px-8 leading-[1.5]">
+          <p className="text-center text-lg md:text-xl text-foreground/80 py-[40px] px-0 sm:px-8 leading-[1.5]">
             Built by passionate developer name{' '}
             <span className="text-foreground font-semibold">
               Rodel Crisosto

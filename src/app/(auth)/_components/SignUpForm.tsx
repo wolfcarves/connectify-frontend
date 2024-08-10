@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -16,8 +18,9 @@ const SignUpForm = () => {
             Sign up for an account
           </h2>
         </div>
+
         <form className="mt-8 space-y-6" action="#" method="POST">
-          <div className="space-y-2 rounded-md shadow-sm">
+          <div className="space-y-4 rounded-md shadow-sm">
             <div>
               <Label htmlFor="email" className="sr-only">
                 Email address
@@ -74,11 +77,9 @@ const SignUpForm = () => {
               />
             </div>
           </div>
+
           <div>
-            <Button
-              type="submit"
-              className="group relative flex w-full justify-center rounded-md bg-primary py-2 px-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-            >
+            <Button type="submit" className="w-full mt-32 rounded-full">
               Sign up
             </Button>
           </div>
