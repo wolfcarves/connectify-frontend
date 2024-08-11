@@ -1,13 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Urbanist, Raleway, DM_Sans } from 'next/font/google';
+import { DM_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/ui/theme-provider';
-
-const urbanist = Urbanist({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--display-font',
-});
+import ReactQueryProvider from '../../providers/ReactQueryProvider';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -26,11 +21,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable}`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <main className="font-body">{children}</main>
-        </ThemeProvider>
+        <ReactQueryProvider>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <main className="font-body">{children}</main>
+          </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

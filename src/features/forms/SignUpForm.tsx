@@ -1,93 +1,119 @@
 'use client';
 
 import React from 'react';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import Input from '@/components/common/Input';
 import BackButton from '@/components/common/BackButton';
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import useSignUpUserMutation from '@/hooks/mutation/useSignUpUserMutation';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+export const signUpSchema = z
+  .object({
+    email: z
+      .string()
+      .email()
+      .min(1, 'Please enter your email')
+      .max(100, 'Invalid email'),
+    username: z
+      .string()
+      .min(1, 'Please enter your username')
+      .max(30, 'User is too long'),
+    password: z.string(),
+    confirm_password: z.string(),
+  })
+  .superRefine(({ password, confirm_password }, { addIssue }) => {
+    if (password !== confirm_password) {
+      addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Password did not match',
+        path: ['password'],
+      });
+
+      addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Password did not match',
+        path: ['confirm_password'],
+      });
+    }
+  });
+
+type SignUpSchema = z.infer<typeof signUpSchema>;
 
 const SignUpForm = () => {
-  return (
-    <div className="my-20 mx-auto w-full max-w-[28rem]">
-      <div className="my-20 bg-background px-4 sm:px-6 lg:px-8">
-        <div className="w-full max-w-lg space-y-8">
-          <div className="flex items-start">
-            <BackButton />
-          </div>
-          <div>
-            <h2 className=" text-center text-3xl font-bold tracking-tight text-foreground">
-              Sign up for an account
-            </h2>
-          </div>
+  const methods = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
+  });
 
-          <form className="mt-8 space-y-6" action="#" method="POST">
-            <div className="space-y-4 rounded-md shadow-sm">
-              <div>
-                <Label htmlFor="email" className="sr-only">
-                  Email address
-                </Label>
+  const { handleSubmit, control } = methods;
+
+  const { mutateAsync: signUpUserMutate } = useSignUpUserMutation();
+
+  const handleSignUpForm = async (data: SignUpSchema) => {
+    // await signUpUserMutate(data);
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <div className="my-10 mx-auto w-full max-w-[28rem]">
+        <div className="bg-background px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-lg space-y-8">
+            <div className="flex items-start">
+              <BackButton />
+            </div>
+            <div>
+              <h2 className=" text-center text-3xl font-bold tracking-tight text-foreground">
+                Sign up for an account
+              </h2>
+            </div>
+
+            <form
+              onSubmit={handleSubmit(handleSignUpForm)}
+              className="mt-8 space-y-6"
+            >
+              <div className="space-y-4 rounded-md shadow-sm">
                 <Input
-                  id="email"
+                  label="Email"
                   name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="relative block w-full rounded-t-md border-0 py-1.5 px-3 text-foreground ring-1 ring-inset ring-muted placeholder:text-muted-foreground focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                  control={control}
                   placeholder="Email address"
                 />
-              </div>
-              <div>
-                <Label htmlFor="password" className="sr-only">
-                  Password
-                </Label>
+
                 <Input
-                  id="password"
+                  label="Username"
+                  name="username"
+                  control={control}
+                  placeholder="Username"
+                />
+
+                <Input
+                  label="Password"
                   name="password"
                   type="password"
-                  autoComplete="current-password"
-                  required
-                  className="relative block w-full border-0 py-1.5 px-3 text-foreground ring-1 ring-inset ring-muted placeholder:text-muted-foreground focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                  control={control}
                   placeholder="Password"
                 />
-              </div>
-              <div>
-                <Label htmlFor="confirm-password" className="sr-only">
-                  Confirm Password
-                </Label>
-                <Input
-                  id="confirm-password"
-                  name="confirm-password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="relative block w-full border-0 py-1.5 px-3 text-foreground ring-1 ring-inset ring-muted placeholder:text-muted-foreground focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-                  placeholder="Confirm Password"
-                />
-              </div>
-              <div>
-                <Label htmlFor="organization" className="sr-only">
-                  Organization
-                </Label>
-                <Input
-                  id="organization"
-                  name="organization"
-                  type="text"
-                  required
-                  className="relative block w-full rounded-b-md border-0 py-1.5 px-3 text-foreground ring-1 ring-inset ring-muted placeholder:text-muted-foreground focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
-                  placeholder="Organization"
-                />
-              </div>
-            </div>
 
-            <div>
-              <Button type="submit" className="w-full mt-32 rounded-full">
-                Sign up
-              </Button>
-            </div>
-          </form>
+                <Input
+                  label="Confirm password"
+                  name="confirm_password"
+                  type="password"
+                  control={control}
+                  placeholder="Re-enter your password"
+                />
+              </div>
+
+              <div>
+                <Button type="submit" className="w-full mt-32 rounded-full">
+                  Sign up
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </FormProvider>
   );
 };
 
