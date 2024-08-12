@@ -2,7 +2,8 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import { ThemeProvider } from '@/components/ui/theme-provider';
-import ReactQueryProvider from '../../providers/ReactQueryProvider';
+import { Toaster } from '@/components/ui/toaster';
+import ReactQueryProvider from '@/providers/ReactQueryProvider';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -26,6 +27,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
             <main className="font-body">{children}</main>
+            <Toaster />
           </ThemeProvider>
         </ReactQueryProvider>
       </body>

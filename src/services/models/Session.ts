@@ -2,7 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserLoginResponse = {
-    message: string;
+export type Session = {
+    session: {
+        id: number;
+        email: string;
+        username: string;
+    };
 };
 

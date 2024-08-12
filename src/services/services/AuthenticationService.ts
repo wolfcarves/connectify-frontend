@@ -2,10 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Session } from '../models/Session';
+import type { SessionResponse } from '../models/SessionResponse';
+import type { SuccessReponse } from '../models/SuccessReponse';
 import type { UserLoginInput } from '../models/UserLoginInput';
-import type { UserLoginResponse } from '../models/UserLoginResponse';
 import type { UserSignUpInput } from '../models/UserSignUpInput';
-import type { UserSignupResponse } from '../models/UserSignupResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -13,12 +14,12 @@ export class AuthenticationService {
     /**
      * Login User
      * @param requestBody
-     * @returns UserLoginResponse Login successfully.
+     * @returns SuccessReponse OK
      * @throws ApiError
      */
     public static postLoginUser(
         requestBody?: UserLoginInput,
-    ): CancelablePromise<UserLoginResponse> {
+    ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/auth/login',
@@ -34,12 +35,12 @@ export class AuthenticationService {
     /**
      * Sign Up User
      * @param requestBody
-     * @returns UserSignupResponse Signup successfully.
+     * @returns SuccessReponse OK
      * @throws ApiError
      */
     public static postSignUpUser(
         requestBody?: UserSignUpInput,
-    ): CancelablePromise<UserSignupResponse> {
+    ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/auth/signup',
@@ -48,6 +49,26 @@ export class AuthenticationService {
             errors: {
                 400: `Validation Error`,
                 409: `Conflict`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Get User Session
+     * @param requestBody
+     * @returns SessionResponse OK
+     * @throws ApiError
+     */
+    public static getCurrentSession(
+        requestBody?: Session,
+    ): CancelablePromise<SessionResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/auth/session',
+            body: requestBody,
+            mediaType: 'application/json',
+            errors: {
+                401: `Unauthorized`,
                 500: `Server Internal Error.`,
             },
         });

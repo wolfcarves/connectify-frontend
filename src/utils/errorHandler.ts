@@ -10,9 +10,12 @@ const errorHandler = <T, K extends (...args: any[]) => void>(
   if (error instanceof ApiError) {
     const err = error.body.error.validationErrors;
 
-    err.map((e: { message: string; path: Array<keyof typeof schema> }) => {
-      setError(e.path[0], { message: e.message });
-    });
+    if (err)
+      err.map((e: { message: string; path: Array<keyof typeof schema> }) => {
+        e.path.forEach(path => {
+          setError(path, { message: e.message });
+        });
+      });
   }
 };
 

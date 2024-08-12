@@ -6,10 +6,11 @@ import Input from '@/components/common/Input';
 import BackButton from '@/components/common/BackButton';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import useSignUpUserMutation from '@/hooks/mutation/useSignUpUserMutation';
+import useSignUpUserMutation from '@/hooks/mutations/useSignUpUserMutation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import errorHandler from '@/utils/errorHandler';
+import { useToast } from '@/components/ui/use-toast';
 
 export const signUpSchema = z
   .object({
@@ -50,12 +51,14 @@ export const signUpSchema = z
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
 const SignUpForm = () => {
+  const router = useRouter();
+
+  const { toast } = useToast();
   const methods = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
   });
 
   const { setError } = methods;
-
   const { handleSubmit, control } = methods;
 
   const { mutateAsync: signUpUserMutate } = useSignUpUserMutation();
@@ -63,7 +66,12 @@ const SignUpForm = () => {
   const handleSignUpForm = async (data: SignUpSchema) => {
     try {
       await signUpUserMutate(data);
-      redirect('/');
+      router.push('/');
+
+      toast({
+        title: 'Registered Successfully',
+        description: 'You can now log in to your account.',
+      });
     } catch (error: unknown) {
       errorHandler(error, signUpSchema, setError);
     }
@@ -87,7 +95,7 @@ const SignUpForm = () => {
               onSubmit={handleSubmit(handleSignUpForm)}
               className="mt-8 space-y-6"
             >
-              <div className="space-y-4 rounded-md shadow-sm">
+              <div className="space-y-4 rounded-md ">
                 <Input
                   label="Email"
                   name="email"

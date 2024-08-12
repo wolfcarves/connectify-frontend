@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from './Logo';
 import Searchbar from './Searchbar';
 import { Button } from '../ui/button';
-import { GoPlus } from 'react-icons/go';
+import Link from 'next/link';
 
 const Header = () => {
   return (
@@ -14,9 +14,11 @@ const Header = () => {
         </div>
 
         <div>
-          <Button size="xs" className="rounded-full">
-            Create post
-          </Button>
+          <Link href="/create">
+            <Button size="xs" className="rounded-full">
+              Create post
+            </Button>
+          </Link>
         </div>
       </div>
     </header>

@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import LoginPage from '../(auth)/login/page';
 import Header from '@/components/common/Header';
 import LeftSidebar from '@/components/common/LeftSidebar';
 import RightSidebar from '@/components/common/RightSidebar';
@@ -9,10 +8,6 @@ type MainLayoutProps = Readonly<{
 }>;
 
 export default function MainLayout({ children }: MainLayoutProps) {
-  const isAuth = false;
-
-  if (!isAuth) return <LoginPage />;
-
   return (
     <>
       <Header />

@@ -5,21 +5,35 @@ import { Button } from '@/components/ui/button';
 import Input from '@/components/common/Input';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import useLoginUserMutation from '@/hooks/mutations/useLoginUserMutation';
+import errorHandler from '@/utils/errorHandler';
 
-export const loginSchema = z.object({
-  email: z.string().email(),
+export const schema = z.object({
   username: z.string(),
   password: z.string(),
-  confirmPassword: z.string(),
 });
 
-type LoginSchema = z.infer<typeof loginSchema>;
+type LoginSchema = z.infer<typeof schema>;
 
 const LoginForm = () => {
-  const methods = useForm<LoginSchema>();
-  const { handleSubmit, control } = methods;
+  const methods = useForm<LoginSchema>({
+    defaultValues: {
+      username: 'cazcadex',
+      password: 'awdawd123',
+    },
+  });
+  const { handleSubmit, control, setError } = methods;
 
-  const handleLoginForm = (data: LoginSchema) => {};
+  const { mutateAsync: loginUserMutate, isPending: isLoginUserLoading } =
+    useLoginUserMutation();
+
+  const handleLoginForm = async (data: LoginSchema) => {
+    try {
+      await loginUserMutate(data);
+    } catch (error) {
+      errorHandler(error, schema, setError);
+    }
+  };
 
   return (
     <FormProvider {...methods}>
@@ -40,9 +54,10 @@ const LoginForm = () => {
               className="space-y-6"
               onSubmit={handleSubmit(handleLoginForm)}
             >
-              <div className="space-y-4 rounded-md shadow-sm">
+              <div className="space-y-4 rounded-md">
                 <div>
                   <Input
+                    type="text"
                     name="username"
                     control={control}
                     placeholder="Username or email"
@@ -50,6 +65,7 @@ const LoginForm = () => {
                 </div>
                 <div>
                   <Input
+                    type="password"
                     name="password"
                     control={control}
                     placeholder="Password"
@@ -58,7 +74,11 @@ const LoginForm = () => {
               </div>
 
               <div>
-                <Button type="submit" className="w-full mt-32 rounded-full">
+                <Button
+                  type="submit"
+                  className="w-full mt-32 rounded-full"
+                  isLoading={isLoginUserLoading}
+                >
                   Login
                 </Button>
               </div>

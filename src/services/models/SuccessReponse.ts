@@ -2,7 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type UserSignupResponse = {
+export type SuccessReponse = {
+    success: boolean;
     message: string;
 };
 
