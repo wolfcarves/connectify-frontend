@@ -8,6 +8,8 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import useSignUpUserMutation from '@/hooks/mutation/useSignUpUserMutation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { redirect } from 'next/navigation';
+import errorHandler from '@/utils/errorHandler';
 
 export const signUpSchema = z
   .object({
@@ -20,20 +22,26 @@ export const signUpSchema = z
       .string()
       .min(1, 'Please enter your username')
       .max(30, 'User is too long'),
-    password: z.string(),
-    confirm_password: z.string(),
+    password: z
+      .string()
+      .min(8, 'Minimum of 8 characters')
+      .max(100, 'Password is too long'),
+    confirm_password: z
+      .string()
+      .min(8, 'Minimum of 8 characters')
+      .max(100, 'Password is too long'),
   })
   .superRefine(({ password, confirm_password }, { addIssue }) => {
     if (password !== confirm_password) {
       addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Password did not match',
+        message: 'Password do not match',
         path: ['password'],
       });
 
       addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'Password did not match',
+        message: 'Password do not match',
         path: ['confirm_password'],
       });
     }
@@ -46,12 +54,19 @@ const SignUpForm = () => {
     resolver: zodResolver(signUpSchema),
   });
 
+  const { setError } = methods;
+
   const { handleSubmit, control } = methods;
 
   const { mutateAsync: signUpUserMutate } = useSignUpUserMutation();
 
   const handleSignUpForm = async (data: SignUpSchema) => {
-    // await signUpUserMutate(data);
+    try {
+      await signUpUserMutate(data);
+      redirect('/');
+    } catch (error: unknown) {
+      errorHandler(error, signUpSchema, setError);
+    }
   };
 
   return (

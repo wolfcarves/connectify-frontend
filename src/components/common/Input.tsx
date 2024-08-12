@@ -31,7 +31,7 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
           <FormItem className={!label ? 'space-y-0' : ''}>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <ShadInput {...restProps} {...field} />
+              <ShadInput type={type} {...restProps} {...field} />
             </FormControl>
 
             <FormMessage>{error?.message}</FormMessage>

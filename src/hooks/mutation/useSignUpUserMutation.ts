@@ -5,7 +5,9 @@ export default function useSignUpUserMutation() {
   return useMutation({
     mutationKey: ['USER_SIGN_UP'],
     mutationFn: async (data: UserSignUpInput) => {
-      await AuthenticationService.postSignUpUser(data);
+      const response = await AuthenticationService.postSignUpUser(data);
+
+      return response;
     },
   });
 }

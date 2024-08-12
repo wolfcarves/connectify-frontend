@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "openapi --input http://localhost:5000/spec.json --output src/services --client axios --indent 4"
+    "generate": "openapi --input http://localhost:5000/spec.json --output src/services --client axios --exportCore false"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
