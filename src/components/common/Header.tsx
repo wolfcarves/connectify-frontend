@@ -14,7 +14,7 @@ const Header = () => {
         </div>
 
         <div>
-          <Link href="/create">
+          <Link href="/post">
             <Button size="xs" className="rounded-full">
               Create post
             </Button>

@@ -2,12 +2,15 @@ import type { ReactNode } from 'react';
 import Header from '@/components/common/Header';
 import LeftSidebar from '@/components/common/LeftSidebar';
 import RightSidebar from '@/components/common/RightSidebar';
+import Link from 'next/link';
 
-type MainLayoutProps = Readonly<{
+export default function MainLayout({
+  content,
+  children,
+}: {
+  content: ReactNode;
   children: ReactNode;
-}>;
-
-export default function MainLayout({ children }: MainLayoutProps) {
+}) {
   return (
     <>
       <Header />
@@ -16,8 +19,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
         <LeftSidebar />
 
         <main className="flex-grow mx-auto w-full max-w-xl">
-          {/* Main Content */}
           {children}
+          {content}
         </main>
 
         <RightSidebar />
