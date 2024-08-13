@@ -9,6 +9,7 @@ import {
   Bell,
   Bookmarks,
   ChatCircle,
+  GearSix,
   HouseLine,
   User,
   Users,
@@ -51,6 +52,12 @@ const navigation = [
     label: 'Profile',
     href: '/user',
   },
+  {
+    id: 7,
+    icon: <GearSix size={20} />,
+    label: 'Account Settings',
+    href: '/account-settings',
+  },
 ];
 
 const LeftSidebar = () => {
@@ -58,7 +65,7 @@ const LeftSidebar = () => {
   const pathname = usePathname();
 
   return (
-    <aside className="flex-grow max-w-[15rem]">
+    <aside className="flex-grow max-w-[15rem] pe-5">
       <nav>
         <ul>
           {navigation.map(({ id, icon, label, href }) => {
@@ -72,7 +79,7 @@ const LeftSidebar = () => {
                   <Button
                     variant={isActive ? 'default' : 'ghost'}
                     size="sm"
-                    className="justify-start w-full px-6"
+                    className="justify-start w-full px-2"
                     icon={icon}
                   >
                     {label}

@@ -3,6 +3,7 @@
 import type { ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { DialogTitle } from '@radix-ui/react-dialog';
 
 const Modal = ({
   children,
@@ -24,6 +25,7 @@ const Modal = ({
         className="sm:max-w-[33rem] min-h-[20rem]"
         onBlur={() => handleClose()}
       >
+        <DialogTitle className="hidden thisIsRequired" />
         {children}
       </DialogContent>
     </Dialog>

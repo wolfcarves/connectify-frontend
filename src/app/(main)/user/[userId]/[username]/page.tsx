@@ -1,13 +1,12 @@
-import React from 'react';
-import Image from 'next/image';
+import UserProfileImage from '@/features/user/image/UserProfileImage';
+import UserProfileTabs from '@/features/user/tabs/UserProfileTabs';
 
 const UserProfilePage = () => {
   return (
-    <div>
-      <div>
-        <Image />
-      </div>
-    </div>
+    <>
+      <UserProfileImage />
+      <UserProfileTabs />
+    </>
   );
 };
 

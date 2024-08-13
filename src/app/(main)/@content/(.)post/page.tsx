@@ -1,4 +1,4 @@
-import CreatePostForm from '@/features/forms/CreatePostForm';
+import CreatePostForm from '@/features/feed/forms/CreatePostForm';
 import Modal from '@/components/common/Modal';
 
 export default function CreatePostPage() {
