@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Session = {
-    session: {
-        id: number;
+    data: {
         email: string;
         username: string;
+        id: number;
     };
 };
 

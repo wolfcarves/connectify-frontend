@@ -6,7 +6,6 @@
 export type { ConflictError } from './models/ConflictError';
 export type { ServerInternalError } from './models/ServerInternalError';
 export type { Session } from './models/Session';
-export type { SessionResponse } from './models/SessionResponse';
 export type { SuccessReponse } from './models/SuccessReponse';
 export type { UnauthorizedError } from './models/UnauthorizedError';
 export type { User } from './models/User';

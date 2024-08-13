@@ -4,52 +4,76 @@ import Link from 'next/link';
 import React from 'react';
 import { Button } from '../ui/button';
 import { usePathname } from 'next/navigation';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
+import {
+  Bell,
+  Bookmarks,
+  ChatCircle,
+  HouseLine,
+  User,
+  Users,
+} from '@phosphor-icons/react';
 
 const navigation = [
   {
     id: 1,
+    icon: <HouseLine size={20} />,
     label: 'My Feed',
     href: '/',
   },
   {
     id: 2,
-    label: 'Groups',
-    href: '/groups',
+    icon: <Users size={20} />,
+    label: 'Friends',
+    href: '/friends',
   },
   {
     id: 3,
+    icon: <ChatCircle size={20} />,
     label: 'Messages',
     href: '/messages',
   },
   {
     id: 4,
+    icon: <Bookmarks size={20} />,
     label: 'Bookmarks',
     href: '/bookmarks',
   },
   {
     id: 5,
+    icon: <Bell size={20} />,
     label: 'Notifications',
     href: '/notifications',
+  },
+  {
+    id: 6,
+    icon: <User size={20} />,
+    label: 'Profile',
+    href: '/user',
   },
 ];
 
 const LeftSidebar = () => {
+  const { data: session } = useGetCurrentSession();
   const pathname = usePathname();
 
   return (
     <aside className="flex-grow max-w-[15rem]">
       <nav>
         <ul>
-          {navigation.map(({ id, label, href }) => {
-            const isActive = href === pathname;
+          {navigation.map(({ id, icon, label, href }) => {
+            const userLink = `/user/${session?.id}/${session?.username}`;
+            const isActive =
+              href === '/user' ? userLink === pathname : href === pathname;
 
             return (
               <li key={id}>
-                <Link href={href}>
+                <Link href={href === '/user' ? userLink : href}>
                   <Button
                     variant={isActive ? 'default' : 'ghost'}
                     size="sm"
                     className="justify-start w-full px-6"
+                    icon={icon}
                   >
                     {label}
                   </Button>

@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Session } from '../models/Session';
-import type { SessionResponse } from '../models/SessionResponse';
 import type { SuccessReponse } from '../models/SuccessReponse';
 import type { UserLoginInput } from '../models/UserLoginInput';
 import type { UserSignUpInput } from '../models/UserSignUpInput';
@@ -55,18 +54,13 @@ export class AuthenticationService {
     }
     /**
      * Get User Session
-     * @param requestBody
-     * @returns SessionResponse OK
+     * @returns Session OK
      * @throws ApiError
      */
-    public static getCurrentSession(
-        requestBody?: Session,
-    ): CancelablePromise<SessionResponse> {
+    public static getCurrentSession(): CancelablePromise<Session> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/auth/session',
-            body: requestBody,
-            mediaType: 'application/json',
             errors: {
                 401: `Unauthorized`,
                 500: `Server Internal Error.`,

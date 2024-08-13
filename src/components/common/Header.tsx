@@ -6,11 +6,11 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <header>
-      <div className="container flex justify-between items-center h-24">
+    <header className="lg:container">
+      <div className="flex justify-between items-center h-24 w-full px-4 lg:px-0">
         <div className="flex items-center">
           <Logo />
-          <Searchbar />
+          {/* <Searchbar /> */}
         </div>
 
         <div>

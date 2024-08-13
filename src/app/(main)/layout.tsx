@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import Header from '@/components/common/Header';
 import LeftSidebar from '@/components/common/LeftSidebar';
 import RightSidebar from '@/components/common/RightSidebar';
-import Link from 'next/link';
 
 export default function MainLayout({
   content,
@@ -15,10 +14,10 @@ export default function MainLayout({
     <>
       <Header />
 
-      <div className="container flex justify-between mt-10">
+      <div className="lg:container flex justify-between mt-10 px-4">
         <LeftSidebar />
 
-        <main className="flex-grow mx-auto w-full max-w-xl">
+        <main className="flex-grow mx-auto w-full max-w-xl px-4">
           {children}
           {content}
         </main>
