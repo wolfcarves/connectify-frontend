@@ -3,13 +3,7 @@ import Header from '@/components/common/Header';
 import LeftSidebar from '@/components/common/LeftSidebar';
 import RightSidebar from '@/components/common/RightSidebar';
 
-export default function MainLayout({
-  content,
-  children,
-}: {
-  content: ReactNode;
-  children: ReactNode;
-}) {
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Header />
@@ -19,7 +13,6 @@ export default function MainLayout({
 
         <main className="flex-grow mx-auto w-full max-w-xl px-4">
           {children}
-          {content}
         </main>
 
         <RightSidebar />

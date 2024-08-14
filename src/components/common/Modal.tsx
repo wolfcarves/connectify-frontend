@@ -1,16 +1,18 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 
 const Modal = ({
   children,
   onClose,
+  className,
 }: {
   children?: ReactNode;
   onClose?: () => void;
+  className?: ComponentProps<'div'>['className'];
 }) => {
   const router = useRouter();
 
@@ -20,11 +22,15 @@ const Modal = ({
   };
 
   return (
-    <Dialog open modal>
-      <DialogContent
-        className="sm:max-w-[33rem] min-h-[20rem]"
-        onBlur={() => handleClose()}
-      >
+    <Dialog
+      modal
+      defaultOpen
+      onOpenChange={state => {
+        if (!state) handleClose();
+      }}
+    >
+      <DialogContent className={className}>
+        <DialogDescription className="hidden thisIsRequired" />
         <DialogTitle className="hidden thisIsRequired" />
         {children}
       </DialogContent>
