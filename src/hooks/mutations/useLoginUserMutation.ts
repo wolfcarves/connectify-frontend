@@ -13,9 +13,11 @@ export default function useLoginUserMutation() {
 
       return response;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['GET_CURRENT_SESSION'] });
-      router.replace('/login');
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ['GET_CURRENT_SESSION'],
+      });
+      window.location.reload();
     },
   });
 }

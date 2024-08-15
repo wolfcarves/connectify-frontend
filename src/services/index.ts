@@ -4,6 +4,9 @@
 /* eslint-disable */
 
 export type { ConflictError } from './models/ConflictError';
+export { CreatePostInput } from './models/CreatePostInput';
+export type { NotFoundError } from './models/NotFoundError';
+export type { Post } from './models/Post';
 export type { ServerInternalError } from './models/ServerInternalError';
 export type { Session } from './models/Session';
 export type { SuccessReponse } from './models/SuccessReponse';
@@ -14,3 +17,4 @@ export type { UserSignUpInput } from './models/UserSignUpInput';
 export type { ValidationError } from './models/ValidationError';
 
 export { AuthenticationService } from './services/AuthenticationService';
+export { PostService } from './services/PostService';

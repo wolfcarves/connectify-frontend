@@ -2,14 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type ValidationError = {
+export type NotFoundError = {
     message: string;
     statusCode: number;
-    validationErrors: Array<{
-        code: string;
-        validation: string;
-        message: string;
-        path: Array<string>;
-    }>;
 };
 

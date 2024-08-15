@@ -21,7 +21,7 @@ export class AuthenticationService {
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/auth/login',
+            url: '/api/v1/auth/login',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -42,7 +42,7 @@ export class AuthenticationService {
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/auth/signup',
+            url: '/api/v1/auth/signup',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -60,7 +60,22 @@ export class AuthenticationService {
     public static getCurrentSession(): CancelablePromise<Session> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/auth/session',
+            url: '/api/v1/auth/session',
+            errors: {
+                401: `Unauthorized`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Delete Current Session
+     * @returns Session OK
+     * @throws ApiError
+     */
+    public static deleteCurrentSession(): CancelablePromise<Session> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/auth/session',
             errors: {
                 401: `Unauthorized`,
                 500: `Server Internal Error.`,

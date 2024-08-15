@@ -1,24 +1,11 @@
-'use client';
-
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { useTheme } from 'next-themes';
+import LogoutForm from '@/features/account-settings/forms/LogoutForm';
+import ThemeSwitch from '@/features/account-settings/switch/ThemeSwitch';
 
 export default function AccountSettings() {
-  const { theme, setTheme } = useTheme();
-
   return (
-    <div>
-      <h1 className="my-5 font-semibold">Theme</h1>
-
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="airplane-mode"
-          checked={theme === 'dark'}
-          onCheckedChange={state => setTheme(state ? 'dark' : 'light')}
-        />
-        <Label htmlFor="airplane-mode">Dark mode</Label>
-      </div>
-    </div>
+    <>
+      <ThemeSwitch />
+      <LogoutForm />
+    </>
   );
 }

@@ -1,10 +1,13 @@
 import React from 'react';
 import UserPosts from '@/features/feed/cards/UserPosts';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
-export default function HomePage() {
+const HomePage = () => {
   return (
     <>
       <UserPosts />
     </>
   );
-}
+};
+
+export default HomePage;
