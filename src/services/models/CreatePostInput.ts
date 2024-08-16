@@ -4,12 +4,6 @@
 /* eslint-disable */
 export type CreatePostInput = {
     content: string;
-    audience?: CreatePostInput.audience;
+    audience?: 'public' | 'private';
 };
-export namespace CreatePostInput {
-    export enum audience {
-        PUBLIC = 'public',
-        PRIVATE = 'private',
-    }
-}
 

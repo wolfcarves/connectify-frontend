@@ -1,11 +1,9 @@
-import React from 'react';
-import UserPosts from '@/features/feed/cards/UserPosts';
-import { withAuthGuard } from '@/higher-order/withAuthGuard';
+import FeedPosts from '@/features/feed/cards/FeedPosts';
 
 const HomePage = () => {
   return (
     <>
-      <UserPosts />
+      <FeedPosts />
     </>
   );
 };

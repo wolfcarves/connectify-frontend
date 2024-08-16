@@ -1,10 +1,11 @@
-import AuthHeader from '@/components/common/AuthHeader';
+import Header from '@/components/common/Header/Header';
+import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
 import LoginForm from '@/features/auth/forms/LoginForm';
 
 export default function LoginPage() {
   return (
     <>
-      <AuthHeader />
+      <Header menu={<HeaderMenuLink href="/signup" label="Create account" />} />
       <LoginForm />
     </>
   );

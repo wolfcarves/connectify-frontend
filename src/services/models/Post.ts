@@ -7,7 +7,7 @@ export type Post = (CreatePostInput & {
     id: number;
     user_id: number;
     likes: number;
-    commnets: number;
+    comments: number;
     shares: number;
 });
 

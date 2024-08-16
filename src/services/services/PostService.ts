@@ -61,9 +61,9 @@ export class PostService {
      */
     public static getUserPosts(
         userId: number,
-    ): CancelablePromise<Array<{
-        data: Post;
-    }>> {
+    ): CancelablePromise<{
+        data: Array<Post>;
+    }> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/post/all/{userId}',

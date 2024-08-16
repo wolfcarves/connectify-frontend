@@ -1,8 +1,13 @@
+import SessionProvider from '@/providers/SessionProvider';
 import { ComponentType } from 'react';
 
 export function withAuthGuard<T extends object>(Component: ComponentType<T>) {
-  const NewComponent = (props: T) => {
-    return <Component {...props} />;
+  const NewComponent = async (props: T) => {
+    return (
+      <SessionProvider>
+        <Component {...props} />
+      </SessionProvider>
+    );
   };
 
   return NewComponent;

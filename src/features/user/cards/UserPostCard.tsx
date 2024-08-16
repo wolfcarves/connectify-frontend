@@ -5,8 +5,9 @@ import {
   AiOutlineShareAlt,
 } from 'react-icons/ai';
 import UserCardInfo from '@/features/user/cards/UserCardInfo';
+import { Post } from '@/services';
 
-const UserPostCard = () => {
+const UserPostCard = ({ content, likes, comments, shares }: Post) => {
   return (
     <article className="rounded-md space-y-4 my-10">
       <header>
@@ -14,29 +15,23 @@ const UserPostCard = () => {
       </header>
 
       <div>
-        <p className="font-body text-accent-foreground">
-          Worem ipsum dolor sit amet consectetur adipisicing elit. Nisi neque
-          totam dolorem accusamus repudiandae aut autem ipsa nemo quos atque
-          quibusdam vel expedita iure quod inventore accusantium explicabo
-          doloribus voluptatem obcaecati, laboriosam consectetur? Minima iusto,
-          quo debitis excepturi optio tenetur!
-        </p>
+        <p className="font-body text-accent-foreground">{content}</p>
       </div>
 
       <div className="space-x-2">
         <Button variant="ghost" size="sm">
           <AiOutlineLike className="text-lg me-1" />
-          204
+          {likes}
         </Button>
 
         <Button variant="ghost" size="sm">
           <AiOutlineMessage className="text-lg me-1" />
-          204
+          {comments}
         </Button>
 
         <Button variant="ghost" size="sm">
           <AiOutlineShareAlt className="text-lg me-1" />
-          204
+          {shares}
         </Button>
       </div>
     </article>

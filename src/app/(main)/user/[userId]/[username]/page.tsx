@@ -1,5 +1,6 @@
 import UserProfileImage from '@/features/user/image/UserProfileImage';
 import UserProfileTabs from '@/features/user/tabs/UserProfileTabs';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 const UserProfilePage = () => {
   return (
@@ -10,4 +11,4 @@ const UserProfilePage = () => {
   );
 };
 
-export default UserProfilePage;
+export default withAuthGuard(UserProfilePage);

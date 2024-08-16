@@ -1,5 +1,8 @@
 import React from 'react';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
-export default function NotificationsPage() {
+const NotificationsPage = () => {
   return <div>NotificationsPage</div>;
-}
+};
+
+export default withAuthGuard(NotificationsPage);

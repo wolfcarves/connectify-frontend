@@ -1,9 +1,12 @@
 import CreatePostForm from '@/features/feed/forms/CreatePostForm';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
-export default function CreatePostPage() {
+const CreatePostPage = () => {
   return (
     <>
       <CreatePostForm />
     </>
   );
-}
+};
+
+export default withAuthGuard(CreatePostPage);

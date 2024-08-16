@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 export type { ConflictError } from './models/ConflictError';
-export { CreatePostInput } from './models/CreatePostInput';
+export type { CreatePostInput } from './models/CreatePostInput';
 export type { NotFoundError } from './models/NotFoundError';
 export type { Post } from './models/Post';
 export type { ServerInternalError } from './models/ServerInternalError';

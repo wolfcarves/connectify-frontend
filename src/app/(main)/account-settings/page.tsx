@@ -1,11 +1,13 @@
 import LogoutForm from '@/features/account-settings/forms/LogoutForm';
-import ThemeSwitch from '@/features/account-settings/switch/ThemeSwitch';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
-export default function AccountSettings() {
+const AccountSettings = () => {
   return (
     <>
-      <ThemeSwitch />
+      {/* <ThemeSwitch /> */}
       <LogoutForm />
     </>
   );
-}
+};
+
+export default withAuthGuard(AccountSettings);

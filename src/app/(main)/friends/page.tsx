@@ -1,5 +1,7 @@
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 import React from 'react';
 
-export default function FriendsPage() {
+const FriendsPage = () => {
   return <div>FriendsPage</div>;
-}
+};
+export default withAuthGuard(FriendsPage);

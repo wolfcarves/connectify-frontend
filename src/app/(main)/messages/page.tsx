@@ -1,5 +1,7 @@
-import React from 'react';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
-export default function MessagesPage() {
+const MessagesPage = () => {
   return <div>MessagesPage</div>;
-}
+};
+
+export default withAuthGuard(MessagesPage);

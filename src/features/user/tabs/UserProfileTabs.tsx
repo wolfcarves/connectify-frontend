@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import UserPostCard from '@/features/feed/cards/UserPostCard';
+import UserProfilePostTab from './UserProfilePostTab';
 
 const UserProfileTabs = () => {
   return (
@@ -13,11 +13,7 @@ const UserProfileTabs = () => {
         </TabsList>
 
         <TabsContent className="my-10" value="posts">
-          <UserPostCard />
-          <UserPostCard />
-          <UserPostCard />
-          <UserPostCard />
-          <UserPostCard />
+          <UserProfilePostTab />
         </TabsContent>
 
         <TabsContent className="my-10" value="friends">

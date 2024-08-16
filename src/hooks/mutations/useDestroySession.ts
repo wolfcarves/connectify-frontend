@@ -1,11 +1,11 @@
 import { AuthenticationService } from '@/services';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { GET_CURRENT_SESSION_KEY } from '../queries/useGetCurrentSession';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function useDestroySession() {
-  const queryClient = useQueryClient();
   const router = useRouter();
+  const { toast } = useToast();
 
   return useMutation({
     mutationKey: ['DESTROY_SESSION'],
@@ -15,11 +15,12 @@ export default function useDestroySession() {
       return response;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [GET_CURRENT_SESSION_KEY()],
+      toast({
+        title: 'Logout successful',
+        description: 'Hope to see you again motherfucker.',
       });
-
-      window.location.reload();
+      router.replace('/login');
+      router.refresh();
     },
   });
 }
