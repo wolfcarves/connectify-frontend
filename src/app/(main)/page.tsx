@@ -1,11 +1,5 @@
-import FeedPosts from '@/features/feed/cards/FeedPosts';
-
 const HomePage = () => {
-  return (
-    <>
-      <FeedPosts />
-    </>
-  );
+  return <></>;
 };
 
 export default HomePage;

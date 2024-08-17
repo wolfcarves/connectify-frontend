@@ -78,7 +78,6 @@ const LeftSidebar = () => {
                 <Link href={href === '/user' ? userLink : href}>
                   <Button
                     variant={isActive ? 'default' : 'ghost'}
-                    size="sm"
                     className="justify-start w-full px-2"
                     icon={icon}
                   >

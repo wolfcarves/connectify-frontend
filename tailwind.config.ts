@@ -2,12 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config = {
   darkMode: ['class'],
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-  ],
+  content: ['./components/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
   prefix: '',
   theme: {
     container: {
@@ -19,6 +14,14 @@ const config = {
       body: 'var(--body-font)',
     },
     extend: {
+      fontSize: {
+        xxxs: '10px',
+        xxs: '11px',
+        xs: '12px',
+        sm: '13px',
+        base: '15px',
+        md: '18px',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

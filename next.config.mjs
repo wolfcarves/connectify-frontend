@@ -18,6 +18,12 @@ export default {
         port: '',
         protocol: 'https',
       },
+      {
+        hostname: 'github.com',
+        pathname: '/**',
+        port: '',
+        protocol: 'https',
+      },
     ],
   },
 };

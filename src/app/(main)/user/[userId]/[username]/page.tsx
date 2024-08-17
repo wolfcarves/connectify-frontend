@@ -1,12 +1,14 @@
 import UserProfileImage from '@/features/user/image/UserProfileImage';
-import UserProfileTabs from '@/features/user/tabs/UserProfileTabs';
+import UserProfilePosts from '@/features/user/tabs/UserProfilePosts';
+import UserProfileTab from '@/features/user/tabs/UserProfileTab';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 const UserProfilePage = () => {
   return (
     <>
       <UserProfileImage />
-      <UserProfileTabs />
+      <UserProfileTab />
+      <UserProfilePosts />
     </>
   );
 };

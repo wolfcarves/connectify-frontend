@@ -1,9 +1,19 @@
 import Image from 'next/image';
+import Typography from '../ui/typography';
 
-const UserCardInfo = () => {
+interface UserProps {
+  name?: string;
+  timestamp?: string;
+  size?: 'sm' | 'base';
+}
+
+const User = ({ name, timestamp, size = 'base' }: UserProps) => {
+  const imageSize =
+    size === 'base' ? 'min-w-10 w-10 min-h-10 h-10' : 'min-w-9 w-9 min-h-9 h-9';
+
   return (
     <div className="flex items-center gap-2">
-      <div className="relative min-w-10 w-10 min-h-10 h-10 bg-foreground/10 rounded-full">
+      <div className={`${imageSize} relative bg-foreground/10 rounded-full`}>
         <Image
           alt="avatar"
           fill
@@ -13,12 +23,12 @@ const UserCardInfo = () => {
         />
       </div>
 
-      <div>
-        <h1 className="text-sm font-medium">Rodel Crisosto</h1>
-        <span className="text-xs text-foreground/80">2 hours ago</span>
+      <div className="flex flex-col">
+        <Typography.Span title={name} size="sm" />
+        <Typography.Span title={timestamp} size="xs" color="muted" />
       </div>
     </div>
   );
 };
 
-export default UserCardInfo;
+export default User;
