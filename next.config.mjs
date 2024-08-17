@@ -2,14 +2,6 @@
 
 /** @type {import('next').NextConfig} */
 export default {
-  optimizeFonts: true,
-  basePath: '',
-  crossOrigin: 'anonymous',
-  distDir: 'build',
-  trailingSlash: false,
-  env: {
-    STATE: process.env.STATE,
-  },
   images: {
     remotePatterns: [
       {
