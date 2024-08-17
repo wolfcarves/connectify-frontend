@@ -9,20 +9,9 @@ interface PostCardPanelProps {
   likes: number;
   comments: number;
   shares: number;
-
-  onLikeClick?: () => void;
-  onCommentClick?: () => void;
-  onShareClick?: () => void;
 }
 
-const PostCardPanel = ({
-  likes,
-  comments,
-  shares,
-  onLikeClick,
-  onCommentClick,
-  onShareClick,
-}: PostCardPanelProps) => {
+const PostCardPanel = ({ likes, comments, shares }: PostCardPanelProps) => {
   return (
     <div className="space-x-2">
       <Button variant="ghost" size="sm">

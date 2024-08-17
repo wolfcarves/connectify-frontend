@@ -15,14 +15,7 @@ const UserProfilePosts = () => {
     <>
       <PostCard
         content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor veniam beatae eum ratione inventore nisi odit atque quasi omnis sed."
-        action={
-          <PostCardPanel
-            likes={0}
-            comments={0}
-            shares={0}
-            onCommentClick={() => {}}
-          />
-        }
+        action={<PostCardPanel likes={0} comments={0} shares={0} />}
         commentSection={
           <CommentContainer>
             <CommentCard />
