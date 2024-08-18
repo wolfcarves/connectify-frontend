@@ -19,6 +19,10 @@ export const signUpSchema = z
       .email()
       .min(1, 'Please enter your email')
       .max(100, 'Invalid email'),
+    name: z
+      .string()
+      .min(1, 'Please enter your name')
+      .max(50, 'Name is too long'),
     username: z
       .string()
       .min(1, 'Please enter your username')

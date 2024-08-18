@@ -4,10 +4,8 @@
 /* eslint-disable */
 export type User = {
     email: string;
-    uuid: string;
     name: string;
     username: string;
     password: string;
-    avatar: string;
 };
 
