@@ -12,7 +12,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { CreatePostInput } from '@/services';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import useCreatePostMutation from '@/hooks/mutations/useCreatePostMutation';
+import useCreatePost from '@/hooks/mutations/useCreatePost';
 
 const schema = z.object({
   content: z.string().min(1, 'Content is required').max(5000, 'Too long dude'),
@@ -25,7 +25,7 @@ const CreatePostForm = () => {
 
   const { handleSubmit, register, formState } = methods;
 
-  const { mutateAsync: createPostMutate } = useCreatePostMutation();
+  const { mutateAsync: createPostMutate } = useCreatePost();
 
   const handleCreatePost = async (data: CreatePostInput) => {
     try {

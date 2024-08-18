@@ -1,31 +1,46 @@
-// 'use client';
+'use client';
 
 import useGetAllUserPosts from '@/hooks/queries/useGetAllUserPosts';
 import useSession from '@/hooks/useSession';
 import PostCard from '@/components/modules/Post/PostCard';
-import CommentCard from '@/components/common/Card/CommentCard';
+import CommentCard from '@/components/modules/Comment/CommentCard';
+import PostCardPanel from '@/components/modules/Post/PostCardPanel';
+import PostContainer from '@/components/modules/Post/PostContainer';
 import CommentContainer from '@/components/modules/Comment/CommentContainer';
-import PostCardPanel from '@/components/common/Panel/PostCardPanel';
+import useGetPostComments from '@/hooks/queries/useGetPostComments';
 
 const UserProfilePosts = () => {
-  // const { userId } = useSession();
-  // const { data: userPosts } = useGetAllUserPosts(userId);
+  const { userId } = useSession();
+  const { data: posts } = useGetAllUserPosts(userId);
 
   return (
-    <>
-      <PostCard
-        content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor veniam beatae eum ratione inventore nisi odit atque quasi omnis sed."
-        action={<PostCardPanel likes={0} comments={0} shares={0} />}
-        commentSection={
-          <CommentContainer>
-            <CommentCard />
-          </CommentContainer>
-        }
-      />
-      {/* {userPosts?.map(props => {
-        return <PostCard key={props.id} {...props} />;
-      })} */}
-    </>
+    <PostContainer>
+      {posts?.map(({ id, content, comments, created_at }) => {
+        return (
+          <PostCard
+            key={id}
+            content={content}
+            action={
+              <PostCardPanel postId={id} likes={0} comments={0} shares={0} />
+            }
+            commentSection={
+              <CommentContainer postId={id} hasComments={comments > 0}>
+                <UserProfileComments postId={id} />
+              </CommentContainer>
+            }
+            created_at={created_at}
+          />
+        );
+      })}
+    </PostContainer>
+  );
+};
+
+const UserProfileComments = ({ postId }: { postId: number }) => {
+  const { data: comments } = useGetPostComments(postId);
+
+  return (
+    <>{comments?.map(props => <CommentCard key={props.id} {...props} />)}</>
   );
 };
 

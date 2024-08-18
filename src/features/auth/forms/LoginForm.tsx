@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import Input from '@/components/common/Input';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import useLoginUserMutation from '@/hooks/mutations/useLoginUserMutation';
+import useLoginUser from '@/hooks/mutations/useLoginUser';
 import errorHandler from '@/utils/errorHandler';
 
 export const schema = z.object({
@@ -25,7 +25,7 @@ const LoginForm = () => {
   const { handleSubmit, control, setError } = methods;
 
   const { mutateAsync: loginUserMutate, isPending: isLoginUserLoading } =
-    useLoginUserMutation();
+    useLoginUser();
 
   const handleLoginForm = async (data: LoginSchema) => {
     try {

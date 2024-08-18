@@ -11,7 +11,7 @@ import { Input as ShadInput, InputProps as ShadInputProps } from '../ui/input';
 interface InputProps<T extends FieldValues> extends ShadInputProps {
   name: Path<T>;
   control: Control<T>;
-  type?: 'text' | 'number' | 'password';
+  type?: 'file' | 'text' | 'number' | 'password';
   label?: string;
   defaultValue?: PathValue<T, Path<T>>;
 }

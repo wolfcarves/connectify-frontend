@@ -5,7 +5,10 @@
 export type Session = {
     data: {
         email: string;
+        uuid: string;
+        name: string;
         username: string;
+        avatar: string;
         id: number;
     };
 };

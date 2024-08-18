@@ -1,19 +1,18 @@
 import Image from 'next/image';
 import Typography from '../ui/typography';
+import { convertUtil } from '@/utils/convertUtil';
 
 interface UserProps {
   name?: string;
   timestamp?: string;
-  size?: 'sm' | 'base';
 }
 
-const User = ({ name, timestamp, size = 'base' }: UserProps) => {
-  const imageSize =
-    size === 'base' ? 'min-w-10 w-10 min-h-10 h-10' : 'min-w-9 w-9 min-h-9 h-9';
-
+const User = ({ name, timestamp }: UserProps) => {
   return (
-    <div className="flex items-center gap-2">
-      <div className={`${imageSize} relative bg-foreground/10 rounded-full`}>
+    <div className="flex items-center gap-2.5">
+      <div
+        className={`min-w-10 w-10 min-h-10 h-10  relative bg-foreground/10 rounded-full`}
+      >
         <Image
           alt="avatar"
           fill
@@ -24,8 +23,12 @@ const User = ({ name, timestamp, size = 'base' }: UserProps) => {
       </div>
 
       <div className="flex flex-col">
-        <Typography.Span title={name} size="sm" />
-        <Typography.Span title={timestamp} size="xs" color="muted" />
+        <Typography.Span title={name} weight="semibold" />
+        <Typography.Span
+          title={convertUtil(timestamp)}
+          size="sm"
+          color="muted"
+        />
       </div>
     </div>
   );

@@ -1,22 +1,145 @@
+'use client';
+
+import { ChangeEvent, useRef, useState } from 'react';
+import { useForm, FormProvider } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import useUploadUserProfileImage from '@/hooks/mutations/useUploadUserProfileImage';
+import useGetUserProfileImage from '@/hooks/queries/useGetUserProfileImage';
+import Typography from '@/components/ui/typography';
+import useSession from '@/hooks/useSession';
+import { CldImage } from 'next-cloudinary';
+import { env } from '@/config/env';
 import Image from 'next/image';
+import { useToast } from '@/components/ui/use-toast';
+
+const schema = z.object({
+  avatar: z.instanceof(FileList),
+});
+
+type UploadProfileImage = z.infer<typeof schema>;
 
 const UserProfileImage = () => {
-  return (
-    <div>
-      <Image
-        alt="avatar"
-        width={100}
-        height={100}
-        unoptimized
-        className="rounded-full"
-        src="https://scontent.fmnl4-7.fna.fbcdn.net/v/t39.30808-6/426478588_1067297597823198_6531849147015316511_n.png?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeFWJ4PUrQ3qshOwomMpWbM6NobuTV87syQ2hu5NXzuzJB7j1Ws2Q59yYpeITMcH2mSlnqUu2uBlR73RE9fHwQnA&_nc_ohc=BmAAn4mK3GwQ7kNvgEtzAam&_nc_ht=scontent.fmnl4-7.fna&oh=00_AYBtXtqYY9wmSyf_ZwSNxZywyH1AyvUnPB6Fo-BF3NYa2w&oe=66C13BA6"
-      />
+  const { name, username } = useSession();
+  const imageInput = useRef<HTMLInputElement | null>(null);
+  const [preview, setPreview] = useState<string>('');
 
-      <div className="my-5">
-        <h1 className="text-2xl font-semibold">Rodel Crisosto</h1>
-        <span>@cazcade</span>
-      </div>
-    </div>
+  const methods = useForm<UploadProfileImage>();
+
+  const { register, handleSubmit } = methods;
+  const { ref, onChange, ...rest } = register('avatar');
+
+  const { toast } = useToast();
+
+  const {
+    data: userProfileImageData,
+    isLoading: isUserProfileLoading,
+    isSuccess: isUserProfileLoaded,
+  } = useGetUserProfileImage();
+  const { mutateAsync: uploadImageMutate, isPending: isUploadImageLoading } =
+    useUploadUserProfileImage();
+
+  const avatar = userProfileImageData?.avatar;
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    onChange(e);
+
+    if (file) {
+      const preview = URL.createObjectURL(file);
+      setPreview(preview);
+    }
+  };
+
+  const handleUploadImage = async (data: UploadProfileImage) => {
+    const formData = new FormData();
+    const fileImage = data?.avatar?.[0];
+
+    if (fileImage) {
+      formData.append('avatar', fileImage);
+      await uploadImageMutate(formData);
+      setPreview('');
+      toast({ title: 'Profile image updated', duration: 3000 });
+    }
+  };
+
+  return (
+    <FormProvider {...methods}>
+      <form
+        encType="multipart/form-data"
+        onSubmit={handleSubmit(handleUploadImage)}
+      >
+        <div
+          className={`
+            ${isUserProfileLoading && 'animate-pulse'}
+            relative w-28 h-28 border rounded-full overflow-hidden cursor-pointer bg-accent`}
+        >
+          {preview ? (
+            <Image
+              alt="avatar"
+              src={preview}
+              unoptimized
+              fill
+              sizes="100%"
+              onClick={() => imageInput.current?.click()}
+            />
+          ) : (
+            isUserProfileLoaded && (
+              <CldImage
+                alt="avatar"
+                src={avatar!}
+                unoptimized
+                fill
+                defaultValue="/default_avatar.svg"
+                sizes="100%"
+                onClick={() => imageInput.current?.click()}
+              />
+            )
+          )}
+
+          <input
+            type="file"
+            {...rest}
+            ref={e => {
+              imageInput.current = e;
+              ref(e);
+            }}
+            className="hidden absolute inset-0 z-10"
+            onChange={handleImageChange}
+          />
+        </div>
+
+        {preview && (
+          <div className="my-5 space-x-2">
+            <Button
+              type="submit"
+              size="xs"
+              variant={!isUploadImageLoading ? 'default' : 'ghost'}
+              isLoading={isUploadImageLoading}
+              disabled={isUploadImageLoading}
+            >
+              Save
+            </Button>
+
+            {!isUploadImageLoading && (
+              <Button
+                type="button"
+                size="xs"
+                variant="ghost"
+                onClick={() => setPreview('')}
+              >
+                Cancel
+              </Button>
+            )}
+          </div>
+        )}
+
+        <div className="my-5">
+          <Typography.H3 title={name} weight="semibold" />
+          <Typography.Span title={`@${username}`} />
+        </div>
+      </form>
+    </FormProvider>
   );
 };
 

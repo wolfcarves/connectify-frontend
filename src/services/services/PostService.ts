@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Comment } from '../models/Comment';
 import type { CreatePostInput } from '../models/CreatePostInput';
 import type { Post } from '../models/Post';
 import type { SuccessReponse } from '../models/SuccessReponse';
@@ -69,6 +70,71 @@ export class PostService {
             url: '/api/v1/post/all/{userId}',
             path: {
                 'userId': userId,
+            },
+            errors: {
+                401: `Not Found`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Like User Posts
+     * @param postId
+     * @returns SuccessReponse OK
+     * @throws ApiError
+     */
+    public static postLikePost(
+        postId: number,
+    ): CancelablePromise<SuccessReponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/post/like/{postId}',
+            path: {
+                'postId': postId,
+            },
+            errors: {
+                401: `Not Found`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Comment To User Posts
+     * @param postId
+     * @returns SuccessReponse OK
+     * @throws ApiError
+     */
+    public static postPostComment(
+        postId: number,
+    ): CancelablePromise<SuccessReponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/post/comment/{postId}',
+            path: {
+                'postId': postId,
+            },
+            errors: {
+                401: `Not Found`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Get Post Comments
+     * @param postId
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getPostComments(
+        postId: number,
+    ): CancelablePromise<{
+        data: Array<Comment>;
+    }> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/post/comment/{postId}',
+            path: {
+                'postId': postId,
             },
             errors: {
                 401: `Not Found`,

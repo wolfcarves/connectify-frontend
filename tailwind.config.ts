@@ -15,10 +15,10 @@ const config = {
     },
     extend: {
       fontSize: {
-        xxxs: '10px',
-        xxs: '11px',
-        xs: '12px',
-        sm: '13px',
+        xxxs: '11px',
+        xxs: '12px',
+        xs: '13px',
+        sm: '14px',
         base: '15px',
         md: '18px',
       },

@@ -3,6 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type { BadRequestError } from './models/BadRequestError';
+export type { Comment } from './models/Comment';
+export type { CommentInput } from './models/CommentInput';
 export type { ConflictError } from './models/ConflictError';
 export type { CreatePostInput } from './models/CreatePostInput';
 export type { NotFoundError } from './models/NotFoundError';
@@ -12,9 +15,11 @@ export type { Session } from './models/Session';
 export type { SuccessReponse } from './models/SuccessReponse';
 export type { UnauthorizedError } from './models/UnauthorizedError';
 export type { User } from './models/User';
+export type { UserAvatar } from './models/UserAvatar';
 export type { UserLoginInput } from './models/UserLoginInput';
 export type { UserSignUpInput } from './models/UserSignUpInput';
 export type { ValidationError } from './models/ValidationError';
 
 export { AuthenticationService } from './services/AuthenticationService';
 export { PostService } from './services/PostService';
+export { UserService } from './services/UserService';

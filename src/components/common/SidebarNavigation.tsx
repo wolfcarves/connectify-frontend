@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
 import { usePathname } from 'next/navigation';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
@@ -60,37 +60,35 @@ const navigation = [
   },
 ];
 
-const LeftSidebar = () => {
+const SidebarNavigation = () => {
   const { data: session } = useGetCurrentSession();
   const pathname = usePathname();
 
   return (
-    <aside className="flex-grow max-w-[15rem] pe-5">
-      <nav>
-        <ul>
-          {navigation.map(({ id, icon, label, href }) => {
-            const userLink = `/user/${session?.id}/${session?.username}`;
-            const isActive =
-              href === '/user' ? userLink === pathname : href === pathname;
+    <nav>
+      <ul>
+        {navigation.map(({ id, icon, label, href }) => {
+          const userLink = `/user/${session?.id}/${session?.username}`;
+          const isActive =
+            href === '/user' ? userLink === pathname : href === pathname;
 
-            return (
-              <li key={id}>
-                <Link href={href === '/user' ? userLink : href}>
-                  <Button
-                    variant={isActive ? 'default' : 'ghost'}
-                    className="justify-start w-full px-2"
-                    icon={icon}
-                  >
-                    {label}
-                  </Button>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-    </aside>
+          return (
+            <li key={id}>
+              <Link href={href === '/user' ? userLink : href}>
+                <Button
+                  variant={isActive ? 'default' : 'ghost'}
+                  className="justify-start w-full px-2"
+                  icon={icon}
+                >
+                  {label}
+                </Button>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
   );
 };
 
-export default LeftSidebar;
+export default SidebarNavigation;

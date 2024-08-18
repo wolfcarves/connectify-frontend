@@ -2,12 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type User = {
-    email: string;
-    uuid: string;
-    name: string;
-    username: string;
-    password: string;
+export type UserAvatar = {
     avatar: string;
+    id: number;
+    user_id: number;
 };
 

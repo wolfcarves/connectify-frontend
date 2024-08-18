@@ -6,7 +6,9 @@ export default function useSession() {
   return {
     userId: session!.id,
     isAuth: !!session?.id,
+    uuid: session?.uuid,
     email: session?.email,
+    name: session?.name,
     username: session?.username,
   };
 }

@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 
-export default function useCreatePostMutation() {
+export default function useCreatePost() {
   const router = useRouter();
   const { toast } = useToast();
 

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AuthenticationService, UserLoginInput } from '@/services';
 import { useRouter } from 'next/navigation';
 
-export default function useLoginUserMutation() {
+export default function useLoginUser() {
   const router = useRouter();
   const queryClient = useQueryClient();
 

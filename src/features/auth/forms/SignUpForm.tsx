@@ -6,7 +6,7 @@ import Input from '@/components/common/Input';
 import BackButton from '@/components/common/BackButton';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import useSignUpUserMutation from '@/hooks/mutations/useSignUpUserMutation';
+import useSignUpUser from '@/hooks/mutations/useSignUpUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import errorHandler from '@/utils/errorHandler';
@@ -61,7 +61,7 @@ const SignUpForm = () => {
   const { setError } = methods;
   const { handleSubmit, control } = methods;
 
-  const { mutateAsync: signUpUserMutate } = useSignUpUserMutation();
+  const { mutateAsync: signUpUserMutate } = useSignUpUser();
 
   const handleSignUpForm = async (data: SignUpSchema) => {
     try {
