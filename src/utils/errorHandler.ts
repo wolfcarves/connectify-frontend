@@ -1,4 +1,4 @@
-import { ApiError } from '@/services/core/ApiError';
+import { ApiError } from '@/core/ApiError';
 
 const errorHandler = <T, K extends (...args: any[]) => void>(
   error: unknown,

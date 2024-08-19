@@ -11,6 +11,12 @@ export default {
         protocol: 'https',
       },
       {
+        hostname: 'res.cloudinary.com',
+        pathname: '/**',
+        port: '',
+        protocol: 'https',
+      },
+      {
         hostname: 'github.com',
         pathname: '/**',
         port: '',

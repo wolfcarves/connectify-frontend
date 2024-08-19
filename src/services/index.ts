@@ -15,7 +15,6 @@ export type { Session } from './models/Session';
 export type { SuccessReponse } from './models/SuccessReponse';
 export type { UnauthorizedError } from './models/UnauthorizedError';
 export type { User } from './models/User';
-export type { UserAvatar } from './models/UserAvatar';
 export type { UserLoginInput } from './models/UserLoginInput';
 export type { UserSignUpInput } from './models/UserSignUpInput';
 export type { ValidationError } from './models/ValidationError';

@@ -5,22 +5,19 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import useUploadUserProfileImage from '@/hooks/mutations/useUploadUserProfileImage';
-import useGetUserProfileImage from '@/hooks/queries/useGetUserProfileImage';
 import Typography from '@/components/ui/typography';
 import useSession from '@/hooks/useSession';
-import { CldImage } from 'next-cloudinary';
-import { env } from '@/config/env';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
 
 const schema = z.object({
-  avatar: z.instanceof(FileList),
+  avatar: z.any(),
 });
 
 type UploadProfileImage = z.infer<typeof schema>;
 
 const UserProfileImage = () => {
-  const { name, username } = useSession();
+  const { avatar, name, username, isLoading } = useSession();
   const imageInput = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState<string>('');
 
@@ -31,15 +28,8 @@ const UserProfileImage = () => {
 
   const { toast } = useToast();
 
-  const {
-    data: userProfileImageData,
-    isLoading: isUserProfileLoading,
-    isSuccess: isUserProfileLoaded,
-  } = useGetUserProfileImage();
   const { mutateAsync: uploadImageMutate, isPending: isUploadImageLoading } =
     useUploadUserProfileImage();
-
-  const avatar = userProfileImageData?.avatar;
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -71,7 +61,7 @@ const UserProfileImage = () => {
       >
         <div
           className={`
-            ${isUserProfileLoading && 'animate-pulse'}
+            ${!avatar && 'animate-pulse'}
             relative w-28 h-28 border rounded-full overflow-hidden cursor-pointer bg-accent`}
         >
           {preview ? (
@@ -84,13 +74,12 @@ const UserProfileImage = () => {
               onClick={() => imageInput.current?.click()}
             />
           ) : (
-            isUserProfileLoaded && (
-              <CldImage
+            !isLoading && (
+              <Image
                 alt="avatar"
                 src={avatar!}
                 unoptimized
                 fill
-                defaultValue="/default_avatar.svg"
                 sizes="100%"
                 onClick={() => imageInput.current?.click()}
               />
@@ -104,6 +93,7 @@ const UserProfileImage = () => {
               imageInput.current = e;
               ref(e);
             }}
+            accept="image/jpg,image/jpeg,image/png"
             className="hidden absolute inset-0 z-10"
             onChange={handleImageChange}
           />

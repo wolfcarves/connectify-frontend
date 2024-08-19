@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { SuccessReponse } from '../models/SuccessReponse';
-import type { UserAvatar } from '../models/UserAvatar';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -24,25 +23,6 @@ export class UserService {
             url: '/api/v1/user/profile/avatar',
             formData: formData,
             mediaType: 'multipart/form-data',
-            errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
-                500: `Server Internal Error.`,
-            },
-        });
-    }
-    /**
-     * Get Profile Image
-     * @returns any OK
-     * @throws ApiError
-     */
-    public static getUserProfileImage(): CancelablePromise<{
-        success: boolean;
-        data: UserAvatar;
-    }> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/api/v1/user/profile/avatar',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

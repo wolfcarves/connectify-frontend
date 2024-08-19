@@ -5,10 +5,6 @@
 import type { CreatePostInput } from './CreatePostInput';
 export type Post = (CreatePostInput & {
     id: number;
-    user_id: number;
-    likes: number;
-    comments: number;
-    shares: number;
     created_at: string;
     updated_at: string;
 });

@@ -3,7 +3,6 @@
 import { Button } from '../../ui/button';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 const HeaderMenuLink = ({
   href,
@@ -14,7 +13,7 @@ const HeaderMenuLink = ({
   label: string;
   renderWhen?: 'authenticated' | 'unauthenticated';
 }) => {
-  const { data: session, isPending: isSessionLoading } = useGetCurrentSession();
+  const { data: session } = useGetCurrentSession();
   const isAuth = !!session?.id;
 
   const Component = (
@@ -29,13 +28,11 @@ const HeaderMenuLink = ({
     </Link>
   );
 
-  if (isSessionLoading) return <></>;
-
-  if (isAuth && renderWhen === 'authenticated') {
+  if (!isAuth && renderWhen === 'unauthenticated') {
     return Component;
   }
 
-  if (!isAuth && renderWhen === 'unauthenticated') {
+  if (isAuth && renderWhen === 'authenticated') {
     return Component;
   }
 

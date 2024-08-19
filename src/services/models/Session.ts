@@ -4,10 +4,11 @@
 /* eslint-disable */
 export type Session = {
     data: {
+        id: number;
+        avatar: string;
         email: string;
         name: string;
         username: string;
-        id: number;
     };
 };
 

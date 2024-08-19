@@ -1,6 +1,6 @@
 import { UserService } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { GET_USER_PROFILE_IMAGE_KEY } from '../queries/useGetUserProfileImage';
+import { GET_CURRENT_SESSION_KEY } from '../queries/useGetCurrentSession';
 
 export default function useUploadUserProfileImage() {
   const queryClient = useQueryClient();
@@ -16,7 +16,7 @@ export default function useUploadUserProfileImage() {
     },
     onSuccess: async () => {
       queryClient.invalidateQueries({
-        queryKey: [GET_USER_PROFILE_IMAGE_KEY()],
+        queryKey: [GET_CURRENT_SESSION_KEY()],
       });
     },
   });

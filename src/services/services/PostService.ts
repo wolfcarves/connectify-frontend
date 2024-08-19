@@ -6,6 +6,7 @@ import type { Comment } from '../models/Comment';
 import type { CreatePostInput } from '../models/CreatePostInput';
 import type { Post } from '../models/Post';
 import type { SuccessReponse } from '../models/SuccessReponse';
+import type { User } from '../models/User';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -40,7 +41,10 @@ export class PostService {
     public static getUserPost(
         postId: number,
     ): CancelablePromise<{
-        data: Post;
+        data: {
+            post: Post;
+            user: User;
+        };
     }> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -63,7 +67,10 @@ export class PostService {
     public static getUserPosts(
         userId: number,
     ): CancelablePromise<{
-        data: Array<Post>;
+        data: Array<{
+            post: Post;
+            user: User;
+        }>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
