@@ -1,12 +1,10 @@
-import { ApiError } from '@/core/ApiError';
+import { ApiError } from '@/services/core/ApiError';
 
 const errorHandler = <T, K extends (...args: any[]) => void>(
   error: unknown,
   schema: T,
   setError: K,
 ) => {
-  console.log(typeof schema);
-
   if (error instanceof ApiError) {
     const err = error.body.error.validationErrors;
 
