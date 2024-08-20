@@ -1,7 +1,7 @@
-import PostView from '@/features/post/PostView';
+import Post from '@/features/post/Post';
 
 const PostViewPage = ({ params }: { params: { postId: number } }) => {
-  return <PostView postId={params.postId} />;
+  return <Post postId={params.postId} />;
 };
 
 export default PostViewPage;

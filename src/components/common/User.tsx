@@ -12,7 +12,7 @@ const User = ({ avatar, name, timestamp }: UserProps) => {
   return (
     <div className="flex items-center gap-2.5">
       <div
-        className={`${!avatar && 'animate-pulse'} bg-accent min-w-11 w-11 min-h-11 h-11  relative rounded-full`}
+        className={`${!avatar && 'animate-pulse'} bg-accent min-w-11 w-11 min-h-11 h-11 relative rounded-full`}
       >
         {avatar && (
           <Image

@@ -1,5 +1,5 @@
 import { cva } from 'class-variance-authority';
-import { ComponentProps } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 
 const sizes = {
   xs: 'text-xs',
@@ -48,84 +48,141 @@ const typography = cva('', {
 
 interface TypographyProps {
   title?: string;
+  children?: ReactNode;
   size?: keyof typeof sizes;
   color?: 'primary' | 'foreground' | 'background' | 'muted' | 'destructive';
   className?: ComponentProps<'h1'>['className'];
   weight?: keyof typeof weights;
 }
 
-const H1 = ({ title, size, color, weight, className }: TypographyProps) => {
+const H1 = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <h1
       className={`text-4xl ${typography({ size, color, weight, className })}`}
     >
-      {title}
+      {title ?? children}
     </h1>
   );
 };
 
-const H2 = ({ title, size, color, weight, className }: TypographyProps) => {
+const H2 = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <h2
       className={`text-3xl ${typography({ size, color, weight, className })}`}
     >
-      {title}
+      {title ?? children}
     </h2>
   );
 };
 
-const H3 = ({ title, size, color, weight, className }: TypographyProps) => {
+const H3 = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <h3
       className={`text-2xl ${typography({ size, color, weight, className })}`}
     >
-      {title}
+      {title ?? children}
     </h3>
   );
 };
 
-const H4 = ({ title, size, color, weight, className }: TypographyProps) => {
+const H4 = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <h4 className={`text-xl ${typography({ size, color, weight, className })}`}>
-      {title}
+      {title ?? children}
     </h4>
   );
 };
 
-const H5 = ({ title, size, color, weight, className }: TypographyProps) => {
+const H5 = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <h5 className={`text-lg ${typography({ size, color, weight, className })}`}>
-      {title}
+      {title ?? children}
     </h5>
   );
 };
 
-const H6 = ({ title, size, color, weight, className }: TypographyProps) => {
+const H6 = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <h6
       className={`text-base ${typography({ size, color, weight, className })}`}
     >
-      {title}
+      {title ?? children}
     </h6>
   );
 };
 
-const P = ({ title, size, color, weight, className }: TypographyProps) => {
+const P = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <p
       className={`text-base ${typography({ size, color, weight, className })}`}
     >
-      {title}
+      {title ?? children}
     </p>
   );
 };
 
-const Span = ({ title, size, color, weight, className }: TypographyProps) => {
+const Span = ({
+  title,
+  size,
+  color,
+  weight,
+  className,
+  children,
+}: TypographyProps) => {
   return (
     <span
       className={`text-base ${typography({ size, color, weight, className })}`}
     >
-      {title}
+      {title ?? children}
     </span>
   );
 };
