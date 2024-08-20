@@ -1,10 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
-import { ThemeProvider } from '@/components/ui/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import ReactQueryProvider from '@/providers/ReactQueryProvider';
-import NextTopLoader from 'nextjs-toploader';
+import Providers from '@/providers/Providers';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -25,13 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable}`}>
-        <ReactQueryProvider>
-          <NextTopLoader />
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            <main className="font-body">{children}</main>
-            <Toaster />
-          </ThemeProvider>
-        </ReactQueryProvider>
+        <Providers>
+          <main className="font-body">{children}</main>
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

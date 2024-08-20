@@ -1,45 +1,22 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import {
+  dehydrate,
+  HydrationBoundary,
   QueryClient,
   QueryClientProvider,
-  isServer,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-let browserQueryClient: QueryClient | undefined = undefined;
-
-const createQueryClient = (): QueryClient => {
-  return new QueryClient({
-    defaultOptions: {
-      mutations: {
-        retry: 0,
-      },
-      queries: {
-        retry: 0,
-        staleTime: 60 * 1000,
-      },
-    },
-  });
-};
-
-const getQueryClient = () => {
-  if (isServer) {
-    return createQueryClient();
-  } else {
-    if (!browserQueryClient) browserQueryClient = createQueryClient();
-
-    return browserQueryClient;
-  }
-};
-
 const ReactQueryProvider = ({ children }: { children: ReactNode }) => {
-  const client = getQueryClient();
+  const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <QueryClientProvider client={client}>
-      {children}
+    <QueryClientProvider client={queryClient}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        {children}
+      </HydrationBoundary>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
