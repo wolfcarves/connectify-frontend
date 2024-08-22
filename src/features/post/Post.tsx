@@ -8,7 +8,6 @@ import BackButton from '@/components/common/BackButton';
 import useGetPostComments from '@/hooks/queries/useGetPostComments';
 import User from '@/components/common/User';
 import PostAction from '@/components/modules/Post/PostAction';
-import PostContent from '@/components/modules/Post/PostContent';
 
 const Post = ({ postId }: { postId: number }) => {
   const { data: post, isPending: isPostLoading } = useGetUserPost(postId);
@@ -27,7 +26,7 @@ const Post = ({ postId }: { postId: number }) => {
             name={post?.user.name}
             timestamp={post?.post.created_at}
           />
-          <PostContent>{post?.post.content}</PostContent>
+          <PostCard.Content>{post?.post.content}</PostCard.Content>
           <PostAction>
             <PostAction.Like postId={post?.post.id} />
             <PostAction.Comment postId={post?.post.id} />
@@ -36,14 +35,6 @@ const Post = ({ postId }: { postId: number }) => {
         </PostCard>
       </PostContainer>
     </>
-  );
-};
-
-const PostComments = ({ postId }: { postId?: number }) => {
-  const { data: comments } = useGetPostComments(postId ?? -1);
-
-  return (
-    <>{comments?.map(props => <CommentCard key={props.id} {...props} />)}</>
   );
 };
 

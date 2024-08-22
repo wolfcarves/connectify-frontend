@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserSignUpInput = {
-    id: number;
     email: string;
     name: string;
     username: string;
