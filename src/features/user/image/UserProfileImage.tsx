@@ -9,6 +9,7 @@ import Typography from '@/components/ui/typography';
 import useSession from '@/hooks/useSession';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
+import useGetUserProfile from '@/hooks/queries/useGetUserProfile';
 
 const schema = z.object({
   avatar: z.any(),
@@ -16,8 +17,13 @@ const schema = z.object({
 
 type UploadProfileImage = z.infer<typeof schema>;
 
-const UserProfileImage = () => {
-  const { avatar, name, username, isLoading } = useSession();
+const UserProfileImage = ({ userId }: { userId: number }) => {
+  const { data: userProfile, isLoading } = useGetUserProfile(userId);
+
+  const avatar = userProfile?.avatar;
+  const name = userProfile?.name;
+  const username = userProfile?.username;
+
   const imageInput = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState<string>('');
 

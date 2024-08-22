@@ -4,6 +4,7 @@
 /* eslint-disable */
 import type { User } from './User';
 export type UserSignUpInput = (User & {
+    password: string;
     confirm_password: string;
 });
 

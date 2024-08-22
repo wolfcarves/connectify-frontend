@@ -18,11 +18,7 @@ const HeaderMenuLink = ({
 
   const Component = (
     <Link href={href}>
-      <Button
-        size="xs"
-        className="rounded-full text-xs"
-        onClick={() => console.log(href)}
-      >
+      <Button size="xs" className="rounded-full text-xs">
         {label}
       </Button>
     </Link>

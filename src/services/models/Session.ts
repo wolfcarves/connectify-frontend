@@ -2,13 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { User } from './User';
 export type Session = {
-    data: {
-        id: number;
-        avatar: string;
-        email: string;
-        name: string;
-        username: string;
-    };
+    data: User;
 };
 

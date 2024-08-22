@@ -20,5 +20,6 @@ export type { UserSignUpInput } from './models/UserSignUpInput';
 export type { ValidationError } from './models/ValidationError';
 
 export { AuthenticationService } from './services/AuthenticationService';
+export { EngagementService } from './services/EngagementService';
 export { PostService } from './services/PostService';
 export { UserService } from './services/UserService';

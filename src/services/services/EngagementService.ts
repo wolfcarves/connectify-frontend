@@ -2,71 +2,73 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Comment } from '../models/Comment';
 import type { SuccessReponse } from '../models/SuccessReponse';
-import type { User } from '../models/User';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-export class UserService {
+export class EngagementService {
     /**
-     * Upload Profile Image
-     * @param formData OK
+     * Like User Posts
+     * @param postId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static postUploadUserProfileImage(
-        formData?: {
-            avatar?: any;
-        },
+    public static postLikePost(
+        postId: number,
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/user/profile/avatar',
-            formData: formData,
-            mediaType: 'multipart/form-data',
+            url: '/api/v1/post/like/{postId}',
+            path: {
+                'postId': postId,
+            },
             errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
+                401: `Not Found`,
                 500: `Server Internal Error.`,
             },
         });
     }
     /**
-     * Delete Profile Image
+     * Comment To User Posts
+     * @param postId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static deleteUserProfileImage(): CancelablePromise<SuccessReponse> {
+    public static postPostComment(
+        postId: number,
+    ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
-            method: 'DELETE',
-            url: '/api/v1/user/profile/avatar',
+            method: 'POST',
+            url: '/api/v1/post/comment/{postId}',
+            path: {
+                'postId': postId,
+            },
             errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
+                401: `Not Found`,
                 500: `Server Internal Error.`,
             },
         });
     }
     /**
-     * Get User Profile
-     * @param userId
+     * Get Post Comments
+     * @param postId
      * @returns any OK
      * @throws ApiError
      */
-    public static getUserProfile(
-        userId: number,
+    public static getPostComments(
+        postId: number,
     ): CancelablePromise<{
-        data: User;
+        data: Array<Comment>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/user/profile/{userId}',
+            url: '/api/v1/post/comment/{postId}',
             path: {
-                'userId': userId,
+                'postId': postId,
             },
             errors: {
-                400: `Validation Error`,
-                401: `Unauthorized`,
+                401: `Not Found`,
                 500: `Server Internal Error.`,
             },
         });

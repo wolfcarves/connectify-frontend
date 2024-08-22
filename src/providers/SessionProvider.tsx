@@ -5,11 +5,8 @@ import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import { ReactNode } from 'react';
 
 const SessionProvider = ({ children }: { children: ReactNode }) => {
-  const { data: session, isPending } = useGetCurrentSession();
-
+  const { data: session } = useGetCurrentSession();
   const isAuth = !!session?.id;
-
-  if (isPending) return <></>;
 
   if (!isAuth) {
     return <UnauthorizedPage />;

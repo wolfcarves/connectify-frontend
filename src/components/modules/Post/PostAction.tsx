@@ -3,23 +3,37 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import {
   AiOutlineLike,
+  AiFillLike,
   AiOutlineMessage,
   AiOutlineShareAlt,
 } from 'react-icons/ai';
+import { ButtonProps } from '@/components/ui/button';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
   return <div className="space-x-2">{children}</div>;
 };
 
-interface LikeButtonProps {
+interface LikeButtonProps extends ButtonProps {
   postId?: number;
+  isLike?: boolean;
+  isLoading?: boolean;
   likes?: number;
 }
 
-export const LikeButton = ({ postId, likes = 0 }: LikeButtonProps) => {
+export const LikeButton = ({
+  postId,
+  isLike,
+  isLoading,
+  likes = 0,
+  ...props
+}: LikeButtonProps) => {
   return (
-    <Button variant="ghost" size="sm" onClick={() => {}}>
-      <AiOutlineLike className="text-lg me-1" />
+    <Button variant="ghost" size="sm" {...props}>
+      {isLike ? (
+        <AiFillLike className="text-lg me-1 text-primary" />
+      ) : (
+        <AiOutlineLike className="text-lg me-1" />
+      )}
       Like
     </Button>
   );

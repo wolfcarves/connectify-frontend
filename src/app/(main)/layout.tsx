@@ -4,7 +4,11 @@ import Sidebar from '@/components/common/Sidebar';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
 import SidebarNavigation from '@/components/common/SidebarNavigation';
 
-export default function MainLayout({ children }: { children: ReactNode }) {
+export default async function MainLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <>
       <Header

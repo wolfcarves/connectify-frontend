@@ -13,8 +13,6 @@ export default function useSession() {
       src: `${env?.cloudinaryProfilePublicID}/${session?.avatar}`,
     });
 
-  console.log(avatar);
-
   return {
     userId: session?.id,
     avatar: avatar,
