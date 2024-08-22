@@ -4,7 +4,6 @@ import User from '@/components/common/User';
 import PostCard from '@/components/modules/Post/PostCard';
 import PostAction from '@/components/modules/Post/PostAction';
 import PostCardSkeleton from '@/components/modules/Post/PostCardSkeleton';
-import PostContent from '@/components/modules/Post/PostContent';
 import useGetAllUserPosts from '@/hooks/queries/useGetAllUserPosts';
 import PostContainer from '@/components/modules/Post/PostContainer';
 import useLikePost from '@/hooks/mutations/useLikePost';
@@ -26,12 +25,12 @@ const UserProfilePosts = ({ userId }: { userId: number }) => {
       {posts?.map(({ post, user }) => {
         return (
           <PostCard key={post.id}>
-            <User
+            <PostCard.User
               avatar={user.avatar}
               name={user.name}
               timestamp={post.created_at}
             />
-            <PostContent>{post.content}</PostContent>
+            <PostCard.Content>{post.content}</PostCard.Content>
             <PostAction>
               <PostAction.Like
                 postId={post.id}

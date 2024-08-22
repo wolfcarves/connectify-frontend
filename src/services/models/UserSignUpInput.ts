@@ -2,9 +2,12 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { User } from './User';
-export type UserSignUpInput = (User & {
+export type UserSignUpInput = {
+    id: number;
+    email: string;
+    name: string;
+    username: string;
     password: string;
     confirm_password: string;
-});
+};
 
