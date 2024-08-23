@@ -3,11 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 import { getCldImageUrl } from 'next-cloudinary';
 import { env } from 'process';
 
-export default function useGetUserProfile(userId: number) {
+interface QueryParams {
+  userId?: number;
+  username?: string;
+}
+
+export default function useGetUserProfile({ userId, username }: QueryParams) {
   return useQuery({
     queryKey: ['GET_USER_PROFILE_KEY'],
     queryFn: async () => {
-      const response = await UserService.getUserProfile(userId);
+      const response = await UserService.getUserProfile(userId, username);
 
       let avatar = response.data?.avatar;
 

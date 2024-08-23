@@ -50,19 +50,22 @@ export class UserService {
     /**
      * Get User Profile
      * @param userId
+     * @param username
      * @returns any OK
      * @throws ApiError
      */
     public static getUserProfile(
-        userId: number,
+        userId?: number,
+        username?: string,
     ): CancelablePromise<{
         data: User;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/user/profile/{userId}',
-            path: {
+            url: '/api/v1/user/profile',
+            query: {
                 'userId': userId,
+                'username': username,
             },
             errors: {
                 400: `Validation Error`,

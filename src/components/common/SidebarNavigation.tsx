@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { Button } from '../ui/button';
-import { usePathname } from 'next/navigation';
+import { usePathname, useParams } from 'next/navigation';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import {
   Bell,
@@ -15,7 +15,7 @@ import {
   Users,
 } from '@phosphor-icons/react';
 
-const navigation = [
+let navigation = [
   {
     id: 1,
     icon: <HouseLine size={20} />,
@@ -50,7 +50,7 @@ const navigation = [
     id: 6,
     icon: <User size={20} />,
     label: 'Profile',
-    href: '/user',
+    href: '/',
   },
   {
     id: 7,
@@ -64,17 +64,17 @@ const SidebarNavigation = () => {
   const { data: session } = useGetCurrentSession();
   const pathname = usePathname();
 
+  navigation[5].href = `/${session?.username}`;
+
   return (
     <nav>
       <ul>
         {navigation.map(({ id, icon, label, href }) => {
-          const userLink = `/user/${session?.id}/${session?.username}`;
-          const isActive =
-            href === '/user' ? userLink === pathname : href === pathname;
+          const isActive = pathname === href;
 
           return (
             <li key={id}>
-              <Link href={href === '/user' ? userLink : href}>
+              <Link href={href}>
                 <Button
                   variant={isActive ? 'default' : 'ghost'}
                   className="justify-start w-full px-2"

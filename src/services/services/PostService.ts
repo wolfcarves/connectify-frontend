@@ -33,12 +33,16 @@ export class PostService {
     }
     /**
      * Get User Posts
-     * @param userId
+     * @param username
+     * @param page
+     * @param perPage
      * @returns any OK
      * @throws ApiError
      */
     public static getUserPosts(
-        userId: number,
+        username: string,
+        page?: number,
+        perPage?: number,
     ): CancelablePromise<{
         data: Array<{
             post: Post;
@@ -47,12 +51,16 @@ export class PostService {
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/post/all/{userId}',
+            url: '/api/v1/post/all/{username}',
             path: {
-                'userId': userId,
+                'username': username,
+            },
+            query: {
+                'page': page,
+                'per_page': perPage,
             },
             errors: {
-                401: `Not Found`,
+                401: `Unauthorized`,
                 500: `Server Internal Error.`,
             },
         });
@@ -89,7 +97,7 @@ export class PostService {
      * @returns any OK
      * @throws ApiError
      */
-    public static getUserPosts1(
+    public static deleteUserPost(
         postId: number,
     ): CancelablePromise<{
         data: {

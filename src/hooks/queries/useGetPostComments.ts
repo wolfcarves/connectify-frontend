@@ -1,4 +1,3 @@
-import { PostService } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
 export default function useGetPostComments(postId: number) {

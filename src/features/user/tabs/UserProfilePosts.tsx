@@ -6,17 +6,11 @@ import PostAction from '@/components/modules/Post/PostAction';
 import PostCardSkeleton from '@/components/modules/Post/PostCardSkeleton';
 import useGetAllUserPosts from '@/hooks/queries/useGetAllUserPosts';
 import PostContainer from '@/components/modules/Post/PostContainer';
-import useLikePost from '@/hooks/mutations/useLikePost';
 import _ from 'lodash';
 
-const UserProfilePosts = ({ userId }: { userId: number }) => {
-  const { data: posts, isLoading: isPostsLoading } = useGetAllUserPosts(userId);
-  const { mutateAsync: likePostMutate, isPending: isLikePostLoading } =
-    useLikePost();
-
-  const handleLikePost = _.debounce(async (postId: number) => {
-    await likePostMutate(postId);
-  }, 0);
+const UserProfilePosts = ({ username }: { username: string }) => {
+  const { data: posts, isLoading: isPostsLoading } =
+    useGetAllUserPosts(username);
 
   return (
     <PostContainer className="py-10">
@@ -32,12 +26,7 @@ const UserProfilePosts = ({ userId }: { userId: number }) => {
             />
             <PostCard.Content>{post.content}</PostCard.Content>
             <PostAction>
-              <PostAction.Like
-                postId={post.id}
-                isLike={post.isLiked}
-                isLoading={isLikePostLoading}
-                onClick={() => handleLikePost(post.id)}
-              />
+              <PostAction.Like postId={post.id} isLike={post.isLiked} />
               <PostAction.Comment postId={post.id} />
               <PostAction.Share postId={post.id} />
             </PostAction>

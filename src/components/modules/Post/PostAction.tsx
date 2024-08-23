@@ -8,6 +8,8 @@ import {
   AiOutlineShareAlt,
 } from 'react-icons/ai';
 import { ButtonProps } from '@/components/ui/button';
+import { Spinner } from '@phosphor-icons/react';
+import useLikePost from '@/hooks/mutations/useLikePost';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
   return <div className="space-x-2">{children}</div>;
@@ -16,25 +18,38 @@ const PostAction = ({ children }: { children?: ReactNode }) => {
 interface LikeButtonProps extends ButtonProps {
   postId?: number;
   isLike?: boolean;
-  isLoading?: boolean;
   likes?: number;
 }
 
 export const LikeButton = ({
   postId,
   isLike,
-  isLoading,
   likes = 0,
   ...props
 }: LikeButtonProps) => {
+  const { mutateAsync: likePostMutate, isPending: isLikePostLoading } =
+    useLikePost();
+
+  const handleLikePost = async (post_id: number) => {
+    await likePostMutate(post_id);
+  };
+
   return (
-    <Button variant="ghost" size="sm" {...props}>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={() => handleLikePost(postId!)}
+      {...props}
+    >
       {isLike ? (
         <AiFillLike className="text-lg me-1 text-primary" />
       ) : (
         <AiOutlineLike className="text-lg me-1" />
       )}
-      Like
+
+      <div className="w-6">
+        {isLikePostLoading ? <Spinner className="animate-spin" /> : 'Like'}
+      </div>
     </Button>
   );
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useMemo, useRef, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -10,6 +10,7 @@ import useSession from '@/hooks/useSession';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
 import useGetUserProfile from '@/hooks/queries/useGetUserProfile';
+import UserProfileImageSkeleton from '../skeletons/UserProfileImageSkeleton';
 
 const schema = z.object({
   avatar: z.any(),
@@ -17,12 +18,20 @@ const schema = z.object({
 
 type UploadProfileImage = z.infer<typeof schema>;
 
-const UserProfileImage = ({ userId }: { userId: number }) => {
-  const { data: userProfile, isLoading } = useGetUserProfile(userId);
+const UserProfileImage = (params: { username: string }) => {
+  const { data: userProfile, isLoading: isUserProfileLoading } =
+    useGetUserProfile({
+      username: params.username,
+    });
 
-  const avatar = userProfile?.avatar;
-  const name = userProfile?.name;
-  const username = userProfile?.username;
+  const profile = useMemo(
+    () => ({
+      avatar: userProfile?.avatar,
+      name: userProfile?.name,
+      username: userProfile?.username,
+    }),
+    [userProfile],
+  );
 
   const imageInput = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState<string>('');
@@ -59,6 +68,8 @@ const UserProfileImage = ({ userId }: { userId: number }) => {
     }
   };
 
+  if (isUserProfileLoading) return <UserProfileImageSkeleton />;
+
   return (
     <FormProvider {...methods}>
       <form
@@ -67,7 +78,7 @@ const UserProfileImage = ({ userId }: { userId: number }) => {
       >
         <div
           className={`
-            ${!avatar && 'animate-pulse'}
+            ${!profile.avatar && 'animate-pulse'}
             relative w-28 h-28 border rounded-full overflow-hidden cursor-pointer bg-accent`}
         >
           {preview ? (
@@ -80,10 +91,10 @@ const UserProfileImage = ({ userId }: { userId: number }) => {
               onClick={() => imageInput.current?.click()}
             />
           ) : (
-            !isLoading && (
+            !isUserProfileLoading && (
               <Image
                 alt="avatar"
-                src={avatar!}
+                src={profile.avatar!}
                 unoptimized
                 fill
                 sizes="100%"
@@ -131,8 +142,8 @@ const UserProfileImage = ({ userId }: { userId: number }) => {
         )}
 
         <div className="my-5">
-          <Typography.H3 title={name} weight="semibold" />
-          <Typography.Span title={`@${username}`} />
+          <Typography.H3 title={profile.name} weight="semibold" />
+          <Typography.Span title={`@${profile?.username}`} />
         </div>
       </form>
     </FormProvider>

@@ -2,15 +2,15 @@ import UserProfileImage from '@/features/user/image/UserProfileImage';
 import UserProfilePosts from '@/features/user/tabs/UserProfilePosts';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
-const UserProfilePage = async ({
-  params,
-}: {
-  params: { userId?: string; username?: string };
-}) => {
+interface SearchParams {
+  params: { username: string };
+}
+
+const UserProfilePage = async ({ params }: SearchParams) => {
   return (
     <>
-      <UserProfileImage userId={Number(params.userId)} />
-      <UserProfilePosts userId={Number(params.userId)} />
+      <UserProfileImage username={params.username} />
+      <UserProfilePosts username={params.username} />
     </>
   );
 };

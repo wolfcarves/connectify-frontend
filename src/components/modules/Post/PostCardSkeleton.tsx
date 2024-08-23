@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-
-const generateRandomWidth = (minWidth: number, maxWidth: number): number => {
-  const width = Math.ceil(Math.random() * (maxWidth - minWidth + 1) + minWidth);
-
-  return width;
-};
+import { generateRandomWidth } from '@/utils/generateRandomWidth';
 
 const PostCardSkeleton = ({ count = 1 }: { count: number }) => {
   const [isMounted, setIsMounted] = useState(false);
