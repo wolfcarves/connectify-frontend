@@ -32,11 +32,15 @@ export class EngagementService {
     /**
      * Comment To User Posts
      * @param postId
+     * @param requestBody
      * @returns SuccessReponse OK
      * @throws ApiError
      */
     public static postPostComment(
         postId: number,
+        requestBody?: {
+            comment: string;
+        },
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -44,6 +48,8 @@ export class EngagementService {
             path: {
                 'postId': postId,
             },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 401: `Not Found`,
                 500: `Server Internal Error.`,

@@ -11,6 +11,7 @@ import Comment from '@/components/modules/Comment/Comment';
 import useGetPostComments from '@/hooks/queries/useGetPostComments';
 import CommentSkeleton from '@/components/modules/Comment/CommentSkeleton';
 import { useCallback } from 'react';
+import useCreatePostComment from '@/hooks/mutations/useCreatePostComment';
 
 const PostView = ({ uuid }: { uuid: string }) => {
   const { data: postData, isLoading: isPostLoading } = useGetUserPost(uuid);
@@ -37,7 +38,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
         )}
       </CommentContainer>
 
-      <PostCommentForm uuid={uuid} />
+      <PostCommentForm postId={postData?.post?.id} />
     </>
   );
 };
