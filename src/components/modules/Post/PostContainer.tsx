@@ -8,9 +8,11 @@ const PostContainer = ({
   ...props
 }: PostContainerProps) => {
   return (
-    <div className={`space-y-14 ${className}`} {...props}>
-      {children}
-    </div>
+    <>
+      <div className={`space-y-14 ${className}`} {...props}>
+        {children}
+      </div>
+    </>
   );
 };
 

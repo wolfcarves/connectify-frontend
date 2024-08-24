@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import Header from '@/components/common/Header/Header';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
 import Sidebar from '@/components/common/Sidebar';
+import CenterContainer from '@/components/common/Container/CenterContainer';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
@@ -26,7 +27,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       <div className="lg:container flex justify-between mt-5 px-4">
         <Sidebar />
 
-        <main className="flex-grow mx-auto w-full max-w-lg">{children}</main>
+        <CenterContainer>{children}</CenterContainer>
 
         <Sidebar />
       </div>

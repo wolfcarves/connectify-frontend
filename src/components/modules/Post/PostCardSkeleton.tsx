@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generateRandomWidth } from '@/utils/generateRandomWidth';
 
-const PostCardSkeleton = ({ count = 1 }: { count: number }) => {
+const PostCardSkeleton = ({ count = 1 }: { count?: number }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

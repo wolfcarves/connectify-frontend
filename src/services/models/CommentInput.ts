@@ -3,6 +3,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export type CommentInput = {
-    comment: string;
+  comment: string;
 };
-

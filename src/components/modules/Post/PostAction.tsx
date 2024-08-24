@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 import {
   AiOutlineLike,
   AiFillLike,
@@ -10,6 +9,7 @@ import {
 import { ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@phosphor-icons/react';
 import useLikePost from '@/hooks/mutations/useLikePost';
+import { useRouter } from 'next/navigation';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
   return <div className="space-x-2">{children}</div>;
@@ -17,13 +17,13 @@ const PostAction = ({ children }: { children?: ReactNode }) => {
 
 interface LikeButtonProps extends ButtonProps {
   postId?: number;
-  isLike?: boolean;
+  isLiked?: boolean;
   likes?: number;
 }
 
 export const LikeButton = ({
   postId,
-  isLike,
+  isLiked,
   likes = 0,
   ...props
 }: LikeButtonProps) => {
@@ -31,7 +31,11 @@ export const LikeButton = ({
     useLikePost();
 
   const handleLikePost = async (post_id: number) => {
-    await likePostMutate(post_id);
+    try {
+      await likePostMutate(post_id);
+    } catch (error) {
+      //
+    }
   };
 
   return (
@@ -41,7 +45,7 @@ export const LikeButton = ({
       onClick={() => handleLikePost(postId!)}
       {...props}
     >
-      {isLike ? (
+      {isLiked ? (
         <AiFillLike className="text-lg me-1 text-primary" />
       ) : (
         <AiOutlineLike className="text-lg me-1" />
@@ -55,18 +59,19 @@ export const LikeButton = ({
 };
 
 interface CommentButtonProps {
-  postId?: number;
+  href?: string;
   comments?: number;
 }
 
-export const CommentButton = ({ postId, comments = 0 }: CommentButtonProps) => {
+export const CommentButton = ({ href, comments = 0 }: CommentButtonProps) => {
+  const router = useRouter();
+  const handlePush = () => href && router.push(href);
+
   return (
-    <Link href={`/post/${postId}`}>
-      <Button variant="ghost" size="sm">
-        <AiOutlineMessage className="text-lg me-1" />
-        Comment
-      </Button>
-    </Link>
+    <Button variant="ghost" size="sm" onClick={handlePush}>
+      <AiOutlineMessage className="text-lg me-1" />
+      Comment
+    </Button>
   );
 };
 

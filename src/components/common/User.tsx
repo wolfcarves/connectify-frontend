@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Typography from '../ui/typography';
 import { convertUtil } from '@/utils/convertUtil';
+import Avatar from './Avatar/Avatar';
 
 interface UserProps {
   avatar?: string;
@@ -11,19 +12,7 @@ interface UserProps {
 const User = ({ avatar, name, timestamp }: UserProps) => {
   return (
     <div className="flex items-center gap-2.5">
-      <div
-        className={`${!avatar && 'animate-pulse'} bg-accent min-w-11 w-11 min-h-11 h-11 relative rounded-full`}
-      >
-        {avatar && (
-          <Image
-            alt="avatar"
-            src={avatar}
-            fill
-            className="rounded-full"
-            sizes="100%"
-          />
-        )}
-      </div>
+      {avatar && <Avatar src={avatar} size="lg" />}
 
       <div className="flex flex-col">
         <Typography.Span title={name} weight="semibold" />

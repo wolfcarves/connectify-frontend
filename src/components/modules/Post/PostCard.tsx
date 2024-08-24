@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { convertUtil } from '@/utils/convertUtil';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {
-  return <article className="rounded-md space-y-4 my-5">{children}</article>;
+  return <article className="rounded-md space-y-6 my-5">{children}</article>;
 };
 
 const Content = ({ children }: { children?: ReactNode }) => {

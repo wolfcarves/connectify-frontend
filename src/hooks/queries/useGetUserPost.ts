@@ -1,13 +1,17 @@
 import { PostService } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 
-export default function useGetUserPost(postId: number) {
-  return useQuery({
-    queryKey: ['GET_USER_POST', postId],
-    queryFn: async () => {
-      const response = await PostService.getUserPost(postId);
+export const GET_ALL_USER_POST_KEY = () => 'GET_ALL_USER_POST_KEY';
 
-      return response.data;
+export default function useGetUserPost(uuid: string) {
+  return useQuery({
+    queryKey: [GET_ALL_USER_POST_KEY(), uuid],
+    queryFn: async () => {
+      const response = await PostService.getUserPost(uuid);
+
+      return response?.data;
     },
+    staleTime: 0,
+    throwOnError: true,
   });
 }

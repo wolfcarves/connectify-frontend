@@ -1,5 +1,5 @@
-import UserProfileImage from '@/features/user/image/UserProfileImage';
-import UserProfilePosts from '@/features/user/tabs/UserProfilePosts';
+import UserProfileImage from '@/features/user/UserProfileImage';
+import UserProfilePosts from '@/features/user/UserProfilePosts';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 interface SearchParams {

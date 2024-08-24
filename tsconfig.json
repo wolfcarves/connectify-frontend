@@ -28,8 +28,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "build/types/**/*.ts",
-    "../connectify-backend/src/lib/cloudinary.ts"
+    "build/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

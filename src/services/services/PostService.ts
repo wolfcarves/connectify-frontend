@@ -67,12 +67,12 @@ export class PostService {
     }
     /**
      * Get User Post
-     * @param postId
+     * @param uuid
      * @returns any OK
      * @throws ApiError
      */
     public static getUserPost(
-        postId: number,
+        uuid: string,
     ): CancelablePromise<{
         data: {
             post: Post;
@@ -81,9 +81,9 @@ export class PostService {
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/post/{postId}',
+            url: '/api/v1/post/{uuid}',
             path: {
-                'postId': postId,
+                'uuid': uuid,
             },
             errors: {
                 401: `Not Found`,

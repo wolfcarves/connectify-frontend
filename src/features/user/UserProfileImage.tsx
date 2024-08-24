@@ -10,7 +10,7 @@ import useSession from '@/hooks/useSession';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
 import useGetUserProfile from '@/hooks/queries/useGetUserProfile';
-import UserProfileImageSkeleton from '../skeletons/UserProfileImageSkeleton';
+import UserProfileImageSkeleton from './UserProfileImageSkeleton';
 
 const schema = z.object({
   avatar: z.any(),

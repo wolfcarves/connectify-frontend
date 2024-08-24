@@ -2,7 +2,7 @@ import Logo from '@/components/common/Logo';
 import Link from 'next/link';
 import React from 'react';
 
-const NotFoundPage = () => {
+export default function NotFound() {
   return (
     <div>
       <header className="lg:container">
@@ -28,6 +28,4 @@ const NotFoundPage = () => {
       </main>
     </div>
   );
-};
-
-export default NotFoundPage;
+}
