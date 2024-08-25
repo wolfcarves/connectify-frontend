@@ -7,7 +7,7 @@ export default function useLoginUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['GET_CURRENT_SESSION'],
+    mutationKey: ['LOGIN_USER_KEY'],
     mutationFn: async (data: UserLoginInput) => {
       const response = await AuthenticationService.postLoginUser(data);
 
@@ -17,7 +17,8 @@ export default function useLoginUser() {
       await queryClient.invalidateQueries({
         queryKey: ['GET_CURRENT_SESSION'],
       });
-      window.location.reload();
+
+      router.push('/');
     },
   });
 }

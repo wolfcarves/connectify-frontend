@@ -108,6 +108,13 @@ const SignUpForm = () => {
                 />
 
                 <Input
+                  label="Name"
+                  name="name"
+                  control={control}
+                  placeholder="Username"
+                />
+
+                <Input
                   label="Username"
                   name="username"
                   control={control}

@@ -15,7 +15,7 @@ const CommentContainer = ({
   ...props
 }: CommentContainerProps) => {
   return (
-    <div className="border-t" {...props}>
+    <div className="border-t pb-32" {...props}>
       {/* {hasComments && (
         <Link href={`/post/${postId}`}>
           <Typography.H6

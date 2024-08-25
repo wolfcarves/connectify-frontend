@@ -10,10 +10,6 @@ export async function middleware(request: NextRequest) {
   const sessionCookie = request.cookies.get('auth_session');
   const authRoutes = ['/login', '/signup'];
 
-  // if (!sessionCookie?.value && !authRoutes.includes(pathname)) {
-  //   return response.redirect(new URL('/login', baseURL));
-  // }
-
   if (sessionCookie && authRoutes.includes(pathname)) {
     return response.redirect(new URL('/', baseURL));
   }

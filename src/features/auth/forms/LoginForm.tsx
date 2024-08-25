@@ -7,21 +7,20 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import useLoginUser from '@/hooks/mutations/useLoginUser';
 import errorHandler from '@/utils/errorHandler';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const schema = z.object({
-  username: z.string(),
-  password: z.string(),
+  username: z.string().min(1, 'Please enter your username'),
+  password: z.string().min(1, 'Please enter your password'),
 });
 
 type LoginSchema = z.infer<typeof schema>;
 
 const LoginForm = () => {
   const methods = useForm<LoginSchema>({
-    defaultValues: {
-      username: 'cazcade',
-      password: 'awdawd123',
-    },
+    resolver: zodResolver(schema),
   });
+
   const { handleSubmit, control, setError } = methods;
 
   const { mutateAsync: loginUserMutate, isPending: isLoginUserLoading } =

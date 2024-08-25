@@ -20,7 +20,9 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-  BASE: 'http://localhost:5000',
+  BASE:
+    // process.env.STATE === 'development'
+    false ? 'http://localhost:5000' : 'http://172.104.163.183',
   VERSION: '1.0.0',
   WITH_CREDENTIALS: true,
   CREDENTIALS: 'include',

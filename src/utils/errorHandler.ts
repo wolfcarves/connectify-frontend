@@ -6,7 +6,7 @@ const errorHandler = <T, K extends (...args: any[]) => void>(
   setError: K,
 ) => {
   if (error instanceof ApiError) {
-    const err = error.body.error.validationErrors;
+    const err = error.body.error?.validationErrors;
 
     if (err)
       err.map((e: { message: string; path: Array<keyof typeof schema> }) => {
