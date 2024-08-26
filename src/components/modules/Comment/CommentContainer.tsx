@@ -1,32 +1,23 @@
 import { ComponentProps, ReactNode } from 'react';
 import Typography from '@/components/ui/typography';
-import Link from 'next/link';
+import CommentSkeleton from './CommentSkeleton';
 
 interface CommentContainerProps extends ComponentProps<'div'> {
   postId?: number;
   children?: ReactNode;
-  hasComments?: boolean;
+  isLoading?: boolean;
 }
 
 const CommentContainer = ({
   postId,
   children,
-  hasComments,
+  isLoading,
   ...props
 }: CommentContainerProps) => {
-  return (
-    <div className="border-t pb-32" {...props}>
-      {/* {hasComments && (
-        <Link href={`/post/${postId}`}>
-          <Typography.H6
-            title="Read other comments"
-            size="sm"
-            weight="medium"
-            className="my-4 hover:underline underline-offset-2"
-          />
-        </Link>
-      )} */}
+  if (isLoading) return <CommentSkeleton count={10} />;
 
+  return (
+    <div className="pb-32" {...props}>
       <Typography.H6
         title="Comments"
         size="sm"

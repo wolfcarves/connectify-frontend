@@ -10,13 +10,15 @@ const UserProfilePosts = ({ username }: { username: string }) => {
     useGetAllUserPosts(username);
 
   return (
-    <PostContainer className="py-10">
-      {isPostsLoading && <PostCardSkeleton count={3} />}
+    <>
+      <PostContainer className="pb-10">
+        {isPostsLoading && <PostCardSkeleton count={3} />}
 
-      {posts?.map(post => {
-        return <Post key={post.post.id} data={post} />;
-      })}
-    </PostContainer>
+        {posts?.map(post => {
+          return <Post key={post.post.id} data={post} />;
+        })}
+      </PostContainer>
+    </>
   );
 };
 

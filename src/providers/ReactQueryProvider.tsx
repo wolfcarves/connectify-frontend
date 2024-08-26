@@ -11,6 +11,7 @@ const ReactQueryProvider = ({ children }: { children: ReactNode }) => {
         defaultOptions: {
           queries: {
             staleTime: 30 * 1000, //30 sec
+            retry: 0,
           },
         },
       }),

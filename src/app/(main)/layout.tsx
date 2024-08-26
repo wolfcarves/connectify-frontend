@@ -3,6 +3,7 @@ import Header from '@/components/common/Header/Header';
 import Sidebar from '@/components/common/Sidebar';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
 import SidebarNavigation from '@/components/common/SidebarNavigation';
+import CenterContainer from '@/components/common/Container/CenterContainer';
 
 export default async function MainLayout({
   children,
@@ -28,14 +29,16 @@ export default async function MainLayout({
         }
       />
 
-      <div className="lg:container flex justify-between mt-5 px-4">
+      <div className="lg:container flex justify-between mt-5 px-2 md:px-4">
         <Sidebar className="hidden md:block">
           <SidebarNavigation />
         </Sidebar>
 
-        <main className="flex-grow mx-auto w-full max-w-xl">{children}</main>
+        <main className="flex-grow">
+          <CenterContainer>{children}</CenterContainer>
+        </main>
 
-        <Sidebar />
+        <Sidebar className="hidden xl:block" />
       </div>
     </>
   );

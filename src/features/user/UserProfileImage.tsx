@@ -6,7 +6,6 @@ import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import useUploadUserProfileImage from '@/hooks/mutations/useUploadUserProfileImage';
 import Typography from '@/components/ui/typography';
-import useSession from '@/hooks/useSession';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
 import useGetUserProfile from '@/hooks/queries/useGetUserProfile';

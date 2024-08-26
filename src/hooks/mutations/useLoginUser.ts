@@ -19,6 +19,7 @@ export default function useLoginUser() {
       });
 
       router.push('/');
+      router.refresh();
     },
   });
 }

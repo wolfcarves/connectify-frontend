@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from '../ui/button';
-import { usePathname, useParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import {
   Bell,
@@ -67,7 +67,7 @@ const SidebarNavigation = () => {
   navigation[5].href = `/${session?.username}`;
 
   return (
-    <nav>
+    <nav className="pe-5">
       <ul>
         {navigation.map(({ id, icon, label, href }) => {
           const isActive = pathname === href;

@@ -1,20 +1,24 @@
 'use client';
 
-import React from 'react';
-import PostCard from '@/components/modules/Post/PostCard';
-import { Post } from '@/services';
+import PostCardSkeleton from '@/components/modules/Post/PostCardSkeleton';
+import useGetAllUserPosts from '@/hooks/queries/useGetAllUserPosts';
+import PostContainer from '@/components/modules/Post/PostContainer';
+import Post from '@/components/modules/Post/Post';
 
-type FeedPostsProps = {
-  data?: Post[];
-};
+const FeedPosts = () => {
+  const username = 'cazcade';
 
-const FeedPosts = ({ data }: FeedPostsProps) => {
+  const { data: posts, isLoading: isPostsLoading } =
+    useGetAllUserPosts(username);
+
   return (
-    <>
-      {/* {data?.map(props => {
-        return <UserPostCard key={props.id} {...props} />;
-      })} */}
-    </>
+    <PostContainer className="py-10">
+      {isPostsLoading && <PostCardSkeleton count={3} />}
+
+      {posts?.map(post => {
+        return <Post key={post.post.id} data={post} />;
+      })}
+    </PostContainer>
   );
 };
 

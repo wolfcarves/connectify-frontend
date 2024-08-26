@@ -8,7 +8,7 @@ export default function useDestroySession() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationKey: ['DESTROY_SESSION'],
+    mutationKey: ['DESTROY_USER_SESSION'],
     mutationFn: async () => {
       const response = await AuthenticationService.deleteCurrentSession();
 

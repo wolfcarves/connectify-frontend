@@ -39,10 +39,6 @@ const CreatePostForm = () => {
     <FormProvider {...methods}>
       <TooltipProvider>
         <form onSubmit={handleSubmit(handleCreatePost)}>
-          <h1 className="text-2xl font-display font-semibold leading-0 mb-5">
-            Share your thoughts
-          </h1>
-
           <textarea
             className="bg-transparent w-full h-40 border rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin p-5"
             placeholder="What's on your mind?"

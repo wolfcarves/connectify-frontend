@@ -1,9 +1,9 @@
 'use client';
 
-import { FormProvider, useForm } from 'react-hook-form';
-import Input from './Input';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { IoSearchOutline } from 'react-icons/io5';
+import CenterContainer from './Container/CenterContainer';
 
 const searchSchema = z.object({
   query: z.string(),
@@ -18,21 +18,21 @@ const Searchbar = () => {
   const handleSearch = (data: SearchSchema) => {};
 
   return (
-    <FormProvider {...methods}>
+    <CenterContainer className="ps-10">
       <form
         onSubmit={handleSubmit(handleSearch)}
-        className="flex items-center gap-1 ms-40"
+        className="flex items-center gap-3"
       >
         <IoSearchOutline className="text-xl" />
-        <Input
+
+        <input
           type="text"
           name="query"
-          control={control}
-          className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0 mt-0"
+          className="border-0 text-sm w-full bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none mt-0"
           placeholder="Search "
         />
       </form>
-    </FormProvider>
+    </CenterContainer>
   );
 };
 

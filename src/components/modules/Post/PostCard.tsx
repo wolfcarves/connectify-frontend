@@ -1,10 +1,15 @@
 import Typography from '@/components/ui/typography';
-import { ReactNode } from 'react';
-import Image from 'next/image';
+import type { ReactNode } from 'react';
+import User from '@/components/common/User';
 import { convertUtil } from '@/utils/convertUtil';
+import CenterContainer from '@/components/common/Container/CenterContainer';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {
-  return <article className="rounded-md space-y-6 my-5">{children}</article>;
+  return (
+    <article className="rounded-2xl space-y-5 my-5 bg-accent/20 border px-3 py-4">
+      {children}
+    </article>
+  );
 };
 
 const Content = ({ children }: { children?: ReactNode }) => {
@@ -14,39 +19,25 @@ const Content = ({ children }: { children?: ReactNode }) => {
 interface UserProps {
   avatar?: string;
   name?: string;
+  username?: string;
   timestamp?: string;
 }
 
-const User = ({ avatar, name, timestamp }: UserProps) => {
+const PostCardUser = (props: UserProps) => {
   return (
-    <div className="flex items-center gap-2.5">
-      <div
-        className={`${!avatar && 'animate-pulse'} bg-accent min-w-11 w-11 min-h-11 h-11 relative rounded-full`}
-      >
-        {avatar && (
-          <Image
-            alt="avatar"
-            src={avatar}
-            fill
-            className="rounded-full"
-            sizes="100%"
-          />
-        )}
-      </div>
+    <div className="flex justify-between items-center gap-2.5">
+      <User {...props} />
 
-      <div className="flex flex-col">
-        <Typography.Span title={name} weight="semibold" />
-        <Typography.Span
-          title={convertUtil(timestamp)}
-          size="sm"
-          color="muted"
-        />
-      </div>
+      <Typography.Span
+        title={convertUtil(props.timestamp)}
+        size="sm"
+        color="muted"
+      />
     </div>
   );
 };
 
-PostCard.User = User;
+PostCard.User = PostCardUser;
 PostCard.Content = Content;
 
 export default PostCard;

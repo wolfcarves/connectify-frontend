@@ -1,11 +1,20 @@
+'use client';
+import { usePathname } from 'next/navigation';
 import { ComponentProps } from 'react';
+interface SidebarProps extends ComponentProps<'aside'> {
+  excludedRoutes?: string[];
+}
 
-type SidebarProps = ComponentProps<'aside'>;
+const Sidebar = ({ children, className, excludedRoutes }: SidebarProps) => {
+  const pathname = usePathname();
 
-const Sidebar = ({ children, className }: SidebarProps) => {
+  if (excludedRoutes?.includes(pathname)) {
+    return <></>;
+  }
+
   return (
-    <aside className={`flex-grow max-w-[15rem] pe-5 ${className}`}>
-      {children}
+    <aside className={`min-w-[15rem] ${className}`}>
+      <div className={`fixed min-w-[15rem]`}>{children}</div>
     </aside>
   );
 };
