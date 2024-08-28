@@ -6,13 +6,14 @@ interface UserProps {
   avatar?: string;
   name?: string;
   username?: string;
+  size?: 'base' | 'lg';
 }
 
-const User = ({ avatar, name, username }: UserProps) => {
+const User = ({ avatar, name, username, size }: UserProps) => {
   return (
     <div className="flex items-center gap-2.5">
       <Link href={`/${username}`} className="hover:opacity-80">
-        {avatar && <Avatar src={avatar} size="lg" />}
+        <Avatar src={avatar ?? ''} size={size} />
       </Link>
 
       <div>

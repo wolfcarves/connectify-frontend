@@ -11,6 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 const FriendsPage = () => {
   return (
@@ -58,4 +59,4 @@ const FriendsPage = () => {
   );
 };
 
-export default FriendsPage;
+export default withAuthGuard(FriendsPage);

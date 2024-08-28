@@ -4,6 +4,7 @@ import Sidebar from '@/components/common/Sidebar';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
 import SidebarNavigation from '@/components/common/SidebarNavigation';
 import CenterContainer from '@/components/common/Container/CenterContainer';
+import MessageList from '@/features/messages/MessageList';
 
 export default async function MainLayout({
   children,
@@ -30,7 +31,7 @@ export default async function MainLayout({
       />
 
       <div className="lg:container flex justify-between mt-5 px-2 md:px-4">
-        <Sidebar className="hidden md:block">
+        <Sidebar position="left" className="hidden md:block">
           <SidebarNavigation />
         </Sidebar>
 
@@ -38,7 +39,13 @@ export default async function MainLayout({
           <CenterContainer>{children}</CenterContainer>
         </main>
 
-        <Sidebar className="hidden xl:block" />
+        <Sidebar
+          position="right"
+          className="hidden xl:block"
+          excludedRoutes={['/', '/friends', '/bookmarks', '/account-settings']}
+        >
+          <MessageList />
+        </Sidebar>
       </div>
     </>
   );

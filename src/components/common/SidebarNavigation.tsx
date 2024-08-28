@@ -67,7 +67,7 @@ const SidebarNavigation = () => {
   navigation[5].href = `/${session?.username}`;
 
   return (
-    <nav className="pe-5">
+    <nav className="pe-5 my-5">
       <ul>
         {navigation.map(({ id, icon, label, href }) => {
           const isActive = pathname === href;
