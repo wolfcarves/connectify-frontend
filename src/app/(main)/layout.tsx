@@ -30,19 +30,25 @@ export default async function MainLayout({
         }
       />
 
-      <div className="lg:container flex justify-between mt-5 px-2 md:px-4">
+      <div className="flex flex-1 justify-between lg:container mt-5 px-2 md:px-4">
         <Sidebar position="left" className="hidden md:block">
           <SidebarNavigation />
         </Sidebar>
 
-        <main className="flex-grow">
+        <main className="flex flex-1">
           <CenterContainer>{children}</CenterContainer>
         </main>
 
         <Sidebar
           position="right"
           className="hidden xl:block"
-          excludedRoutes={['/', '/friends', '/bookmarks', '/account-settings']}
+          excludedRoutes={[
+            '/',
+            '/friends',
+            '/notifications',
+            '/bookmarks',
+            '/account-settings',
+          ]}
         >
           <MessageList />
         </Sidebar>

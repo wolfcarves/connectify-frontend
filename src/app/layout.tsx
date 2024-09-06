@@ -31,7 +31,9 @@ export default async function RootLayout({
       <body className={`${dmSans.variable}`}>
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
-            <main className="font-body">{children}</main>
+            <main className="flex flex-col font-body h-[100dvh]">
+              {children}
+            </main>
           </HydrationBoundary>
           <Toaster />
         </Providers>

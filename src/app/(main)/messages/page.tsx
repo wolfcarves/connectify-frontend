@@ -1,5 +1,3 @@
-import Avatar from '@/components/common/Avatar/Avatar';
-import User from '@/components/common/User';
 import Typography from '@/components/ui/typography';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
