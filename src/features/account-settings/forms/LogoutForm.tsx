@@ -18,13 +18,17 @@ const LogoutForm = () => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <form className="my-10" onSubmit={handleSubmit(handleLogoutUser)}>
-        <Button variant="destructive" isLoading={isDestroySessionLoading}>
-          Logout account
-        </Button>
-      </form>
-    </FormProvider>
+    <div className="my-10 space-y-4">
+      <h1 className="font-semibold">Account</h1>
+
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(handleLogoutUser)}>
+          <Button variant="destructive" isLoading={isDestroySessionLoading}>
+            Logout account
+          </Button>
+        </form>
+      </FormProvider>
+    </div>
   );
 };
 
