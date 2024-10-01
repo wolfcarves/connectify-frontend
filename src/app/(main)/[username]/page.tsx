@@ -1,3 +1,4 @@
+import React from 'react';
 import UserProfileImage from '@/features/user/UserProfileImage';
 import UserProfilePosts from '@/features/user/UserProfilePosts';
 import UserProfileTab from '@/features/user/UserProfileTab';

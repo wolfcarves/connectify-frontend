@@ -17,8 +17,6 @@ export default function useGetAllUserPosts(
     queryFn: async () => {
       const response = await PostService.getUserPosts(username, page, per_page);
 
-      new Promise(res => setTimeout(() => res('goods'), 5000));
-
       return response.data;
     },
   });

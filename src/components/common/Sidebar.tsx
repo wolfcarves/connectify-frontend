@@ -1,28 +1,30 @@
 'use client';
 
-import useSession from '@/hooks/useSession';
-import { useParams, usePathname } from 'next/navigation';
-import { ComponentProps } from 'react';
+import React from 'react';
+
+import { usePathname } from 'next/navigation';
+import { ComponentProps, useEffect, useState } from 'react';
 interface SidebarProps extends ComponentProps<'aside'> {
   position: 'left' | 'right';
-  excludedRoutes?: string[];
+  includedRoutes?: string[];
 }
 
-const Sidebar = ({
-  children,
-  className,
-  position,
-  excludedRoutes,
-}: SidebarProps) => {
-  const params = useParams<{ username: string }>();
-  const session = useSession();
+const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
   const pathname = usePathname();
-  const pathnameIsProfile = session.username === params.username;
+  const [render, setRender] = useState<boolean>(false);
 
-  if (
-    excludedRoutes?.includes(pathname) ||
-    (pathnameIsProfile && position === 'right')
-  ) {
+  useEffect(() => {
+    if (includedRoutes) {
+      const regex = new RegExp(includedRoutes?.join('|'), 'i');
+      const isIncluded = regex.test(pathname);
+
+      setRender(isIncluded);
+    } else {
+      setRender(true);
+    }
+  }, [includedRoutes, pathname]);
+
+  if (!render) {
     return <aside className={`min-w-[15rem] ${className}`} />;
   }
 

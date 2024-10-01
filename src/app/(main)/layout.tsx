@@ -1,3 +1,4 @@
+import React from 'react';
 import type { ReactNode } from 'react';
 import Header from '@/components/common/Header/Header';
 import Sidebar from '@/components/common/Sidebar';
@@ -42,13 +43,7 @@ export default async function MainLayout({
         <Sidebar
           position="right"
           className="hidden xl:block"
-          excludedRoutes={[
-            '/',
-            '/friends',
-            '/notifications',
-            '/bookmarks',
-            '/account-settings',
-          ]}
+          includedRoutes={['/messages']}
         >
           <MessageList />
         </Sidebar>
