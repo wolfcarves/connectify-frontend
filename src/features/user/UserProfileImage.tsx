@@ -87,6 +87,7 @@ const UserProfileImage = (params: { username: string }) => {
               unoptimized
               fill
               sizes="100%"
+              className="object-cover"
               onClick={() => imageInput.current?.click()}
             />
           ) : (
@@ -97,6 +98,7 @@ const UserProfileImage = (params: { username: string }) => {
                 unoptimized
                 fill
                 sizes="100%"
+                className="object-cover"
                 onClick={() => imageInput.current?.click()}
               />
             )

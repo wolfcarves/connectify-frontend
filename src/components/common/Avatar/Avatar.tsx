@@ -1,5 +1,8 @@
 import Image, { ImageProps } from 'next/image';
 import { cva, VariantProps } from 'class-variance-authority';
+import { getCldImageUrl } from 'next-cloudinary';
+import { env } from '@/config/env';
+import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
 
 const avatar = cva(
   'relative bg-accent flex aspect-square rounded-full overflow-hidden',
@@ -26,16 +29,18 @@ interface AvatarProps extends Omit<ImageProps, 'alt'>, CVAAvatarProps {
 }
 
 const Avatar = ({ src, size, className }: AvatarProps) => {
+  const imageSrc = getCloudinaryImageUrl(src);
+
   return (
     <div
       className={`${!avatar && 'animate-pulse'} ${avatar({ className, size })}`}
     >
-      {src && (
+      {imageSrc && (
         <Image
           alt="avatar"
-          src={src}
+          src={imageSrc}
           fill
-          className="rounded-full"
+          className="rounded-full object-cover"
           sizes="100%"
         />
       )}

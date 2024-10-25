@@ -13,7 +13,7 @@ const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
   const pathname = usePathname();
   const [render, setRender] = useState<boolean>(false);
 
-  useEffect(() => {
+  useEffect(() => { 
     if (includedRoutes) {
       const regex = new RegExp(includedRoutes?.join('|'), 'i');
       const isIncluded = regex.test(pathname);
