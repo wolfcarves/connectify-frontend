@@ -19,7 +19,7 @@ export class EngagementService {
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/post/like/{postId}',
+            url: '/api/v1/engagement/like/{postId}',
             path: {
                 'postId': postId,
             },
@@ -44,7 +44,7 @@ export class EngagementService {
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/post/comment/{postId}',
+            url: '/api/v1/engagement/comment/{postId}',
             path: {
                 'postId': postId,
             },
@@ -69,7 +69,7 @@ export class EngagementService {
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/post/comment/{postId}',
+            url: '/api/v1/engagement/comments/{postId}',
             path: {
                 'postId': postId,
             },

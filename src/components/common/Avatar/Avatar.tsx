@@ -1,7 +1,5 @@
 import Image, { ImageProps } from 'next/image';
 import { cva, VariantProps } from 'class-variance-authority';
-import { getCldImageUrl } from 'next-cloudinary';
-import { env } from '@/config/env';
 import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
 
 const avatar = cva(
@@ -24,8 +22,8 @@ const avatar = cva(
 
 type CVAAvatarProps = VariantProps<typeof avatar>;
 
-interface AvatarProps extends Omit<ImageProps, 'alt'>, CVAAvatarProps {
-  src: string;
+interface AvatarProps extends Omit<ImageProps, 'alt' | 'src'>, CVAAvatarProps {
+  src?: string;
 }
 
 const Avatar = ({ src, size, className }: AvatarProps) => {
