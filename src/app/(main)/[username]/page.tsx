@@ -1,21 +1,17 @@
 import React from 'react';
-import UserProfileImage from '@/features/user/UserProfileImage';
-import UserProfilePosts from '@/features/user/UserProfilePosts';
-import UserProfileTab from '@/features/user/UserProfileTab';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
+import UserProfilePosts from '@/features/user/UserProfilePosts';
 
 interface SearchParams {
   params: { username: string };
 }
 
-const UserProfilePage = async ({ params }: SearchParams) => {
+const UserProfilePostsPage = async ({ params }: SearchParams) => {
   return (
     <>
-      <UserProfileImage username={params.username} />
-      <UserProfileTab />
       <UserProfilePosts username={params.username} />
     </>
   );
 };
 
-export default withAuthGuard(UserProfilePage);
+export default withAuthGuard(UserProfilePostsPage);

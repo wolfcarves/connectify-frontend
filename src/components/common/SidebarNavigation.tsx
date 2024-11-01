@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import React from 'react';
 import { Button } from '../ui/button';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import {
   Bell,
@@ -61,6 +61,8 @@ let navigation = [
 ];
 
 const SidebarNavigation = () => {
+  const { username } = useParams<{ username: string }>();
+
   const { data: session } = useGetCurrentSession();
   const pathname = usePathname();
 
@@ -70,7 +72,9 @@ const SidebarNavigation = () => {
     <nav className="pe-5 my-5">
       <ul>
         {navigation.map(({ id, icon, label, href }) => {
-          const isActive = pathname === href;
+          const isCurrentPageProfile =
+            label === 'Profile' && session?.username === username;
+          const isActive = href === pathname || isCurrentPageProfile;
 
           return (
             <li key={id}>

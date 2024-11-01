@@ -10,5 +10,7 @@ export default function useGetFriendRequests() {
       const response = await FriendsService.getFriendRequests();
       return response.data;
     },
+    refetchOnMount: true,
+    staleTime: 0,
   });
 }
