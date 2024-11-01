@@ -14,8 +14,6 @@ const Header = async ({ menu }: { menu?: ReactNode }) => {
             </Link>
           </div>
 
-          <Searchbar />
-
           <div className="space-x-2">{menu}</div>
         </div>
       </div>

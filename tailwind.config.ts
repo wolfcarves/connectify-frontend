@@ -14,6 +14,10 @@ const config = {
       body: 'var(--body-font)',
     },
     extend: {
+      screens: {
+        xxs: '320px',
+        xs: '480px',
+      },
       fontSize: {
         xxxs: '11px',
         xxs: '12px',

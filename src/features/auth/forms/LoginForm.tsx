@@ -19,10 +19,6 @@ type LoginSchema = z.infer<typeof schema>;
 const LoginForm = () => {
   const methods = useForm<LoginSchema>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      username: 'cazcade',
-      password: 'awdawd123',
-    },
   });
 
   const { handleSubmit, control, setError } = methods;

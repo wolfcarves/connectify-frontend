@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AuthenticationService, UserLoginInput } from '@/services';
 import { useRouter } from 'next/navigation';
+import { GET_CURRENT_SESSION_KEY } from '../queries/useGetCurrentSession';
+import { GET_FRIEND_SUGGESTIONS_KEY } from '../queries/useGetFriendSuggestions';
 
 export default function useLoginUser() {
   const router = useRouter();
@@ -15,7 +17,10 @@ export default function useLoginUser() {
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
-        queryKey: ['GET_CURRENT_SESSION'],
+        queryKey: [GET_CURRENT_SESSION_KEY()],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [GET_FRIEND_SUGGESTIONS_KEY()],
       });
 
       router.push('/');

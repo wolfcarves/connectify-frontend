@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { SuccessReponse } from '../models/SuccessReponse';
-import type { User } from '../models/User';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -13,7 +12,13 @@ export class FriendsService {
      * @throws ApiError
      */
     public static getFriendSuggestions(): CancelablePromise<{
-        data: Array<User>;
+        data: Array<{
+            id: number;
+            avatar: string;
+            name: string;
+            username: string;
+            status: 'accepted' | 'pending';
+        }>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -33,11 +38,32 @@ export class FriendsService {
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/friends/request/send',
-            query: {
+            url: '/api/v1/friends/request/send/{receiverId}',
+            path: {
                 'receiverId': receiverId,
             },
             errors: {
+                401: `Not Found`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * @param receiverId
+     * @returns SuccessReponse OK
+     * @throws ApiError
+     */
+    public static cancelFriendRequest(
+        receiverId: string,
+    ): CancelablePromise<SuccessReponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/friends/request/cancel/{receiverId}',
+            path: {
+                'receiverId': receiverId,
+            },
+            errors: {
+                400: `Bad Request Error`,
                 401: `Not Found`,
                 500: `Server Internal Error.`,
             },

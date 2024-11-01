@@ -22,6 +22,12 @@ export default {
         port: '',
         protocol: 'https',
       },
+      {
+        hostname: 'rodelcrisosto.vercel.app',
+        pathname: '/**',
+        port: '',
+        protocol: 'https',
+      },
     ],
   },
 };

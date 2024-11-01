@@ -2,7 +2,6 @@ import Typography from '@/components/ui/typography';
 import type { ReactNode } from 'react';
 import User from '@/components/common/User';
 import { convertUtil } from '@/utils/convertUtil';
-import CenterContainer from '@/components/common/Container/CenterContainer';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {
   return (
