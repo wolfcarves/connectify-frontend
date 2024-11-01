@@ -11,7 +11,7 @@ export const GET_USER_PROFILE_KEY = () => 'GET_USER_PROFILE_KEY';
 
 export default function useGetUserProfile({ userId, username }: QueryParams) {
   return useQuery({
-    queryKey: [GET_USER_PROFILE_KEY()],
+    queryKey: [GET_USER_PROFILE_KEY(), userId, username],
     queryFn: async () => {
       const response = await UserService.getUserProfile(userId, username);
 
@@ -20,7 +20,7 @@ export default function useGetUserProfile({ userId, username }: QueryParams) {
       // Says the image is from cloudinary not the template ones
       if (response.data?.avatar.startsWith('version')) {
         try {
-          avatar = getCloudinaryImageUrl(response.data.avatar);
+          avatar = getCloudinaryImageUrl(response.data.avatar) ?? '';
         } catch (err: any) {
           console.log('Error!', { ...err });
         }

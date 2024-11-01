@@ -49,18 +49,18 @@ export class FriendsService {
         });
     }
     /**
-     * @param receiverId
+     * @param requesterId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
     public static cancelFriendRequest(
-        receiverId: string,
+        requesterId: string,
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/v1/friends/request/cancel/{receiverId}',
+            url: '/api/v1/friends/request/cancel/{requesterId}',
             path: {
-                'receiverId': receiverId,
+                'requesterId': requesterId,
             },
             errors: {
                 400: `Bad Request Error`,
@@ -74,16 +74,17 @@ export class FriendsService {
      * @throws ApiError
      */
     public static getFriendRequests(): CancelablePromise<{
-        data: {
+        data: Array<{
             id: number;
             user: {
                 id: number;
                 name: string;
                 avatar: string;
+                username: string;
             };
             created_at: string;
             status: 'accepted' | 'pending';
-        };
+        }>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -118,7 +119,7 @@ export class FriendsService {
      * @throws ApiError
      */
     public static getFriendList(): CancelablePromise<{
-        data: {
+        data: Array<{
             id: number;
             user: {
                 id: number;
@@ -126,7 +127,7 @@ export class FriendsService {
                 avatar: string;
             };
             created_at: string;
-        };
+        }>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',

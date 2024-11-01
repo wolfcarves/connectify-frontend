@@ -40,6 +40,7 @@ export interface ButtonProps
   asChild?: boolean;
   isLoading?: boolean;
   icon?: React.ReactNode;
+  visible?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
@@ -51,11 +52,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       asChild = false,
       isLoading = false,
       icon,
+      visible = true,
       ...props
     },
     ref,
   ) => {
     const Comp = asChild ? Slot : 'button';
+
+    if (!visible) return <></>;
+
     return (
       <>
         <Comp

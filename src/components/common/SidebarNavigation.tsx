@@ -76,8 +76,9 @@ const SidebarNavigation = () => {
             <li key={id}>
               <Link href={href}>
                 <Button
+                  size="lg"
                   variant={isActive ? 'default' : 'ghost'}
-                  className="justify-start w-full px-2"
+                  className="justify-start w-full rounded-full px-5"
                   icon={icon}
                 >
                   {label}

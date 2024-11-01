@@ -1,6 +1,5 @@
 import { FriendsService } from '@/services';
 import { useQuery } from '@tanstack/react-query';
-import useSession from '../useSession';
 
 export const GET_FRIEND_SUGGESTIONS_KEY = () => 'GET_FRIEND_SUGGESTIONS_KEY';
 

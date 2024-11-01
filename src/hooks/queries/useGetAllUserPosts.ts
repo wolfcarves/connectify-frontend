@@ -13,7 +13,7 @@ export default function useGetAllUserPosts(
   { page, per_page }: IQueryParams = { page: 1, per_page: 20 },
 ) {
   return useQuery({
-    queryKey: [GET_ALL_USER_POSTS_KEY()],
+    queryKey: [GET_ALL_USER_POSTS_KEY(), username, page, per_page],
     queryFn: async () => {
       const response = await PostService.getUserPosts(username, page, per_page);
 
