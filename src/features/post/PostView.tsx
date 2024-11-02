@@ -7,22 +7,22 @@ import PostContainer from '@/components/modules/Post/PostContainer';
 import CommentContainer from '@/components/modules/Comment/CommentContainer';
 import Comment from '@/components/modules/Comment/Comment';
 import PostCommentForm from './form/PostCommentForm';
+import BackButton from '@/components/common/BackButton';
 
 const PostView = ({ uuid }: { uuid: string }) => {
-  const { data: postData, isLoading: isPostLoading } = useGetUserPost(uuid);
-  const { data: commentsData, isLoading: isCommentsLoading } =
+  const { data: postData, isPending: isPostLoading } = useGetUserPost(uuid);
+  const { data: commentsData, isPending: isCommentsLoading } =
     useGetPostComments(postData?.post?.id);
 
   return (
     <>
+      <BackButton />
       <PostContainer isLoading={isPostLoading}>
         <Post data={postData} />
       </PostContainer>
-
       <CommentContainer isLoading={isCommentsLoading}>
         {commentsData?.map(data => <Comment key={data?.id} data={data} />)}
       </CommentContainer>
-
       <PostCommentForm postId={postData?.post?.id} />
     </>
   );

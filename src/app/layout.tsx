@@ -26,31 +26,6 @@ export default async function RootLayout({
   const queryClient = getQueryClient();
   await prefetchCurrentSession();
 
-  // fetch('https://api.ipify.org?format=json')
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     ipAdd = data.ip;
-
-  //     console.log(data.ip)
-  //   })
-  //   .catch(error => {
-  //     console.log('Error:', error);
-  //   });
-
-  // const apiKey = '703cabff82beaa78e818464a2009a895';
-
-  // fetch(`http://api.ipapi.com/api/${'112.202.234.44'}?access_key=${apiKey}`)
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log('IP:', data.ip);
-  //     console.log('City:', data.city);
-  //     console.log('Region:', data.region);
-  //     console.log('Country:', data.country_name);
-  //     console.log('Latitude:', data.latitude);
-  //     console.log('Longitude:', data.longitude);
-  //   })
-  //   .catch(error => console.error('Error fetching IP geolocation:', error));
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${dmSans.variable}`}>
@@ -64,3 +39,28 @@ export default async function RootLayout({
     </html>
   );
 }
+
+// fetch('https://api.ipify.org?format=json')
+//   .then(response => response.json())
+//   .then(data => {
+//     ipAdd = data.ip;
+
+//     console.log(data.ip)
+//   })
+//   .catch(error => {
+//     console.log('Error:', error);
+//   });
+
+// const apiKey = '703cabff82beaa78e818464a2009a895';
+
+// fetch(`http://api.ipapi.com/api/${'112.202.234.44'}?access_key=${apiKey}`)
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log('IP:', data.ip);
+//     console.log('City:', data.city);
+//     console.log('Region:', data.region);
+//     console.log('Country:', data.country_name);
+//     console.log('Latitude:', data.latitude);
+//     console.log('Longitude:', data.longitude);
+//   })
+//   .catch(error => console.error('Error fetching IP geolocation:', error));

@@ -1,5 +1,4 @@
 import React from 'react';
-import { withAuthGuard } from '@/higher-order/withAuthGuard';
 import UserProfilePosts from '@/features/user/UserProfilePosts';
 
 interface SearchParams {
@@ -14,4 +13,4 @@ const UserProfilePostsPage = async ({ params }: SearchParams) => {
   );
 };
 
-export default withAuthGuard(UserProfilePostsPage);
+export default UserProfilePostsPage;

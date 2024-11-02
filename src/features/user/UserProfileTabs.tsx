@@ -3,7 +3,6 @@
 import Typography from '@/components/ui/typography';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 
 interface UserProfileTabsProps {
   username?: string;
@@ -13,14 +12,14 @@ const UserProfileTabs = ({ username }: UserProfileTabsProps) => {
   const TABS = [
     { href: `/${username}`, title: 'Posts' },
     { href: `/${username}/friends`, title: 'Friends' },
-    { href: `/${username}/media`, title: 'Media' },
+    { href: `/${username}/photos`, title: 'Photos' },
     { href: `/${username}/about`, title: 'About' },
   ] as const;
 
   const pathname = usePathname();
 
   return (
-    <div className="my-10">
+    <div className="mt-5 mb-10">
       <ul className="flex items-center border-b">
         {TABS.map(({ href, title }) => (
           <Link key={title} {...{ href }}>

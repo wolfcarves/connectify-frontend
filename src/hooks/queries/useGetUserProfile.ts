@@ -31,5 +31,6 @@ export default function useGetUserProfile({ userId, username }: QueryParams) {
         avatar,
       };
     },
+    enabled: !!userId || !!username,
   });
 }

@@ -10,9 +10,10 @@ import { ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@phosphor-icons/react';
 import useLikePost from '@/hooks/mutations/useLikePost';
 import { useRouter } from 'next/navigation';
+import Typography from '@/components/ui/typography';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
-  return <div className="space-x-2">{children}</div>;
+  return <div className="sm:space-x-2">{children}</div>;
 };
 
 interface LikeButtonProps extends ButtonProps {
@@ -46,13 +47,21 @@ export const LikeButton = ({
       {...props}
     >
       {isLiked ? (
-        <AiFillLike className="text-lg me-1 text-primary" />
+        <AiFillLike className="text-lg me-0 sm:me-1 text-primary" />
       ) : (
-        <AiOutlineLike className="text-lg me-1" />
+        <AiOutlineLike className="text-lg me-0 sm:me-1" />
       )}
 
       <div className="w-6">
-        {isLikePostLoading ? <Spinner className="animate-spin" /> : 'Like'}
+        {isLikePostLoading ? (
+          <Spinner className="animate-spin" />
+        ) : (
+          <Typography.Span
+            title="Like"
+            weight="medium"
+            className="text-sm sm:text-base"
+          />
+        )}
       </div>
     </Button>
   );
@@ -69,8 +78,12 @@ export const CommentButton = ({ href, comments = 0 }: CommentButtonProps) => {
 
   return (
     <Button variant="ghost" size="sm" onClick={handlePush}>
-      <AiOutlineMessage className="text-lg me-1" />
-      Comment
+      <AiOutlineMessage className="text-lg me-0 sm:me-1" />
+      <Typography.Span
+        title="Comment"
+        weight="medium"
+        className="text-sm sm:text-base"
+      />
     </Button>
   );
 };
@@ -83,8 +96,12 @@ interface ShareButtonProps {
 export const ShareButton = ({ postId, shares = 0 }: ShareButtonProps) => {
   return (
     <Button variant="ghost" size="sm">
-      <AiOutlineShareAlt className="text-lg me-1" />
-      Share
+      <AiOutlineShareAlt className="text-lg me-0 sm:me-1" />
+      <Typography.Span
+        title="Share"
+        weight="medium"
+        className="text-sm sm:text-base"
+      />
     </Button>
   );
 };

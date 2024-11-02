@@ -115,23 +115,26 @@ export class FriendsService {
         });
     }
     /**
+     * @param userId
      * @returns any OK
      * @throws ApiError
      */
-    public static getFriendList(): CancelablePromise<{
+    public static getFriendList(
+        userId: number,
+    ): CancelablePromise<{
         data: Array<{
             id: number;
-            user: {
-                id: number;
-                name: string;
-                avatar: string;
-            };
-            created_at: string;
+            avatar: string;
+            name: string;
+            username: string;
         }>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/friends/list',
+            url: '/api/v1/friends/list/{userId}',
+            path: {
+                'userId': userId,
+            },
         });
     }
     /**

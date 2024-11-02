@@ -15,7 +15,7 @@ const PostContainer = ({
 
   return (
     <>
-      <div className={`space-y-5 ${className}`} {...props}>
+      <div className={`space-y-3 sm:space-y-5 ${className}`} {...props}>
         {children}
       </div>
     </>

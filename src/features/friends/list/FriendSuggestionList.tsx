@@ -2,8 +2,8 @@
 
 import Typography from '@/components/ui/typography';
 import useGetFriendSuggestions from '@/hooks/queries/useGetFriendSuggestions';
-import FriendCard from '@/components/modules/Friend/FriendCard';
 import FriendRequestListSkeleton from '../skeleton/FriendListSkeleton';
+import FriendSuggestionCard from '@/components/modules/Friend/FriendSuggestionCard';
 
 const FriendSuggestionList = () => {
   const { data: friendSuggestions, isPending: isFriendSuggestionsLoading } =
@@ -23,7 +23,7 @@ const FriendSuggestionList = () => {
 
       <div className="grid gap-4 xxs:grid-cols-2 sm:grid-cols-3">
         {friendSuggestions?.map(props => {
-          return <FriendCard key={props.id} type="suggestion" {...props} />;
+          return <FriendSuggestionCard key={props.id} {...props} />;
         })}
       </div>
     </div>

@@ -3,7 +3,7 @@ import Typography from '@/components/ui/typography';
 
 const CommentCard = ({ children }: { children?: ReactNode }) => {
   return (
-    <article className="space-y-5 my-5 px-3 py-4">
+    <article className="px-3 py-2">
       <div className="flex gap-2">{children}</div>
     </article>
   );

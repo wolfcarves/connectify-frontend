@@ -24,11 +24,9 @@ export default function MainLayout({ children }: { children: ReactNode }) {
         }
       />
 
-      <div className="lg:container flex justify-between mt-5 px-4">
+      <div className="lg:container mt-5 px-1 sm:px-4 md:px-20">
         <Sidebar position="left" />
-
         <CenterContainer>{children}</CenterContainer>
-
         <Sidebar position="right" />
       </div>
     </>

@@ -8,8 +8,15 @@ import useUploadUserProfileImage from '@/hooks/mutations/useUploadUserProfileIma
 import Typography from '@/components/ui/typography';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
-import useGetUserProfile from '@/hooks/queries/useGetUserProfile';
+import useGetUserProfile, {
+  GET_USER_PROFILE_KEY,
+} from '@/hooks/queries/useGetUserProfile';
 import UserProfileImageSkeleton from './UserProfileImageSkeleton';
+import { ChatCircle, UserPlus, X } from '@phosphor-icons/react';
+import useSendFriendRequest from '@/hooks/mutations/useSendFriendRequest';
+import useSession from '@/hooks/useSession';
+import { useQueryClient } from '@tanstack/react-query';
+import useCancelFriendRequest from '@/hooks/mutations/useCancelFriendRequest';
 
 const schema = z.object({
   avatar: z.any(),
@@ -18,10 +25,19 @@ const schema = z.object({
 type UploadProfileImage = z.infer<typeof schema>;
 
 const UserProfileImage = (params: { username: string }) => {
+  const queryClient = useQueryClient();
+  const { username } = useSession();
+
   const { data: userProfile, isLoading: isUserProfileLoading } =
     useGetUserProfile({
       username: params.username,
     });
+
+  const { mutateAsync: sendRequest, isPending: isSendRequestLoading } =
+    useSendFriendRequest();
+
+  const { mutateAsync: cancelRequest, isPending: isCancelRequestLoading } =
+    useCancelFriendRequest();
 
   const profile = useMemo(
     () => ({
@@ -64,6 +80,32 @@ const UserProfileImage = (params: { username: string }) => {
       await uploadImageMutate(formData);
       setPreview('');
       toast({ title: 'Profile image updated', duration: 3000 });
+    }
+  };
+
+  const handleSendRequest = async () => {
+    try {
+      const response = await sendRequest(userProfile?.id);
+      await queryClient.invalidateQueries({
+        queryKey: [GET_USER_PROFILE_KEY()],
+      });
+
+      toast({ title: response });
+    } catch (error) {
+      toast({ title: 'Something went wrong' });
+    }
+  };
+
+  const handleCancelRequest = async () => {
+    try {
+      const response = await cancelRequest(userProfile?.id);
+      await queryClient.invalidateQueries({
+        queryKey: [GET_USER_PROFILE_KEY()],
+      });
+
+      toast({ title: response });
+    } catch (error) {
+      toast({ title: 'Something went wrong' });
     }
   };
 
@@ -142,9 +184,52 @@ const UserProfileImage = (params: { username: string }) => {
           </div>
         )}
 
-        <div className="my-5">
-          <Typography.H3 title={profile.name} weight="semibold" />
-          <Typography.Span title={`@${profile?.username}`} />
+        <div className="flex flex-wrap items-center justify-between">
+          <div className="my-5">
+            <Typography.H3 title={profile.name} weight="semibold" />
+            <Typography.Span title={`@${profile?.username}`} />
+          </div>
+
+          {username !== params.username && (
+            <div className="flex gap-2">
+              <Button
+                visible={!userProfile?.hasRequest && !userProfile?.isFriend}
+                icon={<UserPlus size={18} />}
+                variant="default"
+                size="sm"
+                className="rounded-full"
+                isLoading={isSendRequestLoading}
+                onClick={() => {
+                  handleSendRequest();
+                }}
+              >
+                Add Friend
+              </Button>
+
+              <Button
+                visible={userProfile?.hasRequest && !userProfile?.isFriend}
+                icon={<X size={18} />}
+                variant="default"
+                size="sm"
+                className="rounded-full"
+                isLoading={isCancelRequestLoading}
+                onClick={() => {
+                  handleCancelRequest();
+                }}
+              >
+                Cancel request
+              </Button>
+
+              <Button
+                icon={<ChatCircle size={18} />}
+                variant="default"
+                size="sm"
+                className="rounded-full"
+              >
+                Message
+              </Button>
+            </div>
+          )}
         </div>
       </form>
     </FormProvider>

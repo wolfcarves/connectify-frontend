@@ -11,7 +11,6 @@ export default function useDestroySession() {
     mutationKey: ['DESTROY_USER_SESSION'],
     mutationFn: async () => {
       const response = await AuthenticationService.deleteCurrentSession();
-
       return response;
     },
     onSuccess: async () => {
@@ -19,8 +18,13 @@ export default function useDestroySession() {
         title: 'Logout successful',
         description: 'Hope to see you again motherfucker.',
       });
+
       router.replace('/login');
-      router.refresh();
+      const timeout = setTimeout(() => {
+        window.location.reload();
+      }, 500);
+
+      return () => clearTimeout(timeout);
     },
   });
 }

@@ -8,6 +8,7 @@ export type { Comment } from './models/Comment';
 export type { CommentInput } from './models/CommentInput';
 export type { ConflictError } from './models/ConflictError';
 export type { CreatePostInput } from './models/CreatePostInput';
+export type { GetuserProfileResponseSchema } from './models/GetuserProfileResponseSchema';
 export type { NotFoundError } from './models/NotFoundError';
 export type { Post } from './models/Post';
 export type { ServerInternalError } from './models/ServerInternalError';

@@ -8,7 +8,7 @@ const avatar = cva(
     variants: {
       size: {
         sm: 'min-w-9 w-9 min-h-9 h-9',
-        base: 'min-w-10 w-10 min-h-10 h-10',
+        base: 'min-w-9 w-9 min-h-9 h-9 sm:min-w-10 sm:w-10 sm:min-h-10 sm:h-10',
         lg: 'min-w-11 w-11 min-h-11 h-11',
         xl: 'min-w-12 w-12 min-h-12 h-12',
         '2xl': 'min-w-14 w-14 min-h-14 h-14',
@@ -22,11 +22,13 @@ const avatar = cva(
 
 type CVAAvatarProps = VariantProps<typeof avatar>;
 
-interface AvatarProps extends Omit<ImageProps, 'alt' | 'src'>, CVAAvatarProps {
+export interface AvatarProps
+  extends Omit<ImageProps, 'alt' | 'src'>,
+    CVAAvatarProps {
   src?: string;
 }
 
-const Avatar = ({ src, size, className }: AvatarProps) => {
+const Avatar = ({ src, size, className, ...props }: AvatarProps) => {
   const imageSrc = getCloudinaryImageUrl(src);
 
   return (
@@ -40,6 +42,7 @@ const Avatar = ({ src, size, className }: AvatarProps) => {
           fill
           className="rounded-full object-cover"
           sizes="100%"
+          {...props}
         />
       )}
     </div>

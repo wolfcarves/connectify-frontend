@@ -1,7 +1,11 @@
-import React from 'react';
+import FriendList from '@/features/friends/list/FriendList';
 
 const UserProfileFriendsPage = () => {
-  return <div>UserProfileFriendsPage</div>;
+  return (
+    <>
+      <FriendList />
+    </>
+  );
 };
 
 export default UserProfileFriendsPage;

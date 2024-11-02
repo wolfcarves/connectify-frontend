@@ -14,7 +14,12 @@ const CommentContainer = ({
   isLoading,
   ...props
 }: CommentContainerProps) => {
-  if (isLoading) return <CommentSkeleton count={10} />;
+  if (isLoading)
+    return (
+      <div className="space-y-4">
+        <CommentSkeleton count={10} />
+      </div>
+    );
 
   return (
     <div className="pb-32" {...props}>
@@ -25,7 +30,7 @@ const CommentContainer = ({
         className="my-4"
       />
 
-      <div className={`${!postId ? 'mt-5' : 'mt-2'} space-y-4`}>{children}</div>
+      <div className={`${!postId ? 'mt-5' : 'mt-2'}`}>{children}</div>
     </div>
   );
 };

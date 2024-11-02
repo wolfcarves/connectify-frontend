@@ -3,9 +3,10 @@ import type { ReactNode } from 'react';
 import Header from '@/components/common/Header/Header';
 import Sidebar from '@/components/common/Sidebar';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
-import SidebarNavigation from '@/components/common/SidebarNavigation';
+import NavigationTab from '@/components/common/NavigationTab';
 import CenterContainer from '@/components/common/Container/CenterContainer';
 import MessageList from '@/features/messages/MessageList';
+import BottomTabs from '@/components/common/Tabs/BottomTabs';
 
 export default async function MainLayout({
   children,
@@ -33,7 +34,7 @@ export default async function MainLayout({
 
       <div className="flex flex-1 justify-between lg:container mt-5 px-2 md:px-4">
         <Sidebar position="left" className="hidden md:block">
-          <SidebarNavigation />
+          <NavigationTab />
         </Sidebar>
 
         <main className="flex flex-1">
@@ -48,6 +49,8 @@ export default async function MainLayout({
           <MessageList />
         </Sidebar>
       </div>
+
+      <NavigationTab />
     </>
   );
 }

@@ -46,11 +46,11 @@ const LoginForm = () => {
             <div className="flex flex-col gap-1 items-center space-y-2">
               <div className="w-12 h-12 bg-secondary rounded-lg"></div>
 
-              <h2 className="text-3xl font-bold text-foreground">
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground">
                 Login to your account
               </h2>
 
-              <p className="text-lg text-foreground/80">Welcome come back</p>
+              <p className="text-lg text-foreground/80">Welcome back</p>
             </div>
 
             <form
