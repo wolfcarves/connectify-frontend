@@ -1,12 +1,12 @@
 import Avatar from '@/components/common/Avatar/Avatar';
 import Typography from '@/components/ui/typography';
 
-const MessageList = () => {
+const ChatList = () => {
   return (
     <div className="h-[calc(100vh-100px)] overflow-y-auto scrollbar-hidden pb-10">
-      <Typography.H4 title="Messages" weight="medium" className="my-5" />
+      <Typography.H4 title="Chats" weight="medium" className="my-5" />
 
-      {Array.from({ length: 50 }).map((_, idx) => (
+      {Array.from({ length: 10 }).map((_, idx) => (
         <div
           key={idx}
           className="rounded-xl hover:bg-muted/50 cursor-pointer py-2 px-1"
@@ -25,4 +25,4 @@ const MessageList = () => {
   );
 };
 
-export default MessageList;
+export default ChatList;

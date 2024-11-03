@@ -2,6 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Friend } from '../models/Friend';
+import type { FriendRequest } from '../models/FriendRequest';
+import type { FriendSuggestion } from '../models/FriendSuggestion';
 import type { SuccessReponse } from '../models/SuccessReponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -12,13 +15,7 @@ export class FriendsService {
      * @throws ApiError
      */
     public static getFriendSuggestions(): CancelablePromise<{
-        data: Array<{
-            id: number;
-            avatar: string;
-            name: string;
-            username: string;
-            status: 'accepted' | 'pending';
-        }>;
+        data: Array<FriendSuggestion>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -74,17 +71,7 @@ export class FriendsService {
      * @throws ApiError
      */
     public static getFriendRequests(): CancelablePromise<{
-        data: Array<{
-            id: number;
-            user: {
-                id: number;
-                name: string;
-                avatar: string;
-                username: string;
-            };
-            created_at: string;
-            status: 'accepted' | 'pending';
-        }>;
+        data: Array<FriendRequest>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -122,12 +109,7 @@ export class FriendsService {
     public static getFriendList(
         userId: number,
     ): CancelablePromise<{
-        data: Array<{
-            id: number;
-            avatar: string;
-            name: string;
-            username: string;
-        }>;
+        data: Array<Friend>;
     }> {
         return __request(OpenAPI, {
             method: 'GET',

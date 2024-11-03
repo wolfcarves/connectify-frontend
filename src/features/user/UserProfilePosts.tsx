@@ -14,7 +14,13 @@ const UserProfilePosts = ({ username }: { username: string }) => {
     <>
       <Typography.H4 title="Posts" weight="semibold" className="my-7" />
 
-      {!posts && <Typography.Span title="No posts to show" color="muted" />}
+      {!posts && (
+        <Typography.Span
+          title="No posts to show"
+          color="muted"
+          className="my-4"
+        />
+      )}
 
       <PostContainer className="pb-10">
         {isPostsLoading && <PostCardSkeleton count={3} />}

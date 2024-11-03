@@ -3,9 +3,11 @@
 import FriendCard from '@/components/modules/Friend/FriendCard';
 import Typography from '@/components/ui/typography';
 import useGetFriendList from '@/hooks/queries/useGetFriendList';
+import useGetUserProfile from '@/hooks/queries/useGetUserProfile';
 
-const FriendList = () => {
-  const { data: friendList } = useGetFriendList(5);
+const FriendList = ({ username }: { username: string }) => {
+  const { data: userProfile } = useGetUserProfile({ username });
+  const { data: friendList } = useGetFriendList(userProfile?.id);
 
   return (
     <>

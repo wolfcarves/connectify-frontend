@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GetuserProfileResponseSchema } from '../models/GetuserProfileResponseSchema';
+import type { GetUserProfileResponseSchema } from '../models/GetUserProfileResponseSchema';
 import type { SuccessReponse } from '../models/SuccessReponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -51,13 +51,13 @@ export class UserService {
      * Get User Profile
      * @param userId
      * @param username
-     * @returns GetuserProfileResponseSchema OK
+     * @returns GetUserProfileResponseSchema OK
      * @throws ApiError
      */
     public static getUserProfile(
         userId?: number,
         username?: string,
-    ): CancelablePromise<GetuserProfileResponseSchema> {
+    ): CancelablePromise<GetUserProfileResponseSchema> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/user/profile',

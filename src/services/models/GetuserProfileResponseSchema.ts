@@ -3,11 +3,11 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { User } from './User';
-export type GetuserProfileResponseSchema = {
+export type GetUserProfileResponseSchema = {
     data: (User & {
-        isFriend: boolean;
-        hasRequest: boolean;
-        requestFrom?: 'us' | 'them' | null;
+        is_friend: boolean;
+        has_request: boolean;
+        request_from?: 'us' | 'them' | null;
     });
 };
 

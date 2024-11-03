@@ -30,8 +30,8 @@ export let navigation = [
   {
     id: 3,
     icon: <ChatCircle size={20} />,
-    label: 'Messages',
-    href: '/messages',
+    label: 'Chats',
+    href: '/chats',
   },
   {
     id: 4,
@@ -76,31 +76,27 @@ const NavigationTab = () => {
           const isActive = href === pathname || isCurrentPageProfile;
 
           return (
-            <>
+            <React.Fragment key={id}>
               {/* Sidebar Item */}
-              <li key={id} className="hidden md:block">
-                <Link href={href}>
-                  <Button
-                    size="lg"
-                    variant={isActive ? 'default' : 'ghost'}
-                    className="justify-start w-full rounded-full px-5"
-                    icon={icon}
-                  >
-                    {label}
-                  </Button>
-                </Link>
-              </li>
+              <Link href={href} className="hidden md:block">
+                <Button
+                  size="lg"
+                  variant={isActive ? 'default' : 'ghost'}
+                  className="justify-start w-full rounded-full px-5"
+                  icon={icon}
+                >
+                  {label}
+                </Button>
+              </Link>
 
               {/* Bottom Tab Item */}
-
               <Link
-                key={id}
                 href={href}
                 className="flex md:hidden flex-grow justify-center items-center w-full h-full"
               >
                 <li>{icon}</li>
               </Link>
-            </>
+            </React.Fragment>
           );
         })}
       </ul>

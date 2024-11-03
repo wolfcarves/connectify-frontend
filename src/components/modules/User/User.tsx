@@ -21,7 +21,7 @@ const User = ({ avatar, name, username, size, ...props }: UserProps) => {
           <Typography.Span
             title={name}
             weight="semibold"
-            className="hover:underline h-5"
+            className="line-clamp-1 hover:underline h-5"
           />
         </Link>
 

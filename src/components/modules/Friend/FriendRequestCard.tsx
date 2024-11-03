@@ -4,23 +4,18 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import useCancelFriendRequest from '@/hooks/mutations/useCancelFriendRequest';
 import Image from 'next/image';
-import { User } from '@/services';
+import { FriendRequest } from '@/services';
 import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
 import useAcceptFriendRequest from '@/hooks/mutations/useAcceptFriendRequest';
 import { useRouter } from 'next/navigation';
 
-interface FriendRequestCardProps
-  extends Pick<User, 'id' | 'avatar' | 'username' | 'name'> {
-  status?: 'accepted' | 'pending';
-}
-
 const FriendRequestCard = ({
-  id,
+  userId,
   avatar,
   username,
   name,
   status,
-}: FriendRequestCardProps) => {
+}: FriendRequest) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -38,7 +33,7 @@ const FriendRequestCard = ({
     isPending: isCancelFriendRequestLoading,
   } = useCancelFriendRequest();
 
-  const handleAcceptRequest = async (userId: number) => {
+  const handleAcceptRequest = async () => {
     try {
       const response = await acceptFriendRequest(userId);
       setIsFriendAccepted(true);
@@ -48,7 +43,7 @@ const FriendRequestCard = ({
     }
   };
 
-  const handleCancelRequest = async (userId: number) => {
+  const handleCancelRequest = async () => {
     try {
       const response = await cancelFriendRequest(userId);
       setIsFriendDeleted(true);
@@ -87,12 +82,11 @@ const FriendRequestCard = ({
           <>
             <Button
               visible={!isFriendDeleted}
-              variant={status === 'pending' ? 'outline' : 'secondary'}
+              variant={status === 'pending' ? 'secondary' : 'outline'}
               size="sm"
               onClick={e => {
                 e.stopPropagation();
-
-                status !== 'pending' && handleAcceptRequest(id);
+                handleAcceptRequest();
               }}
               isLoading={isAcceptFriendRequestLoading}
               className="flex w-full"
@@ -111,8 +105,7 @@ const FriendRequestCard = ({
               size="sm"
               onClick={e => {
                 e.stopPropagation();
-
-                status !== 'pending' && handleCancelRequest(id);
+                handleCancelRequest();
               }}
               isLoading={isCancelFriendRequestLoading}
               className="flex w-full"

@@ -1,9 +1,15 @@
 import FriendList from '@/features/friends/list/FriendList';
 
-const UserProfileFriendsPage = () => {
+const UserProfileFriendsPage = ({
+  params,
+}: {
+  params: { username: string };
+}) => {
+  const { username } = params;
+
   return (
     <>
-      <FriendList />
+      <FriendList username={username} />
     </>
   );
 };

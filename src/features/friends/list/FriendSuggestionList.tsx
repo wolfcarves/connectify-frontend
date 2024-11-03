@@ -21,7 +21,7 @@ const FriendSuggestionList = () => {
         weight="medium"
       />
 
-      <div className="grid gap-4 xxs:grid-cols-2 sm:grid-cols-3">
+      <div className="grid gap-4 xxs:grid-cols-2 sm:grid-cols-3 mt-6">
         {friendSuggestions?.map(props => {
           return <FriendSuggestionCard key={props.id} {...props} />;
         })}

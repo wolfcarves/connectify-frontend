@@ -23,9 +23,7 @@ const FriendRequestList = () => {
         )}
 
         {friendRequests?.map(props => {
-          const { id: requestId, user } = props;
-
-          return <FriendRequestCard key={requestId} {...user} />;
+          return <FriendRequestCard key={props.id} {...props} />;
         })}
       </div>
     </div>

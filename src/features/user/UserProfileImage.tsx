@@ -12,11 +12,12 @@ import useGetUserProfile, {
   GET_USER_PROFILE_KEY,
 } from '@/hooks/queries/useGetUserProfile';
 import UserProfileImageSkeleton from './UserProfileImageSkeleton';
-import { ChatCircle, UserPlus, X } from '@phosphor-icons/react';
+import { ChatCircle, Check, Trash, UserPlus, X } from '@phosphor-icons/react';
 import useSendFriendRequest from '@/hooks/mutations/useSendFriendRequest';
 import useSession from '@/hooks/useSession';
 import { useQueryClient } from '@tanstack/react-query';
 import useCancelFriendRequest from '@/hooks/mutations/useCancelFriendRequest';
+import useAcceptFriendRequest from '@/hooks/mutations/useAcceptFriendRequest';
 
 const schema = z.object({
   avatar: z.any(),
@@ -25,6 +26,9 @@ const schema = z.object({
 type UploadProfileImage = z.infer<typeof schema>;
 
 const UserProfileImage = (params: { username: string }) => {
+  const [isFriendAccepted, setIsFriendAccepted] = useState<boolean>(false);
+  const [isFriendDeleted, setIsFriendDeleted] = useState<boolean>(false);
+
   const queryClient = useQueryClient();
   const { username } = useSession();
 
@@ -35,6 +39,11 @@ const UserProfileImage = (params: { username: string }) => {
 
   const { mutateAsync: sendRequest, isPending: isSendRequestLoading } =
     useSendFriendRequest();
+
+  const {
+    mutateAsync: acceptFriendRequest,
+    isPending: isAcceptFriendRequestLoading,
+  } = useAcceptFriendRequest();
 
   const { mutateAsync: cancelRequest, isPending: isCancelRequestLoading } =
     useCancelFriendRequest();
@@ -91,6 +100,18 @@ const UserProfileImage = (params: { username: string }) => {
       });
 
       toast({ title: response });
+    } catch (error) {
+      toast({ title: 'Something went wrong' });
+    }
+  };
+
+  const handleAcceptRequest = async () => {
+    try {
+      const response = await acceptFriendRequest(userProfile?.id);
+      await queryClient.invalidateQueries({
+        queryKey: [GET_USER_PROFILE_KEY()],
+      });
+      toast({ title: response.message });
     } catch (error) {
       toast({ title: 'Something went wrong' });
     }
@@ -187,13 +208,13 @@ const UserProfileImage = (params: { username: string }) => {
         <div className="flex flex-wrap items-center justify-between">
           <div className="my-5">
             <Typography.H3 title={profile.name} weight="semibold" />
-            <Typography.Span title={`@${profile?.username}`} />
+            <Typography.Span title={`@${profile?.username}`} color="muted" />
           </div>
 
           {username !== params.username && (
             <div className="flex gap-2">
               <Button
-                visible={!userProfile?.hasRequest && !userProfile?.isFriend}
+                visible={!userProfile?.has_request && !userProfile?.is_friend}
                 icon={<UserPlus size={18} />}
                 variant="default"
                 size="sm"
@@ -207,9 +228,31 @@ const UserProfileImage = (params: { username: string }) => {
               </Button>
 
               <Button
-                visible={userProfile?.hasRequest && !userProfile?.isFriend}
-                icon={<X size={18} />}
+                visible={
+                  userProfile?.has_request &&
+                  userProfile.request_from === 'them' &&
+                  !userProfile?.is_friend
+                }
+                icon={<Check size={18} />}
                 variant="default"
+                size="sm"
+                className="rounded-full"
+                isLoading={isAcceptFriendRequestLoading}
+                onClick={() => {
+                  handleAcceptRequest();
+                }}
+              >
+                Accept
+              </Button>
+
+              <Button
+                visible={
+                  userProfile?.has_request &&
+                  userProfile.request_from === 'them' &&
+                  !userProfile?.is_friend
+                }
+                icon={<X size={18} />}
+                variant="destructive"
                 size="sm"
                 className="rounded-full"
                 isLoading={isCancelRequestLoading}
@@ -217,7 +260,29 @@ const UserProfileImage = (params: { username: string }) => {
                   handleCancelRequest();
                 }}
               >
-                Cancel request
+                <Typography.Span title="Delete" weight="medium" size="sm" />
+              </Button>
+
+              <Button
+                visible={
+                  userProfile?.has_request &&
+                  userProfile.request_from === 'us' &&
+                  !userProfile?.is_friend
+                }
+                icon={<X size={18} />}
+                size="sm"
+                className="rounded-full"
+                isLoading={isCancelRequestLoading}
+                onClick={() => {
+                  handleCancelRequest();
+                }}
+              >
+                <Typography.Span
+                  title="Cancel Request"
+                  weight="medium"
+                  size="sm"
+                  color="background"
+                />
               </Button>
 
               <Button

@@ -5,8 +5,7 @@ import Sidebar from '@/components/common/Sidebar';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
 import NavigationTab from '@/components/common/NavigationTab';
 import CenterContainer from '@/components/common/Container/CenterContainer';
-import MessageList from '@/features/messages/MessageList';
-import BottomTabs from '@/components/common/Tabs/BottomTabs';
+import MessageList from '@/features/chats/ChatList';
 
 export default async function MainLayout({
   children,
@@ -14,7 +13,7 @@ export default async function MainLayout({
   children: ReactNode;
 }) {
   return (
-    <>
+    <div className="pb-7 md:pb-0">
       <Header
         menu={
           <>
@@ -45,12 +44,12 @@ export default async function MainLayout({
           position="right"
           className="hidden xl:block"
           includedRoutes={['/messages']}
-        >
-          <MessageList />
-        </Sidebar>
+        />
       </div>
 
-      <NavigationTab />
-    </>
+      <div className="block md:hidden">
+        <NavigationTab />
+      </div>
+    </div>
   );
 }
