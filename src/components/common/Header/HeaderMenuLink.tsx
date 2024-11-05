@@ -13,8 +13,13 @@ const HeaderMenuLink = ({
   label: string;
   renderWhen?: 'authenticated' | 'unauthenticated';
 }) => {
-  const { data: session } = useGetCurrentSession();
-  const isAuth = !!session?.id;
+  const {
+    data: session,
+    isPending: isSessionLoading,
+    isError: isSessionError,
+  } = useGetCurrentSession();
+
+  const isAuth = !!session?.id && !isSessionLoading && !isSessionError;
 
   const Component = (
     <Link href={href}>

@@ -1,6 +1,6 @@
 import Header from '@/components/common/Header/Header';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
-import SignUpForm from '@/features/auth/forms/SignUpForm';
+import SignUpForm from '@/features/auth/SignUpForm';
 
 export default function SignUpPage() {
   return (

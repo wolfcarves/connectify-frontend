@@ -8,7 +8,6 @@ export default function useGetFriendList(userId?: number) {
     queryKey: [GET_FRIEND_LIST_KEY(), userId],
     queryFn: async () => {
       const response = await FriendsService.getFriendList(userId!);
-
       return response.data;
     },
     enabled: !!userId,

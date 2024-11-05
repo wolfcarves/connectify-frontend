@@ -51,12 +51,17 @@ const FriendCard = ({
 
       {has_request ? (
         <Button
+          visible={!is_friend}
           variant="outline"
           size="xs"
           className="rounded-full"
           icon={<UserPlus size={16} />}
-          isLoading={isSendFriendRequestLoading}
-          onClick={handleSendRequest}
+          isLoading={
+            has_request
+              ? isSendFriendRequestLoading
+              : isCancelFriendRequestLoading
+          }
+          onClick={has_request ? handleSendRequest : handleCancelRequest}
         />
       ) : !is_friend ? (
         <Button

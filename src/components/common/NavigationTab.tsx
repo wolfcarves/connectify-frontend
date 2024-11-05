@@ -59,15 +59,12 @@ const NavigationTab = () => {
   const { data: session } = useGetCurrentSession();
   const pathname = usePathname();
 
-  useEffect(() => {
-    navigation[4].href = `/${session?.username}`;
-  }, [session?.username]);
-
   return (
-    // <div className="flex md:hidden fixed bottom-0 start-0 end-0 h-14 w-full bg-background border-t"></div>
     <nav className="fixed md:static bottom-0 start-0 end-0 h-14 md:h-auto w-full md:w-auto border-t md:border-t-0 bg-background md:pe-5 md:my-5">
       <ul className="flex flex-row md:flex-col w-full h-full">
         {navigation.map(({ id, icon, label, href }) => {
+          navigation[4].href = `/${session?.username}`;
+
           const isCurrentPageProfile =
             label === 'Profile' &&
             session?.username === username &&
@@ -92,7 +89,7 @@ const NavigationTab = () => {
               {/* Bottom Tab Item */}
               <Link
                 href={href}
-                className="flex md:hidden flex-grow justify-center items-center w-full h-full"
+                className={`${isActive ? 'text-foreground' : 'text-foreground/50'} flex md:hidden flex-grow justify-center items-center w-full h-full`}
               >
                 <li>{icon}</li>
               </Link>

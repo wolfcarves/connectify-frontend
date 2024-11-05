@@ -3,7 +3,11 @@ import useGetCurrentSession from './queries/useGetCurrentSession';
 import { getCldImageUrl } from 'next-cloudinary';
 
 export default function useSession() {
-  const { data: session, isLoading: isSessionLoading } = useGetCurrentSession();
+  const {
+    data: session,
+    isLoading: isSessionLoading,
+    isError: isSessionError,
+  } = useGetCurrentSession();
 
   let avatar = session?.avatar;
 
@@ -16,7 +20,7 @@ export default function useSession() {
   return {
     userId: session?.id,
     avatar: avatar,
-    isAuth: !!session?.id,
+    isAuth: !!session?.id && !isSessionLoading && !isSessionError,
     email: session?.email,
     name: session?.name,
     username: session?.username,

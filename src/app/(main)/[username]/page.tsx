@@ -1,5 +1,5 @@
 import React from 'react';
-import UserProfilePosts from '@/features/user/UserProfilePosts';
+import UserProfilePosts from '@/features/username/posts/UserProfilePosts';
 
 interface SearchParams {
   params: { username: string };

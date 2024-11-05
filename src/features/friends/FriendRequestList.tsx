@@ -2,7 +2,7 @@
 
 import Typography from '@/components/ui/typography';
 import useGetFriendRequests from '@/hooks/queries/useGetFriendRequests';
-import FriendListSkeleton from '../skeleton/FriendListSkeleton';
+import FriendListSkeleton from './FriendListSkeleton';
 import FriendRequestCard from '@/components/modules/Friend/FriendRequestCard';
 
 const FriendRequestList = () => {

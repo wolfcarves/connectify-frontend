@@ -5,7 +5,6 @@ import Sidebar from '@/components/common/Sidebar';
 import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
 import NavigationTab from '@/components/common/NavigationTab';
 import CenterContainer from '@/components/common/Container/CenterContainer';
-import MessageList from '@/features/chats/ChatList';
 
 export default async function MainLayout({
   children,
@@ -13,7 +12,7 @@ export default async function MainLayout({
   children: ReactNode;
 }) {
   return (
-    <div className="pb-7 md:pb-0">
+    <div className="pb-14 md:pb-0">
       <Header
         menu={
           <>

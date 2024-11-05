@@ -1,4 +1,4 @@
-import FriendList from '@/features/friends/list/FriendList';
+import UserProfileFriendList from '@/features/username/friends/UserProfileFriendList';
 
 const UserProfileFriendsPage = ({
   params,
@@ -9,7 +9,7 @@ const UserProfileFriendsPage = ({
 
   return (
     <>
-      <FriendList username={username} />
+      <UserProfileFriendList username={username} />
     </>
   );
 };

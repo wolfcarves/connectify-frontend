@@ -7,14 +7,14 @@ import Post from '@/components/modules/Post/Post';
 import Typography from '@/components/ui/typography';
 
 const UserProfilePosts = ({ username }: { username: string }) => {
-  const { data: posts, isLoading: isPostsLoading } =
+  const { data: posts, isPending: isPostsLoading } =
     useGetAllUserPosts(username);
 
   return (
     <>
       <Typography.H4 title="Posts" weight="semibold" className="my-7" />
 
-      {!posts && (
+      {!posts && !isPostsLoading && (
         <Typography.Span
           title="No posts to show"
           color="muted"

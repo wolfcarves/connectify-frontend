@@ -1,5 +1,5 @@
-import LogoutForm from '@/features/account-settings/forms/LogoutForm';
-import ThemeSwitch from '@/features/account-settings/switch/ThemeSwitch';
+import LogoutForm from '@/features/account-settings/LogoutForm';
+import ThemeSwitch from '@/features/account-settings/ThemeSwitch';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 const AccountSettings = () => {

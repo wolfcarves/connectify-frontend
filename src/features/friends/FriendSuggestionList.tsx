@@ -2,7 +2,7 @@
 
 import Typography from '@/components/ui/typography';
 import useGetFriendSuggestions from '@/hooks/queries/useGetFriendSuggestions';
-import FriendRequestListSkeleton from '../skeleton/FriendListSkeleton';
+import FriendListSkeleton from './FriendListSkeleton';
 import FriendSuggestionCard from '@/components/modules/Friend/FriendSuggestionCard';
 
 const FriendSuggestionList = () => {
@@ -10,7 +10,7 @@ const FriendSuggestionList = () => {
     useGetFriendSuggestions();
 
   if (isFriendSuggestionsLoading) {
-    return <FriendRequestListSkeleton title="People you may know" />;
+    return <FriendListSkeleton title="People you may know" />;
   }
 
   return (
