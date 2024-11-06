@@ -2,18 +2,22 @@
 
 import React from 'react';
 
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { ComponentProps, useEffect, useState } from 'react';
+import useSession from '@/hooks/useSession';
 interface SidebarProps extends ComponentProps<'aside'> {
   position: 'left' | 'right';
   includedRoutes?: string[];
 }
 
 const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
+  const params = useParams();
+  const { username } = useSession();
+
   const pathname = usePathname();
   const [render, setRender] = useState<boolean>(false);
 
-  useEffect(() => { 
+  useEffect(() => {
     if (includedRoutes) {
       const regex = new RegExp(includedRoutes?.join('|'), 'i');
       const isIncluded = regex.test(pathname);
@@ -22,7 +26,11 @@ const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
     } else {
       setRender(true);
     }
-  }, [includedRoutes, pathname]);
+
+    if (params.username) {
+      setRender(username === params.username);
+    }
+  }, [includedRoutes, params.username, pathname, username]);
 
   if (!render) {
     return <aside className={`min-w-[15rem] ${className}`} />;

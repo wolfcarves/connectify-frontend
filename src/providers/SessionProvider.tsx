@@ -10,6 +10,7 @@ const SessionProvider = ({ children }: { children: ReactNode }) => {
     isPending: isSessionLoading,
     isError: isSessionError,
   } = useGetCurrentSession();
+
   const isAuth = !!session?.id && !isSessionLoading && !isSessionError;
 
   if (!isAuth) {

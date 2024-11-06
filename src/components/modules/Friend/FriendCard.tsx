@@ -1,6 +1,6 @@
 import User from '../User/User';
 import { Button } from '@/components/ui/button';
-import { UserPlus } from '@phosphor-icons/react';
+import { UserPlus, X } from '@phosphor-icons/react';
 import useSendFriendRequest from '@/hooks/mutations/useSendFriendRequest';
 import useCancelFriendRequest from '@/hooks/mutations/useCancelFriendRequest';
 import { toast } from '@/components/ui/use-toast';
@@ -26,6 +26,7 @@ const FriendCard = ({
   const handleSendRequest = async () => {
     try {
       const response = await sendRequest(id);
+
       toast({ title: response });
     } catch (error) {
       toast({ title: 'Something went wrong' });
@@ -49,30 +50,25 @@ const FriendCard = ({
     >
       <User avatar={avatar} name={name} username={username} />
 
-      {has_request ? (
-        <Button
-          visible={!is_friend}
-          variant="outline"
-          size="xs"
-          className="rounded-full"
-          icon={<UserPlus size={16} />}
-          isLoading={
-            has_request
-              ? isSendFriendRequestLoading
-              : isCancelFriendRequestLoading
-          }
-          onClick={has_request ? handleSendRequest : handleCancelRequest}
-        />
-      ) : !is_friend ? (
-        <Button
-          variant="outline"
-          size="xs"
-          className="rounded-full"
-          icon={<UserPlus size={16} />}
-          isLoading={isSendFriendRequestLoading}
-          onClick={handleSendRequest}
-        />
-      ) : null}
+      <Button
+        visible={!is_friend && !has_request}
+        variant="ghost"
+        size="xs"
+        className="rounded-full"
+        icon={<UserPlus size={16} />}
+        isLoading={isSendFriendRequestLoading}
+        onClick={handleSendRequest}
+      />
+
+      <Button
+        visible={!is_friend && has_request && request_from === 'us'}
+        variant="ghost"
+        size="xs"
+        className="rounded-full"
+        icon={<X size={16} />}
+        isLoading={isCancelFriendRequestLoading}
+        onClick={handleCancelRequest}
+      />
     </div>
   );
 };

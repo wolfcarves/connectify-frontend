@@ -13,9 +13,9 @@ type SearchSchema = z.infer<typeof searchSchema>;
 
 const Searchbar = () => {
   const methods = useForm<SearchSchema>();
-  const { control, handleSubmit } = methods;
+  const { handleSubmit } = methods;
 
-  const handleSearch = (data: SearchSchema) => {};
+  const handleSearch = () => {};
 
   return (
     <CenterContainer className="ps-10">

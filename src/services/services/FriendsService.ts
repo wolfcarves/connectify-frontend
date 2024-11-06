@@ -117,6 +117,9 @@ export class FriendsService {
             path: {
                 'userId': userId,
             },
+            errors: {
+                500: `Server Internal Error.`,
+            },
         });
     }
     /**
@@ -132,6 +135,10 @@ export class FriendsService {
             url: '/api/v1/friends/remove/{friendId}',
             path: {
                 'friendId': friendId,
+            },
+            errors: {
+                401: `Not Found`,
+                500: `Server Internal Error.`,
             },
         });
     }

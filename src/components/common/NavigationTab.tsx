@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Button } from '../ui/button';
 import { useParams, usePathname } from 'next/navigation';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';

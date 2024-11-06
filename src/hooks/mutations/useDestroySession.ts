@@ -14,12 +14,12 @@ export default function useDestroySession() {
       return response;
     },
     onSuccess: async () => {
+      router.refresh();
+      router.replace('/login');
+
       await queryClient.invalidateQueries({
         queryKey: [GET_CURRENT_SESSION_KEY()],
       });
-
-      router.refresh();
-      router.replace('/login');
     },
   });
 }

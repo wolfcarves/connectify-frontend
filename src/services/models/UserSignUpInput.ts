@@ -7,6 +7,7 @@ export type UserSignUpInput = {
     name: string;
     username: string;
     password: string;
+    city?: string | null;
     confirm_password: string;
 };
 

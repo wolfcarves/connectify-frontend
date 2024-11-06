@@ -7,10 +7,23 @@ export async function middleware(request: NextRequest) {
   const baseURL = request.url;
   const pathname = request.nextUrl.pathname;
 
-  const sessionCookie = request.cookies.get('auth_session');
+  const sessionCookie = await request.cookies.get('auth_session');
+
+  const fetchSession = await fetch(
+    'http://localhost:5000/api/v1/auth/session',
+    {
+      headers: {
+        cookie: `${sessionCookie?.name}=${sessionCookie?.value}`,
+      },
+    },
+  );
+
+  const session = await fetchSession.json();
+  const isSessionValid = session.error?.statusCode !== 403;
+
   const authRoutes = ['/login', '/signup'];
 
-  if (sessionCookie && authRoutes.includes(pathname)) {
+  if (isSessionValid && authRoutes.includes(pathname)) {
     return response.redirect(new URL('/', baseURL));
   }
 

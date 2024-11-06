@@ -65,11 +65,12 @@ const SignUpForm = () => {
   const { setError } = methods;
   const { handleSubmit, control } = methods;
 
-  const { mutateAsync: signUpUserMutate } = useSignUpUser();
+  const { mutateAsync: signUpUser, isPending: isSignUpUserLoading } =
+    useSignUpUser();
 
   const handleSignUpForm = async (data: SignUpSchema) => {
     try {
-      await signUpUserMutate(data);
+      await signUpUser(data);
       router.push('/');
 
       toast({
@@ -139,7 +140,11 @@ const SignUpForm = () => {
               </div>
 
               <div>
-                <Button type="submit" className="w-full mt-32 rounded-full">
+                <Button
+                  type="submit"
+                  className="w-full mt-32 rounded-full"
+                  isLoading={isSignUpUserLoading}
+                >
                   Sign up
                 </Button>
               </div>

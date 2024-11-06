@@ -10,6 +10,13 @@ import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
 import useGetUserProfile from '@/hooks/queries/useGetUserProfile';
 import UserProfileImageSkeleton from './UserProfileImageSkeleton';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Image as ImageIcon, UploadSimple } from '@phosphor-icons/react';
 
 const schema = z.object({
   avatar: z.any(),
@@ -58,6 +65,10 @@ const UserProfileImage = (params: { username: string }) => {
     }
   };
 
+  const handleOpenFileExplorer = () => {
+    imageInput.current?.click();
+  };
+
   if (isUserProfileLoading) return <UserProfileImageSkeleton />;
 
   return (
@@ -68,32 +79,55 @@ const UserProfileImage = (params: { username: string }) => {
       >
         <div
           className={`
-            ${!userProfile?.avatar && 'animate-pulse'}
-            relative w-28 h-28 border rounded-full overflow-hidden cursor-pointer bg-accent`}
+              ${!userProfile?.avatar && 'animate-pulse'}
+              relative w-28 h-28 border rounded-full overflow-hidden cursor-pointer bg-accent`}
         >
-          {preview ? (
-            <Image
-              alt="avatar"
-              src={preview}
-              unoptimized
-              fill
-              sizes="100%"
-              className="object-cover"
-              onClick={() => imageInput.current?.click()}
-            />
-          ) : (
-            !isUserProfileLoading && (
+          <DropdownMenu>
+            {preview ? (
               <Image
                 alt="avatar"
-                src={userProfile?.avatar!}
+                src={preview}
                 unoptimized
                 fill
                 sizes="100%"
-                className="object-cover"
-                onClick={() => imageInput.current?.click()}
+                className="object-cover active:scale-[0.98]"
+                priority
               />
-            )
-          )}
+            ) : (
+              !isUserProfileLoading && (
+                <DropdownMenuTrigger asChild>
+                  <Image
+                    alt="avatar"
+                    src={userProfile?.avatar!}
+                    unoptimized
+                    fill
+                    sizes="100%"
+                    className="object-cover active:scale-[0.98]"
+                    priority
+                  />
+                </DropdownMenuTrigger>
+              )
+            )}
+
+            <DropdownMenuContent align="start" className="w-[200px]">
+              <DropdownMenuItem className="p-2 gap-2">
+                <ImageIcon size={20} />
+                <Typography.Span title="View Photo" weight="medium" size="sm" />
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                className="p-2 gap-2"
+                onClick={handleOpenFileExplorer}
+              >
+                <UploadSimple size={20} />
+                <Typography.Span
+                  title="Change Photo"
+                  weight="medium"
+                  size="sm"
+                />
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           <input
             type="file"
@@ -109,7 +143,7 @@ const UserProfileImage = (params: { username: string }) => {
         </div>
 
         {preview && (
-          <div className="space-x-2">
+          <div className="space-x-2 mt-3">
             <Button
               type="submit"
               size="xs"
