@@ -5,7 +5,7 @@ import useSession from '@/hooks/useSession';
 import Avatar from '@/components/common/Avatar/Avatar';
 import CenterContainer from '@/components/common/Container/CenterContainer';
 import useCreatePostComment from '@/hooks/mutations/useCreatePostComment';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import errorHandler from '@/utils/errorHandler';
 
@@ -25,10 +25,7 @@ const PostCommentForm = ({ postId }: { postId?: number }) => {
   const { avatar } = useSession();
   const { handleSubmit, register, setError } = methods;
 
-  const {
-    mutateAsync: createCommentMutate,
-    isPending: isCreateCommentLoading,
-  } = useCreatePostComment();
+  const { mutateAsync: createCommentMutate } = useCreatePostComment();
 
   const handleCommentSubmit = async (data: CommentSchema) => {
     try {
