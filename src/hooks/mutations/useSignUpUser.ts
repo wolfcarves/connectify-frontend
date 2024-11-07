@@ -13,7 +13,7 @@ export default function useSignUpUser() {
         city: location?.city,
       });
 
-      return response;
+      return 'response';
     },
   });
 }

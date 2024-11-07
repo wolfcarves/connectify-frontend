@@ -1,30 +1,17 @@
 interface LocationInfo {
+  as: string;
   city: string;
-  connection_type: string;
-  continent_code: string;
-  continent_name: string;
-  country_code: string;
-  country_name: string;
-  dma: string | null;
-  ip: string;
-  ip_routing_type: string;
-  latitude: number;
-  longitude: number;
-  location: {
-    geoname_id: number;
-    capital: string;
-    languages: Array<{ code: string; name: string; native: string }>;
-    country_flag: string;
-    country_flag_emoji: string;
-    country_flag_emoji_unicode: string;
-    calling_code: string;
-    is_eu: boolean;
-  };
-  msa: string | null;
-  radius: string;
-  region_code: string;
-  region_name: string;
-  type: string;
+  country: string;
+  countryCode: string;
+  isp: string;
+  lat: number;
+  lon: number;
+  org: string;
+  query: string;
+  region: string;
+  regionName: string;
+  status: string;
+  timezone: string;
   zip: string;
 }
 
@@ -38,9 +25,7 @@ const getUserLocation = async () => {
 
   const apiKey = '703cabff82beaa78e818464a2009a895';
 
-  const fetchLocation = await fetch(
-    `http://api.ipapi.com/api/${ip}?access_key=${apiKey}`,
-  );
+  const fetchLocation = await fetch(`http://ip-api.com/json/${ip}`);
   const fetchLocationResponse = (await fetchLocation.json()) as LocationInfo;
 
   return fetchLocationResponse;
