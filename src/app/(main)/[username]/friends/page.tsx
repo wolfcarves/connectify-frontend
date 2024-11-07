@@ -1,11 +1,17 @@
 import UserProfileFriendList from '@/features/username/friends/UserProfileFriendList';
 
-const UserProfileFriendsPage = ({
+interface Params {
+  username: string;
+}
+
+interface UserProfileFriendsPageProps {
+  params: Promise<Params>;
+}
+
+const UserProfileFriendsPage = async ({
   params,
-}: {
-  params: { username: string };
-}) => {
-  const { username } = params;
+}: UserProfileFriendsPageProps) => {
+  const { username } = await params;
 
   return (
     <>

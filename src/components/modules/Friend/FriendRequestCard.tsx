@@ -74,8 +74,16 @@ const FriendRequestCard = ({
         </div>
 
         <div className="flex flex-col text-center mx-auto">
-          <Typography.Span title={name} weight="medium" />
-          <Typography.Span title={`@${username}`} color="muted" />
+          <Typography.Span
+            title={name}
+            weight="medium"
+            className="line-clamp-1"
+          />
+          <Typography.Span
+            title={`@${username}`}
+            color="muted"
+            className="line-clamp-1"
+          />
         </div>
 
         <div className="flex flex-col items-center space-y-1 py-3">

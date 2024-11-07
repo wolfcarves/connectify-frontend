@@ -10,17 +10,19 @@ interface SearchParams {
 
 interface UserProfileLayout {
   children: ReactNode;
-  params: SearchParams;
+  params: Promise<SearchParams>;
 }
 
-const UserProfileLayout = ({ children, params }: UserProfileLayout) => {
+const UserProfileLayout = async ({ children, params }: UserProfileLayout) => {
+  const { username } = await params;
+
   return (
     <div className="pt-10">
       <div className="flex justify-between items-end">
-        <UserProfileImage username={params.username} />
-        <UserProfileAction username={params.username} />
+        <UserProfileImage username={username} />
+        <UserProfileAction username={username} />
       </div>
-      <UserProfileTabs username={params.username} />
+      <UserProfileTabs username={username} />
       {children}
     </div>
   );

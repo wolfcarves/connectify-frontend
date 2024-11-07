@@ -112,7 +112,7 @@ const SignUpForm = () => {
                   label="Name"
                   name="name"
                   control={control}
-                  placeholder="Username"
+                  placeholder="Full name"
                 />
 
                 <Input
