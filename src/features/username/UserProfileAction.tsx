@@ -20,8 +20,11 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 import UserProfileActionSkeleton from './UserProfileActionSkeleton';
 import useUnfriendUser from '@/hooks/mutations/useUnfriendUser';
+import { useParams } from 'next/navigation';
 
-const UserProfileAction = (params: { username: string }) => {
+const UserProfileAction = () => {
+  const params = useParams<{ username: string }>();
+
   const queryClient = useQueryClient();
   const { toast } = useToast();
 

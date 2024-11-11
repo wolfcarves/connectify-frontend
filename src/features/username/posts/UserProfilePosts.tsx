@@ -5,10 +5,14 @@ import useGetAllUserPosts from '@/hooks/queries/useGetAllUserPosts';
 import PostContainer from '@/components/modules/Post/PostContainer';
 import Post from '@/components/modules/Post/Post';
 import Typography from '@/components/ui/typography';
+import { useParams } from 'next/navigation';
 
-const UserProfilePosts = ({ username }: { username: string }) => {
-  const { data: posts, isPending: isPostsLoading } =
-    useGetAllUserPosts(username);
+const UserProfilePosts = () => {
+  const params = useParams<{ username: string }>();
+
+  const { data: posts, isPending: isPostsLoading } = useGetAllUserPosts(
+    params.username,
+  );
 
   return (
     <>

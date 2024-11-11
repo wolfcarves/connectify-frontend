@@ -1,22 +1,12 @@
 import React from 'react';
 import UserProfilePosts from '@/features/username/posts/UserProfilePosts';
 
-interface Params {
-  username: string;
-}
-
-const UserProfilePostsPage = async ({
-  params,
-}: {
-  params: Promise<Params>;
-}) => {
-  const { username } = await params;
-
+const UserProfilePage = () => {
   return (
     <>
-      <UserProfilePosts username={username} />
+      <UserProfilePosts />
     </>
   );
 };
 
-export default UserProfilePostsPage;
+export default UserProfilePage;

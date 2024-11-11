@@ -20,6 +20,13 @@ const FriendSuggestionList = () => {
         className="my-5"
         weight="medium"
       />
+      {friendSuggestions?.length === 0 && (
+        <Typography.Span
+          title="No suggestions for now"
+          className="my-5"
+          color="muted"
+        />
+      )}
 
       <div className="grid gap-4 xxs:grid-cols-2 sm:grid-cols-3 mt-6">
         {friendSuggestions?.map(props => {

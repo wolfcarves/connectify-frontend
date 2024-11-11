@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Image as ImageIcon, UploadSimple } from '@phosphor-icons/react';
 import useSession from '@/hooks/useSession';
+import { notFound, useParams } from 'next/navigation';
 
 const schema = z.object({
   avatar: z.any(),
@@ -25,7 +26,8 @@ const schema = z.object({
 
 type UploadProfileImage = z.infer<typeof schema>;
 
-const UserProfileImage = (params: { username: string }) => {
+const UserProfileImage = () => {
+  const params = useParams<{ username: string }>();
   const session = useSession();
 
   const { data: userProfile, isPending: isUserProfileLoading } =
@@ -73,6 +75,10 @@ const UserProfileImage = (params: { username: string }) => {
   };
 
   if (isUserProfileLoading) return <UserProfileImageSkeleton />;
+
+  if (!userProfile?.id) {
+    notFound();
+  }
 
   return (
     <FormProvider {...methods}>

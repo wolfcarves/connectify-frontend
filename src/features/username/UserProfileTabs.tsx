@@ -2,13 +2,11 @@
 
 import Typography from '@/components/ui/typography';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 
-interface UserProfileTabsProps {
-  username?: string;
-}
+const UserProfileTabs = () => {
+  const { username } = useParams<{ username: string }>();
 
-const UserProfileTabs = ({ username }: UserProfileTabsProps) => {
   const TABS = [
     { href: `/${username}`, title: 'Posts' },
     { href: `/${username}/friends`, title: 'Friends' },
