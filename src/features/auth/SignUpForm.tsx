@@ -96,8 +96,6 @@ const SignUpForm = () => {
               </h2>
             </div>
 
-            <button type=''></button>
-
             <form
               onSubmit={handleSubmit(handleSignUpForm)}
               className="mt-8 space-y-6"
