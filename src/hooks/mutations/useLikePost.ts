@@ -16,14 +16,15 @@ export default function useLikePost() {
     },
     onSuccess: async () => {
       //To invalidate only one route
-      if (pathname.startsWith('/post'))
+      if (pathname.startsWith('/post')) {
         await queryClient.invalidateQueries({
           queryKey: [GET_ALL_USER_POST_KEY()],
         });
-      else
+      } else {
         await queryClient.invalidateQueries({
           queryKey: [GET_ALL_USER_POSTS_KEY()],
         });
+      }
     },
   });
 }

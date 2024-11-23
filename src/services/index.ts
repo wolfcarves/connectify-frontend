@@ -25,6 +25,7 @@ export type { ValidationError } from './models/ValidationError';
 
 export { AuthenticationService } from './services/AuthenticationService';
 export { EngagementService } from './services/EngagementService';
+export { FeedService } from './services/FeedService';
 export { FriendsService } from './services/FriendsService';
 export { PostService } from './services/PostService';
 export { UserService } from './services/UserService';
