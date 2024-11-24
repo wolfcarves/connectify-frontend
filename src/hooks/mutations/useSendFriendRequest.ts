@@ -8,7 +8,6 @@ export default function useSendFriendRequest() {
 
   return useMutation({
     mutationKey: ['SEND_FRIEND_REQUEST_KEY'],
-    // userId to send request to
     mutationFn: async (userId?: number) => {
       const response = await FriendsService.sendFriendRequest(String(userId));
 

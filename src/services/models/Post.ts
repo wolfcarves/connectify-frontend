@@ -6,6 +6,7 @@ import type { CreatePostInput } from './CreatePostInput';
 export type Post = (CreatePostInput & {
     id: number;
     uuid: string;
+    isSaved: boolean;
     isLiked: boolean;
     created_at: string;
     updated_at: string;

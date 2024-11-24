@@ -117,4 +117,47 @@ export class PostService {
             },
         });
     }
+    /**
+     * Save User Post
+     * @param postId
+     * @returns SuccessReponse OK
+     * @throws ApiError
+     */
+    public static saveUserPost(
+        postId: number,
+    ): CancelablePromise<SuccessReponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/post/save/{postId}',
+            path: {
+                'postId': postId,
+            },
+            errors: {
+                401: `Not Found`,
+                409: `Conflict`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Unsave User Post
+     * @param postId
+     * @returns SuccessReponse OK
+     * @throws ApiError
+     */
+    public static unSaveUserPost(
+        postId: number,
+    ): CancelablePromise<SuccessReponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/post/unsave/{postId}',
+            path: {
+                'postId': postId,
+            },
+            errors: {
+                401: `Not Found`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
 }

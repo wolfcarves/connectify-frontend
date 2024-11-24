@@ -19,6 +19,8 @@ const Post = ({ data }: PostProps) => {
         name={data?.user.name}
         username={data?.user.username}
         timestamp={data?.post.created_at}
+        postId={data?.post.id}
+        isPostSaved={data?.post?.isSaved}
       />
       <PostCard.Content>{data?.post.content}</PostCard.Content>
       <PostAction>
