@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { convertUtil } from '@/utils/convertUtil';
 import User from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
@@ -50,6 +50,10 @@ const PostCardUser = ({ postId, isPostSaved, ...props }: UserProps) => {
     await unSavePost(postId!);
     setIsSaved(false);
   };
+
+  useEffect(() => {
+    setIsSaved(isPostSaved);
+  }, [isPostSaved]);
 
   return (
     <div className="flex justify-between items-start gap-2.5">

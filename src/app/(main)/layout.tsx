@@ -22,7 +22,7 @@ export default async function MainLayout({
               renderWhen="unauthenticated"
             />
             <HeaderMenuLink
-              href="/post"
+              href="/create"
               label="Create post"
               renderWhen="authenticated"
             />

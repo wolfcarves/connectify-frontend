@@ -19,15 +19,22 @@ const UserProfileTabs = () => {
   return (
     <div className="mt-5 mb-10">
       <ul className="flex items-center border-b">
-        {TABS.map(({ href, title }) => (
-          <Link key={title} {...{ href }}>
-            <li
-              className={`${href === pathname && 'border-b-2 border-b-primary'} w-max py-2 px-4`}
-            >
-              <Typography.Span title={title} />
-            </li>
-          </Link>
-        ))}
+        {TABS.map(({ href, title }) => {
+          const isActive = href === pathname;
+
+          return (
+            <Link key={title} {...{ href }}>
+              <li
+                className={`${isActive && 'border-b-2 border-b-primary'} w-max py-2 px-4`}
+              >
+                <Typography.Span
+                  title={title}
+                  weight={isActive ? 'semibold' : 'normal'}
+                />
+              </li>
+            </Link>
+          );
+        })}
       </ul>
     </div>
   );

@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   AiOutlineLike,
@@ -28,15 +28,19 @@ export const LikeButton = ({
   likes = 0,
   ...props
 }: LikeButtonProps) => {
-  const [isLiked, setisLiked] = useState<boolean | undefined>(isCurrentlyLiked);
+  const [isLiked, setIsLiked] = useState<boolean | undefined>(isCurrentlyLiked);
 
   const { mutateAsync: likePostMutate, isPending: isLikePostLoading } =
     useLikePost();
 
+  useEffect(() => {
+    setIsLiked(isCurrentlyLiked);
+  }, [isCurrentlyLiked]);
+
   const handleLikePost = async (post_id: number) => {
     try {
       await likePostMutate(post_id);
-      setisLiked(prev => !prev);
+      setIsLiked(prev => !prev);
     } catch (error) {
       //
     }

@@ -16,7 +16,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
               renderWhen="unauthenticated"
             />
             <HeaderMenuLink
-              href="/post"
+              href="/create"
               label="Create post"
               renderWhen="authenticated"
             />

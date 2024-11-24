@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 export type { BadRequestError } from './models/BadRequestError';
+export type { Bookmark } from './models/Bookmark';
 export type { Comment } from './models/Comment';
 export type { CommentInput } from './models/CommentInput';
 export type { ConflictError } from './models/ConflictError';
@@ -24,6 +25,7 @@ export type { UserSignUpInput } from './models/UserSignUpInput';
 export type { ValidationError } from './models/ValidationError';
 
 export { AuthenticationService } from './services/AuthenticationService';
+export { BookmarkService } from './services/BookmarkService';
 export { EngagementService } from './services/EngagementService';
 export { FeedService } from './services/FeedService';
 export { FriendsService } from './services/FriendsService';

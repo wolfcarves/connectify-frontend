@@ -17,5 +17,6 @@ export default function useGetFeedWorldPosts(
       const response = await FeedService.getFeedWorldPosts(page, per_page);
       return response.data;
     },
+    staleTime: 0,
   });
 }

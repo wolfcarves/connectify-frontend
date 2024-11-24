@@ -17,5 +17,6 @@ export default function useGetFeedFriendsPosts(
       const response = await FeedService.getFeedFriendsPosts(page, per_page);
       return response.data;
     },
+    staleTime: 1000 * 60 * 30,
   });
 }

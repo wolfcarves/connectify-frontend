@@ -8,7 +8,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useGetFeedFriendsPosts from '@/hooks/queries/useGetFeedFriendsPosts';
 
 const FeedWorldPosts = () => {
-  const { data: posts, isLoading: isPostsLoading } = useGetFeedWorldPosts();
+  const {
+    data: posts,
+    isLoading: isPostsLoading,
+    refetch,
+  } = useGetFeedWorldPosts();
 
   return (
     <PostContainer className="py-10">
@@ -42,6 +46,7 @@ const FeedPosts = () => {
         <TabsTrigger value="world">World</TabsTrigger>
         <TabsTrigger value="friends">Friends</TabsTrigger>
       </TabsList>
+
       <TabsContent value="world">
         <FeedWorldPosts />
       </TabsContent>

@@ -7,6 +7,7 @@ import { useParams, usePathname } from 'next/navigation';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import {
   Bell,
+  BookmarkSimple,
   ChatCircle,
   GearSix,
   HouseLine,
@@ -29,24 +30,30 @@ export let navigation = [
   },
   {
     id: 3,
+    icon: <BookmarkSimple size={20} />,
+    label: 'Saved',
+    href: '/saved',
+  },
+  {
+    id: 4,
     icon: <ChatCircle size={20} />,
     label: 'Chats',
     href: '/chats',
   },
   {
-    id: 4,
+    id: 5,
     icon: <Bell size={20} />,
     label: 'Notifications',
     href: '/notifications',
   },
   {
-    id: 5,
+    id: 6,
     icon: <User size={20} />,
     label: 'Profile',
     href: '/',
   },
   {
-    id: 6,
+    id: 7,
     icon: <GearSix size={20} />,
     label: 'Account Settings',
     href: '/account-settings',
@@ -63,7 +70,7 @@ const NavigationTab = () => {
     <nav className="fixed md:static bottom-0 start-0 end-0 h-14 md:h-auto w-full md:w-auto border-t md:border-t-0 bg-background md:pe-5 md:my-5">
       <ul className="flex flex-row md:flex-col w-full h-full">
         {navigation.map(({ id, icon, label, href }) => {
-          navigation[4].href = `/${session?.username}`;
+          navigation[5].href = `/${session?.username}`;
 
           const isCurrentPageProfile =
             label === 'Profile' &&
