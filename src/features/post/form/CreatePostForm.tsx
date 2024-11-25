@@ -1,31 +1,53 @@
 'use client';
 
+import { ReactNode, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { GlobeHemisphereEast, Images } from '@phosphor-icons/react';
+import Radio from '@/components/common/Radio/Radio';
+import {
+  GlobeHemisphereEast,
+  Images,
+  Lock,
+  Users,
+} from '@phosphor-icons/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { CreatePostInput } from '@/services';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCreatePost from '@/hooks/mutations/useCreatePost';
 import Typography from '@/components/ui/typography';
-import { useState } from 'react';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const schema = z.object({
   content: z.string().min(1, 'Content is required').max(5000, 'Too long dude'),
 });
 
+interface AudienceOptions {
+  label: string;
+  icon: ReactNode;
+  value: NonNullable<CreatePostInput['audience']>;
+}
+
+const AUDIENCE: AudienceOptions[] = [
+  { label: 'Public', icon: <GlobeHemisphereEast size={16} />, value: 'public' },
+  { label: 'Friends only', icon: <Users size={16} />, value: 'friends' },
+  { label: 'Only me', icon: <Lock size={16} />, value: 'private' },
+];
+
 const CreatePostForm = () => {
   const [audience, setAudience] =
     useState<CreatePostInput['audience']>('public');
+
+  const [selectedAudience, setSelectedAudience] =
+    useState<CreatePostInput['audience']>(audience);
 
   const methods = useForm<CreatePostInput>({
     resolver: zodResolver(schema),
@@ -33,7 +55,8 @@ const CreatePostForm = () => {
 
   const { handleSubmit, register, formState } = methods;
 
-  const { mutateAsync: createPostMutate } = useCreatePost();
+  const { mutateAsync: createPostMutate, isPending: isCreatePostLoading } =
+    useCreatePost();
 
   const handleCreatePost = async (data: CreatePostInput) => {
     try {
@@ -44,6 +67,10 @@ const CreatePostForm = () => {
     } catch (error) {
       //
     }
+  };
+
+  const handleAudienceChange = () => {
+    setAudience(selectedAudience);
   };
 
   return (
@@ -69,20 +96,63 @@ const CreatePostForm = () => {
               <Typography.Span title="Add image" weight="medium" size="sm" />
             </Button>
 
-            <Button
-              type="button"
-              variant="secondary"
-              className="rounded-full"
-              size="sm"
-            >
-              <GlobeHemisphereEast size={16} />
-              <Typography.Span title="Public" weight="medium" size="sm" />
-            </Button>
+            <Dialog onOpenChange={() => setSelectedAudience(audience)}>
+              <DialogTrigger asChild>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="rounded-full"
+                  size="sm"
+                >
+                  <GlobeHemisphereEast size={16} />
+                  <Typography.Span
+                    title={AUDIENCE.find(aud => aud.value === audience)?.label}
+                    weight="medium"
+                    size="sm"
+                  />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[480px]">
+                <DialogHeader>
+                  <DialogTitle>Change audience</DialogTitle>
+                  <DialogDescription>
+                    Select your preferred audience to ensure the right people
+                    see your content.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex flex-col space-y-2">
+                  {AUDIENCE.map(({ label, value }) => {
+                    return (
+                      <button
+                        key={value}
+                        className="flex justify-between gap-2 text-start border rounded-lg py-3 px-4 hover:bg-muted"
+                        onClick={() => setSelectedAudience(value)}
+                      >
+                        {label}
+                        <Radio isSelected={selectedAudience === value} />
+                      </button>
+                    );
+                  })}
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button
+                      type="button"
+                      className="rounded-full text-xs"
+                      onClick={() => handleAudienceChange()}
+                    >
+                      Apply changes
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
 
           <Button
-            className="rounded-full"
-            disabled={!formState.isValid}
+            className="rounded-full text-xs"
+            isLoading={isCreatePostLoading}
+            disabled={!formState.isValid || isCreatePostLoading}
             size="sm"
           >
             Share public

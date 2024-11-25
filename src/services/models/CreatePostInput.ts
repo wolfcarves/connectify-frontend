@@ -4,6 +4,6 @@
 /* eslint-disable */
 export type CreatePostInput = {
     content: string;
-    audience?: 'public' | 'private';
+    audience?: 'public' | 'friends' | 'private';
 };
 
