@@ -28,6 +28,12 @@ export default {
         port: '',
         protocol: 'https',
       },
+      {
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+        port: '',
+        protocol: 'https',
+      },
     ],
   },
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useState } from 'react';
+import { ChangeEvent, ReactNode, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Radio from '@/components/common/Radio/Radio';
 import {
@@ -10,7 +10,6 @@ import {
   Users,
 } from '@phosphor-icons/react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { CreatePostInput } from '@/services';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCreatePost from '@/hooks/mutations/useCreatePost';
@@ -25,15 +24,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Audience } from '@/services';
+import PhotoGrid from '@/components/common/PhotoGrid/PhotoGrid';
 
 const schema = z.object({
+  images: z.any(),
   content: z.string().min(1, 'Content is required').max(5000, 'Too long dude'),
 });
+
+type CreatePostInput = z.infer<typeof schema>;
 
 interface AudienceOptions {
   label: string;
   icon: ReactNode;
-  value: NonNullable<CreatePostInput['audience']>;
+  value: NonNullable<Audience>;
 }
 
 const AUDIENCE: AudienceOptions[] = [
@@ -43,17 +47,24 @@ const AUDIENCE: AudienceOptions[] = [
 ];
 
 const CreatePostForm = () => {
-  const [audience, setAudience] =
-    useState<CreatePostInput['audience']>('public');
+  const [images, setImages] = useState<File[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+  const imageInputRef = useRef<HTMLInputElement | null>(null);
 
-  const [selectedAudience, setSelectedAudience] =
-    useState<CreatePostInput['audience']>(audience);
+  const [audience, setAudience] = useState<{
+    selected: Audience;
+    value: Audience;
+  }>({
+    selected: 'public',
+    value: 'public',
+  });
 
   const methods = useForm<CreatePostInput>({
     resolver: zodResolver(schema),
   });
 
   const { handleSubmit, register, formState } = methods;
+  const { ref, ...imagesProps } = register('images');
 
   const { mutateAsync: createPostMutate, isPending: isCreatePostLoading } =
     useCreatePost();
@@ -61,16 +72,28 @@ const CreatePostForm = () => {
   const handleCreatePost = async (data: CreatePostInput) => {
     try {
       await createPostMutate({
+        images,
         content: data.content,
-        audience,
+        audience: audience.value,
       });
-    } catch (error) {
-      //
-    }
+    } catch (error) {}
   };
 
   const handleAudienceChange = () => {
-    setAudience(selectedAudience);
+    setAudience(prev => ({
+      selected: prev.selected,
+      value: prev.selected,
+    }));
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event?.target?.files ?? []);
+    const previews = files.map(file => URL.createObjectURL(file));
+
+    if (files.length > 0) {
+      setImages(prev => [...prev, ...files]);
+      setPreviewImages(prev => [...prev, ...previews]);
+    }
   };
 
   return (
@@ -91,12 +114,33 @@ const CreatePostForm = () => {
               variant="secondary"
               className="rounded-full"
               size="sm"
+              onClick={() => imageInputRef.current?.click()}
             >
               <Images size={16} />
               <Typography.Span title="Add image" weight="medium" size="sm" />
+
+              <input
+                type="file"
+                {...imagesProps}
+                ref={e => {
+                  imageInputRef.current = e;
+                  ref(e);
+                }}
+                multiple
+                className="hidden"
+                accept="image/jpeg, image/jpg, image/png"
+                onChange={handleImageChange}
+              />
             </Button>
 
-            <Dialog onOpenChange={() => setSelectedAudience(audience)}>
+            <Dialog
+              onOpenChange={() =>
+                setAudience(prev => ({
+                  selected: prev.value,
+                  value: prev.value,
+                }))
+              }
+            >
               <DialogTrigger asChild>
                 <Button
                   type="button"
@@ -104,9 +148,12 @@ const CreatePostForm = () => {
                   className="rounded-full"
                   size="sm"
                 >
-                  <GlobeHemisphereEast size={16} />
+                  {AUDIENCE.find(aud => aud.value === audience.value)?.icon}
+
                   <Typography.Span
-                    title={AUDIENCE.find(aud => aud.value === audience)?.label}
+                    title={
+                      AUDIENCE.find(aud => aud.value === audience.value)?.label
+                    }
                     weight="medium"
                     size="sm"
                   />
@@ -121,15 +168,23 @@ const CreatePostForm = () => {
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex flex-col space-y-2">
-                  {AUDIENCE.map(({ label, value }) => {
+                  {AUDIENCE.map(({ label, value, icon }) => {
                     return (
                       <button
                         key={value}
-                        className="flex justify-between gap-2 text-start border rounded-lg py-3 px-4 hover:bg-muted"
-                        onClick={() => setSelectedAudience(value)}
+                        className="flex justify-between items-center text-start border rounded-lg py-3 px-4 hover:bg-muted"
+                        onClick={() =>
+                          setAudience(prev => ({
+                            selected: value,
+                            value: prev.value,
+                          }))
+                        }
                       >
-                        {label}
-                        <Radio isSelected={selectedAudience === value} />
+                        <div className="flex items-center gap-2">
+                          {icon}
+                          {label}
+                        </div>
+                        <Radio isSelected={audience.selected === value} />
                       </button>
                     );
                   })}
@@ -158,6 +213,13 @@ const CreatePostForm = () => {
             Share public
           </Button>
         </div>
+
+        {previewImages && previewImages.length > 0 && (
+          <div className="mt-10 space-y-4">
+            <Typography.H6 title="Attached images" />
+            <PhotoGrid images={previewImages} />
+          </div>
+        )}
       </form>
     </FormProvider>
   );

@@ -12,6 +12,15 @@ export default function useCreatePost() {
   return useMutation({
     mutationKey: ['CREATE_POST'],
     mutationFn: async (data: CreatePostInput) => {
+      const formData = new FormData();
+
+      data?.images.forEach((image: File) => {
+        formData.append('images', image);
+      });
+
+      formData.append('content', data.content);
+      formData.append('audience', data.audience as string);
+
       const response = await PostService.postCreatePost(data);
 
       return response;

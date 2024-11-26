@@ -12,18 +12,18 @@ import { request as __request } from '../core/request';
 export class PostService {
     /**
      * Create Post
-     * @param requestBody OK
+     * @param formData OK
      * @returns SuccessReponse OK
      * @throws ApiError
      */
     public static postCreatePost(
-        requestBody?: CreatePostInput,
+        formData?: CreatePostInput,
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/post',
-            body: requestBody,
-            mediaType: 'application/json',
+            formData: formData,
+            mediaType: 'multipart/form-data',
             errors: {
                 400: `Validation Error`,
                 401: `Unauthorized`,

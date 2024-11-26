@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type { Audience } from './models/Audience';
 export type { BadRequestError } from './models/BadRequestError';
 export type { Bookmark } from './models/Bookmark';
 export type { Comment } from './models/Comment';

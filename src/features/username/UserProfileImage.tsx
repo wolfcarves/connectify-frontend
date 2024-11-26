@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 'use client';
 
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -19,9 +21,21 @@ import {
 import { Image as ImageIcon, UploadSimple } from '@phosphor-icons/react';
 import useSession from '@/hooks/useSession';
 import { notFound, useParams } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const MAX_FILE_SIZE = 3000000; // 3MB
+const ACCEPTED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const schema = z.object({
-  avatar: z.any(),
+  avatar: z
+    .any()
+    .refine(file => {
+      const fileSize = file[0]?.size;
+      return fileSize <= MAX_FILE_SIZE;
+    }, 'Max image size is 3MB')
+    .refine(file => {
+      return ACCEPTED_IMAGE_MIME_TYPES.includes(file[0]?.type);
+    }, 'File format is not supported, Please upload .png, jpeg, jpg only'),
 });
 
 type UploadProfileImage = z.infer<typeof schema>;
@@ -38,10 +52,23 @@ const UserProfileImage = () => {
   const imageInput = useRef<HTMLInputElement | null>(null);
   const [preview, setPreview] = useState<string>('');
 
-  const methods = useForm<UploadProfileImage>();
+  const methods = useForm<UploadProfileImage>({
+    resolver: zodResolver(schema),
+  });
 
-  const { register, handleSubmit } = methods;
+  const { register, handleSubmit, formState } = methods;
   const { ref, onChange, ...rest } = register('avatar');
+
+  useEffect(() => {
+    if (formState.errors.avatar?.message === 'Max image size is 3MB')
+      toast({ title: formState.errors.avatar?.message, duration: 3000 });
+
+    if (
+      formState.errors.avatar?.message ===
+      'File format is not supported, Please upload .png, jpeg, jpg only'
+    )
+      toast({ title: formState.errors.avatar?.message, duration: 3000 });
+  }, [formState.errors]);
 
   const { toast } = useToast();
 
@@ -123,7 +150,6 @@ const UserProfileImage = () => {
                 <ImageIcon size={20} />
                 <Typography.Span title="View Photo" weight="medium" size="sm" />
               </DropdownMenuItem>
-              {}
               {session.username === userProfile?.username && (
                 <DropdownMenuItem
                   className="p-2 gap-2"
@@ -147,7 +173,7 @@ const UserProfileImage = () => {
               imageInput.current = e;
               ref(e);
             }}
-            accept="image/jpg,image/jpeg,image/png"
+            accept="image/png, image/jpeg, image/jpg"
             className="hidden absolute inset-0 z-10"
             onChange={handleImageChange}
           />
