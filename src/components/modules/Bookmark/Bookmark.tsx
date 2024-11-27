@@ -2,9 +2,10 @@ import type { Bookmark } from '@/services';
 import { Button } from '@/components/ui/button';
 import Typography from '@/components/ui/typography';
 import Image from 'next/image';
-import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
+import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
 import Link from 'next/link';
 import useUnSaveUserPost from '@/hooks/mutations/useUnSaveUserPost';
+import { env } from '@/config/env';
 
 const Bookmark = ({
   post_id,
@@ -14,7 +15,7 @@ const Bookmark = ({
   author_name,
   content,
 }: Bookmark) => {
-  const authorImage = getCloudinaryImageUrl(author_image);
+  const authorImage = getCloudinaryProfileImageUrl(author_image);
 
   const { mutateAsync: unSavePost, isPending: isUnSavePostLoading } =
     useUnSaveUserPost();

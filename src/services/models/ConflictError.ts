@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ConflictError = {
-    message: string;
-    statusCode: number;
+    error: {
+        message: string;
+        statusCode: number;
+    };
 };
 

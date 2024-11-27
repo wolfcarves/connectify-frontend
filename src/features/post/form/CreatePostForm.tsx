@@ -26,6 +26,8 @@ import {
 } from '@/components/ui/dialog';
 import { Audience } from '@/services';
 import PhotoGrid from '@/components/common/PhotoGrid/PhotoGrid';
+import { ServerInternalError } from '@/services';
+import { toast } from '@/components/ui/use-toast';
 
 const schema = z.object({
   images: z.any(),
@@ -76,7 +78,10 @@ const CreatePostForm = () => {
         content: data.content,
         audience: audience.value,
       });
-    } catch (error) {}
+    } catch (error) {
+      const err = error as { body: ServerInternalError };
+      toast({ title: err.body.error.message });
+    }
   };
 
   const handleAudienceChange = () => {

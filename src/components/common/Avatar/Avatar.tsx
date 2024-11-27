@@ -1,6 +1,7 @@
 import Image, { ImageProps } from 'next/image';
 import { cva, VariantProps } from 'class-variance-authority';
-import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
+import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
+import { env } from '@/config/env';
 
 const avatar = cva(
   'relative bg-accent flex aspect-square rounded-full overflow-hidden',
@@ -29,7 +30,7 @@ export interface AvatarProps
 }
 
 const Avatar = ({ src, size, className, ...props }: AvatarProps) => {
-  const imageSrc = getCloudinaryImageUrl(src);
+  const imageSrc = getCloudinaryProfileImageUrl(src);
 
   return (
     <div

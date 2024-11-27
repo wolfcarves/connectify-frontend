@@ -6,7 +6,7 @@ import useSendFriendRequest from '@/hooks/mutations/useSendFriendRequest';
 import useCancelFriendRequest from '@/hooks/mutations/useCancelFriendRequest';
 import Image from 'next/image';
 import { User } from '@/services';
-import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
+import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
 import { useRouter } from 'next/navigation';
 
 interface FriendSuggestionCardProps
@@ -24,7 +24,7 @@ const FriendSuggestionCard = ({
   const router = useRouter();
   const { toast } = useToast();
 
-  const _avatar = useMemo(() => getCloudinaryImageUrl(avatar), [avatar]);
+  const _avatar = useMemo(() => getCloudinaryProfileImageUrl(avatar), [avatar]);
 
   const { mutateAsync: sendRequest, isPending: isSendFriendRequestLoading } =
     useSendFriendRequest();

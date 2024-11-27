@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type NotFoundError = {
-    message: string;
-    statusCode: number;
+    error: {
+        message: string;
+        statusCode: number;
+    };
 };
 

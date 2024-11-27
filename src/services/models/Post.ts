@@ -2,13 +2,19 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CreatePostInput } from './CreatePostInput';
-export type Post = (CreatePostInput & {
+export type Post = {
+    content: string;
+    audience?: 'public' | 'friends' | 'private';
     id: number;
     uuid: string;
-    isSaved: boolean;
-    isLiked: boolean;
+    is_saved: boolean;
+    is_liked: boolean;
+    images: Array<{
+        image: string;
+        created_at: string;
+        updated_at: string;
+    }>;
     created_at: string;
     updated_at: string;
-});
+};
 

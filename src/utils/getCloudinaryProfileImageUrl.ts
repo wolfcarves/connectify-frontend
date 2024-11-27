@@ -1,7 +1,7 @@
 import { env } from '@/config/env';
 import { getCldImageUrl } from 'next-cloudinary';
 
-const getCloudinaryImageUrl = (uri?: string) => {
+const getCloudinaryProfileImageUrl = (uri?: string) => {
   let src = uri;
 
   if (uri?.startsWith('version'))
@@ -13,4 +13,4 @@ const getCloudinaryImageUrl = (uri?: string) => {
   return src;
 };
 
-export default getCloudinaryImageUrl;
+export default getCloudinaryProfileImageUrl;

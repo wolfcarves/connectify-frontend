@@ -1,7 +1,10 @@
-const Spinner = () => {
+import { ComponentProps } from 'react';
+
+const Spinner = (props: ComponentProps<'svg'>) => {
   return (
     <svg
-      className="animate-spin"
+      {...props}
+      className={`animate-spin ${props.className}`}
       fill="#707070"
       version="1.1"
       id="Capa_1"

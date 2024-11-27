@@ -1,6 +1,7 @@
 import { UserService } from '@/services';
 import { useQuery } from '@tanstack/react-query';
-import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
+import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
+import { env } from '@/config/env';
 
 interface QueryParams {
   userId?: number;
@@ -20,7 +21,7 @@ export default function useGetUserProfile({ userId, username }: QueryParams) {
       // Says the image is from cloudinary not the template ones
       if (response.data?.avatar.startsWith('version')) {
         try {
-          avatar = getCloudinaryImageUrl(response.data.avatar) ?? '';
+          avatar = getCloudinaryProfileImageUrl(response.data.avatar) ?? '';
         } catch (err: any) {
           console.log('Error!', { ...err });
         }

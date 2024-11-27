@@ -33,7 +33,7 @@ const FeedFriendsPosts = () => {
       {isPostsLoading && <PostCardSkeleton count={10} />}
 
       {posts?.map(post => {
-        return <Post key={post.post.id} data={post} />;
+        return <Post key={post.post.uuid} data={post} />;
       })}
     </PostContainer>
   );

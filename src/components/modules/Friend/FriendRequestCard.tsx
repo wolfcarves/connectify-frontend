@@ -5,9 +5,10 @@ import { useToast } from '@/components/ui/use-toast';
 import useCancelFriendRequest from '@/hooks/mutations/useCancelFriendRequest';
 import Image from 'next/image';
 import { FriendRequest } from '@/services';
-import getCloudinaryImageUrl from '@/utils/getCloudinaryImageUrl';
+import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
 import useAcceptFriendRequest from '@/hooks/mutations/useAcceptFriendRequest';
 import { useRouter } from 'next/navigation';
+import { env } from '@/config/env';
 
 const FriendRequestCard = ({
   userId,
@@ -22,7 +23,7 @@ const FriendRequestCard = ({
   const [isFriendAccepted, setIsFriendAccepted] = useState<boolean>(false);
   const [isFriendDeleted, setIsFriendDeleted] = useState<boolean>(false);
 
-  const _avatar = useMemo(() => getCloudinaryImageUrl(avatar), [avatar]);
+  const _avatar = useMemo(() => getCloudinaryProfileImageUrl(avatar), [avatar]);
 
   const {
     mutateAsync: acceptFriendRequest,

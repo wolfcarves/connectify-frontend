@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type BadRequestError = {
-    message: string;
-    statusCode: number;
+    error: {
+        message: string;
+        statusCode: number;
+    };
 };
 
