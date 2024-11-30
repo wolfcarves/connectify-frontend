@@ -94,17 +94,12 @@ export class PostService {
     /**
      * Get User Posts
      * @param postId
-     * @returns any OK
+     * @returns SuccessReponse OK
      * @throws ApiError
      */
     public static deleteUserPost(
         postId: number,
-    ): CancelablePromise<{
-        data: {
-            post: Post;
-            user: User;
-        };
-    }> {
+    ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/post/{postId}',

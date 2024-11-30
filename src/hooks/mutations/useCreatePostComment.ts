@@ -1,4 +1,4 @@
-import { EngagementService } from '@/services';
+import { CommentService } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GET_POST_COMMENTS_KEY } from '../queries/useGetPostComments';
 
@@ -14,7 +14,7 @@ export default function useCreatePostComment() {
       postId?: number;
       comment: string;
     }) => {
-      const response = await EngagementService.postPostComment(postId ?? -1, {
+      const response = await CommentService.postPostComment(postId ?? -1, {
         comment,
       });
 

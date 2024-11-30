@@ -8,7 +8,6 @@ import { FriendRequest } from '@/services';
 import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
 import useAcceptFriendRequest from '@/hooks/mutations/useAcceptFriendRequest';
 import { useRouter } from 'next/navigation';
-import { env } from '@/config/env';
 
 const FriendRequestCard = ({
   userId,

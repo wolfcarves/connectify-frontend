@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react';
 import Typography from '@/components/ui/typography';
+import { Button } from '@/components/ui/button';
 
 const CommentCard = ({ children }: { children?: ReactNode }) => {
   return (
-    <article className="px-3 py-2">
+    <article className="px-3">
       <div className="flex gap-2">{children}</div>
     </article>
   );
@@ -17,9 +18,24 @@ export const Content = ({
   comment?: string;
 }) => {
   return (
-    <div className="bg-accent min-h-10 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-3 pt-1.5 pb-2">
-      <Typography.Span title={username} size="sm" weight="semibold" />
-      <Typography.P title={comment} size="sm" />
+    <div>
+      <div className="bg-accent min-h-10 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-3 pt-1.5 pb-2">
+        <Typography.Span title={username} size="sm" weight="semibold" />
+        <Typography.P title={comment} size="sm" />
+      </div>
+
+      <div className="flex gap-2 items-center px-2 py-2">
+        <Typography.Span title="8h" size="xs" />
+
+        <div className="flex items-center">
+          <Button type="button" variant="ghost" size="xxs">
+            <Typography.Span title="Like" size="xs" weight="medium" />
+          </Button>
+          <Button type="button" variant="ghost" size="xxs">
+            <Typography.Span title="Reply" size="xs" weight="medium" />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

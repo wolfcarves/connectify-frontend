@@ -45,7 +45,7 @@ const PostCommentForm = ({ postId }: { postId?: number }) => {
 
   return (
     <form
-      className="fixed w-full start-0 bottom-0 bg-background"
+      className="w-full start-0 bottom-0 bg-background"
       onSubmit={handleSubmit(handleCommentSubmit)}
     >
       <CenterContainer className="flex gap-2.5 pt-2 pb-7">

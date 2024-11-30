@@ -1,33 +1,19 @@
 'use client';
 
-import { ChangeEvent, ReactNode, useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import Radio from '@/components/common/Radio/Radio';
-import {
-  GlobeHemisphereEast,
-  Images,
-  Lock,
-  Users,
-} from '@phosphor-icons/react';
+import { Images, PencilSimple, X } from '@phosphor-icons/react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCreatePost from '@/hooks/mutations/useCreatePost';
 import Typography from '@/components/ui/typography';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
+import DialogChangeAudience from '../dialog/DialogChangeAudience';
 import { Audience } from '@/services';
 import PhotoGrid from '@/components/common/PhotoGrid/PhotoGrid';
 import { ServerInternalError } from '@/services';
-import { toast } from '@/components/ui/use-toast';
+import Image from 'next/image';
+import { useToast } from '@/components/ui/use-toast';
 
 const schema = z.object({
   images: z.any(),
@@ -36,19 +22,10 @@ const schema = z.object({
 
 type CreatePostInput = z.infer<typeof schema>;
 
-interface AudienceOptions {
-  label: string;
-  icon: ReactNode;
-  value: NonNullable<Audience>;
-}
-
-const AUDIENCE: AudienceOptions[] = [
-  { label: 'Public', icon: <GlobeHemisphereEast size={16} />, value: 'public' },
-  { label: 'Friends only', icon: <Users size={16} />, value: 'friends' },
-  { label: 'Only me', icon: <Lock size={16} />, value: 'private' },
-];
-
 const CreatePostForm = () => {
+  const { toast } = useToast();
+
+  const [editMode, setEditMode] = useState<boolean>(false);
   const [images, setImages] = useState<File[]>([]);
   const [previewImages, setPreviewImages] = useState<string[]>([]);
   const imageInputRef = useRef<HTMLInputElement | null>(null);
@@ -92,13 +69,30 @@ const CreatePostForm = () => {
   };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const MAX_IMAGE = 10;
+
     const files = Array.from(event?.target?.files ?? []);
     const previews = files.map(file => URL.createObjectURL(file));
+
+    const totalUploadedImages = files.length + images.length;
+
+    if (totalUploadedImages > MAX_IMAGE) {
+      return toast({ title: `You can only upload up to ${MAX_IMAGE} images` });
+    }
 
     if (files.length > 0) {
       setImages(prev => [...prev, ...files]);
       setPreviewImages(prev => [...prev, ...previews]);
     }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImages(prev => {
+      const updatedImages = prev.filter((_, idx) => idx !== index);
+      if (updatedImages.length === 0) setEditMode(false);
+      return updatedImages;
+    });
+    setPreviewImages(prev => prev.filter((_, idx) => idx !== index));
   };
 
   return (
@@ -138,75 +132,17 @@ const CreatePostForm = () => {
               />
             </Button>
 
-            <Dialog
+            <DialogChangeAudience
+              audience={audience}
+              setAudience={setAudience}
+              onApplyClick={handleAudienceChange}
               onOpenChange={() =>
                 setAudience(prev => ({
                   selected: prev.value,
                   value: prev.value,
                 }))
               }
-            >
-              <DialogTrigger asChild>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="rounded-full"
-                  size="sm"
-                >
-                  {AUDIENCE.find(aud => aud.value === audience.value)?.icon}
-
-                  <Typography.Span
-                    title={
-                      AUDIENCE.find(aud => aud.value === audience.value)?.label
-                    }
-                    weight="medium"
-                    size="sm"
-                  />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[480px]">
-                <DialogHeader>
-                  <DialogTitle>Change audience</DialogTitle>
-                  <DialogDescription>
-                    Select your preferred audience to ensure the right people
-                    see your content.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="flex flex-col space-y-2">
-                  {AUDIENCE.map(({ label, value, icon }) => {
-                    return (
-                      <button
-                        key={value}
-                        className="flex justify-between items-center text-start border rounded-lg py-3 px-4 hover:bg-muted"
-                        onClick={() =>
-                          setAudience(prev => ({
-                            selected: value,
-                            value: prev.value,
-                          }))
-                        }
-                      >
-                        <div className="flex items-center gap-2">
-                          {icon}
-                          {label}
-                        </div>
-                        <Radio isSelected={audience.selected === value} />
-                      </button>
-                    );
-                  })}
-                </div>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button
-                      type="button"
-                      className="rounded-full text-xs"
-                      onClick={() => handleAudienceChange()}
-                    >
-                      Apply changes
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            />
           </div>
 
           <Button
@@ -219,10 +155,52 @@ const CreatePostForm = () => {
           </Button>
         </div>
 
-        {previewImages && previewImages.length > 0 && (
+        {previewImages && previewImages.length > 0 && !editMode && (
           <div className="mt-10 space-y-4">
             <Typography.H6 title="Attached images" />
             <PhotoGrid images={previewImages} />
+            <Button
+              type="button"
+              variant="secondary"
+              icon={<PencilSimple size={16} />}
+              className="w-full rounded-full"
+              onClick={() => setEditMode(true)}
+            >
+              <Typography.Span title="Edit images" size="sm" />
+            </Button>
+          </div>
+        )}
+
+        {editMode && (
+          <div className="space-y-6 py-10">
+            <Typography.H6 title="Attached images" />
+            {previewImages?.map((image, idx) => (
+              <div key={image} className="relative">
+                <div className="absolute inset-0 flex justify-center items-center bg-muted/40 rounded-xl duration-100 opacity-0 hover:opacity-100">
+                  {images[idx].name}
+                </div>
+
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="icon"
+                  icon={<X size={20} />}
+                  className="absolute -top-5 -end-3 rounded-full"
+                  onClick={() => {
+                    handleRemoveImage(idx);
+                  }}
+                />
+
+                <Image
+                  alt={`uploaded-image-${idx}`}
+                  src={image}
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  className="w-full h-auto rounded-xl"
+                />
+              </div>
+            ))}
           </div>
         )}
       </form>

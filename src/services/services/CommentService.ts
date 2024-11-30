@@ -7,28 +7,7 @@ import type { SuccessReponse } from '../models/SuccessReponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-export class EngagementService {
-    /**
-     * Like User Posts
-     * @param postId
-     * @returns SuccessReponse OK
-     * @throws ApiError
-     */
-    public static postLikePost(
-        postId: number,
-    ): CancelablePromise<SuccessReponse> {
-        return __request(OpenAPI, {
-            method: 'POST',
-            url: '/api/v1/engagement/like/{postId}',
-            path: {
-                'postId': postId,
-            },
-            errors: {
-                401: `Not Found`,
-                500: `Server Internal Error.`,
-            },
-        });
-    }
+export class CommentService {
     /**
      * Comment To User Posts
      * @param postId
@@ -44,7 +23,7 @@ export class EngagementService {
     ): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/engagement/comment/{postId}',
+            url: '/api/v1/comment/post/{postId}',
             path: {
                 'postId': postId,
             },
@@ -69,7 +48,7 @@ export class EngagementService {
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/engagement/comments/{postId}',
+            url: '/api/v1/comment/post/{postId}',
             path: {
                 'postId': postId,
             },

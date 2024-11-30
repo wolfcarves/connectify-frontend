@@ -46,16 +46,16 @@ const PhotoGridItem = ({
             src={src}
             fill
             sizes="100%"
-            className="object-cover"
+            className={'object-cover'}
           />
         )}
-      </div>
 
-      {length > 5 && id === 4 && (
-        <div className="absolute   inset-0 flex justify-center items-center bg-muted/10 w-full h-full z-50">
-          <Typography.H2 title={`${totalImages - MAX_IMAGE}+`} />
-        </div>
-      )}
+        {totalImages > 5 && id === 4 && (
+          <div className="absolute inset-0 flex justify-center items-center bg-muted/10 w-full h-full z-50">
+            <Typography.H2 title={`${totalImages - MAX_IMAGE}+`} />
+          </div>
+        )}
+      </div>
     </>
   );
 };

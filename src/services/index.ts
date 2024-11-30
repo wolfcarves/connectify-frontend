@@ -27,8 +27,9 @@ export type { ValidationError } from './models/ValidationError';
 
 export { AuthenticationService } from './services/AuthenticationService';
 export { BookmarkService } from './services/BookmarkService';
-export { EngagementService } from './services/EngagementService';
+export { CommentService } from './services/CommentService';
 export { FeedService } from './services/FeedService';
 export { FriendsService } from './services/FriendsService';
+export { LikeService } from './services/LikeService';
 export { PostService } from './services/PostService';
 export { UserService } from './services/UserService';
