@@ -11,8 +11,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import Typography from '@/components/ui/typography';
-import { GlobeHemisphereEast, Lock, Users } from '@phosphor-icons/react';
+import { GlobeHemisphereEast, Users } from '@phosphor-icons/react';
+import { LuLock } from 'react-icons/lu';
 import { Audience } from '@/services';
 import Radio from '@/components/common/Radio/Radio';
 
@@ -22,13 +22,14 @@ interface AudienceOptions {
   value: NonNullable<Audience>;
 }
 
-const AUDIENCE: AudienceOptions[] = [
+export const AUDIENCE: AudienceOptions[] = [
   { label: 'Public', icon: <GlobeHemisphereEast size={16} />, value: 'public' },
   { label: 'Friends only', icon: <Users size={16} />, value: 'friends' },
-  { label: 'Only me', icon: <Lock size={16} />, value: 'private' },
+  { label: 'Only me', icon: <LuLock size={14} />, value: 'private' },
 ];
 
-interface DialogChangeAudienceProps extends DialogProps {
+interface PostAudienceDialogProps extends DialogProps {
+  trigger: ReactNode;
   audience: {
     selected: Audience;
     value: Audience;
@@ -40,32 +41,20 @@ interface DialogChangeAudienceProps extends DialogProps {
     }>
   >;
   onApplyClick: () => void;
+  isApplyLoading?: boolean;
 }
 
-const DialogChangeAudience = ({
+const PostAudienceDialog = ({
+  trigger,
   audience,
   setAudience,
   onApplyClick,
+  isApplyLoading,
   ...props
-}: DialogChangeAudienceProps) => {
+}: PostAudienceDialogProps) => {
   return (
     <Dialog {...props}>
-      <DialogTrigger asChild>
-        <Button
-          type="button"
-          variant="secondary"
-          className="rounded-full"
-          size="sm"
-        >
-          {AUDIENCE.find(aud => aud.value === audience.value)?.icon}
-
-          <Typography.Span
-            title={AUDIENCE.find(aud => aud.value === audience.value)?.label}
-            weight="medium"
-            size="sm"
-          />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader>
           <DialogTitle>Change audience</DialogTitle>
@@ -101,6 +90,7 @@ const DialogChangeAudience = ({
             <Button
               type="button"
               className="rounded-full text-xs"
+              isLoading={isApplyLoading}
               onClick={() => onApplyClick()}
             >
               Apply changes
@@ -112,4 +102,4 @@ const DialogChangeAudience = ({
   );
 };
 
-export default DialogChangeAudience;
+export default PostAudienceDialog;

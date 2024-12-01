@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Typography from '@/components/ui/typography';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { FaBookmark } from 'react-icons/fa';
@@ -15,29 +14,41 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 import Spinner from '@/components/ui/spinner';
 import useSession from '@/hooks/useSession';
 import useDeletePost from '@/hooks/mutations/useDeletePost';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
+import { IoPeople } from 'react-icons/io5';
+import PostAudienceDialog from './PostAudienceDialog';
+import { Audience } from '@/services';
+import useChangePostAudience from '@/hooks/mutations/useChangePostAudience';
+import { PostContext } from './Post';
 
 interface PostMenu {
   postId?: number;
   isPostSaved?: boolean;
   username?: string;
+  audience?: Audience;
 }
 
-const PostMenu = ({ postId, isPostSaved, username }: PostMenu) => {
+const PostMenu = ({
+  postId,
+  isPostSaved,
+  username,
+  audience: audienceFromProps,
+}: PostMenu) => {
   const session = useSession();
+  const postCtx = useContext(PostContext);
+
   const isOwn = session.username === username;
 
   const [isSaved, setIsSaved] = useState<boolean | undefined>(isPostSaved);
+  const [isAudienceDialogOpen, setIsAudienceDialogOpen] =
+    useState<boolean>(false);
+
+  const [audience, setAudience] = useState<{
+    selected: Audience;
+    value: Audience;
+  }>({
+    selected: audienceFromProps!,
+    value: audienceFromProps!,
+  });
 
   const { mutateAsync: savePost, isPending: isSavePostLoading } =
     useSaveUserPost();
@@ -45,35 +56,65 @@ const PostMenu = ({ postId, isPostSaved, username }: PostMenu) => {
     useUnSaveUserPost();
   const { mutateAsync: deletePost, isPending: isDeletePostLoading } =
     useDeletePost();
+  const { mutateAsync: changeAudience, isPending: isChangeAudienceLoading } =
+    useChangePostAudience();
 
   const handleSavePost = async () => {
-    await savePost(postId!);
-    setIsSaved(true);
+    try {
+      await savePost(postId!);
+      setIsSaved(true);
+    } catch (error) {
+      //
+    }
   };
 
   const handleUnSavePost = async () => {
-    await unSavePost(postId!);
-    setIsSaved(false);
+    try {
+      await unSavePost(postId!);
+      setIsSaved(false);
+    } catch (error) {
+      //
+    }
+  };
+
+  const handleDeletePost = async () => {
+    try {
+      await deletePost(postId!);
+    } catch (error) {
+      //
+    }
+  };
+
+  const handleAudienceChange = async () => {
+    try {
+      await changeAudience({
+        postId: postId!,
+        audience: audience.selected,
+      });
+
+      postCtx?.setCtxValue({ audience: audience.selected });
+
+      setAudience({
+        selected: audience.selected,
+        value: audience.selected,
+      });
+    } catch (error) {}
   };
 
   useEffect(() => {
     setIsSaved(isPostSaved);
   }, [isPostSaved]);
 
-  const handleDeletePost = async () => {
-    await deletePost(postId!);
-  };
-
   return (
-    <Dialog>
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger className="p-1.5 rounded-full hover:bg-muted">
           <BsThreeDots className="text-xl" />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-[200px] p-1" align="end">
-          <DropdownMenuItem
-            className="space-x-2"
+          <button
+            className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted"
             onClick={isSaved ? handleUnSavePost : handleSavePost}
           >
             {isSavePostLoading || isUnSavePostLoading ? (
@@ -89,52 +130,56 @@ const PostMenu = ({ postId, isPostSaved, username }: PostMenu) => {
                 <Typography.Span title="Save" weight="medium" />
               </>
             )}
-          </DropdownMenuItem>
+          </button>
+
+          {isOwn && (
+            <button
+              className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted"
+              onClick={handleDeletePost}
+            >
+              {isDeletePostLoading ? (
+                <Spinner />
+              ) : (
+                <RiDeleteBin5Fill className="text-xl w-5" />
+              )}
+              <Typography.Span title="Delete post" weight="medium" />
+            </button>
+          )}
 
           {isOwn && (
             <>
-              <DialogTrigger asChild>
-                <DropdownMenuItem className="space-x-2">
-                  <RiDeleteBin5Fill className="text-xl w-5" />
-                  <Typography.Span title="Delete post" weight="medium" />
-                </DropdownMenuItem>
-              </DialogTrigger>
+              <PostAudienceDialog
+                open={isAudienceDialogOpen}
+                onOpenChange={status => {
+                  setIsAudienceDialogOpen(status);
+
+                  if (!isAudienceDialogOpen) {
+                    setAudience(prev => ({
+                      selected: audience.value,
+                      value: prev.value,
+                    }));
+                    postCtx?.setCtxValue({ audience: audience.value });
+                  }
+                }}
+                trigger={
+                  <button
+                    className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted"
+                    onClick={() => setIsAudienceDialogOpen(true)}
+                  >
+                    <IoPeople className="text-xl w-5" />
+                    <Typography.Span title="Change Audience" weight="medium" />
+                  </button>
+                }
+                audience={audience}
+                setAudience={setAudience}
+                onApplyClick={handleAudienceChange}
+                isApplyLoading={isChangeAudienceLoading}
+              />
             </>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <DialogContent className="sm:max-w-[425px] outline-none">
-        <DialogHeader>
-          <DialogTitle>Delete post.</DialogTitle>
-          <DialogDescription>
-            Are you sure to delete this post?
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button size="sm" variant="ghost">
-              <Typography.Span title="Cancel" size="sm" weight="medium" />
-            </Button>
-          </DialogClose>
-
-          <DialogClose asChild>
-            <Button
-              size="sm"
-              onClick={handleDeletePost}
-              isLoading={isDeletePostLoading}
-            >
-              <Typography.Span
-                title="Confirm"
-                size="sm"
-                color="background"
-                weight="medium"
-              />
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    </>
   );
 };
 

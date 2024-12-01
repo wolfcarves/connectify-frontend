@@ -89,8 +89,6 @@ const UserProfileAction = () => {
 
   const handleUnfriend = async () => {
     try {
-      console.log('unfriending id', userProfile?.id);
-
       const response = await unfriendUser(userProfile?.id);
       await queryClient.invalidateQueries({
         queryKey: [GET_USER_PROFILE_KEY()],

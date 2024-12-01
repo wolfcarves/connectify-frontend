@@ -8,12 +8,14 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useCreatePost from '@/hooks/mutations/useCreatePost';
 import Typography from '@/components/ui/typography';
-import DialogChangeAudience from '../dialog/DialogChangeAudience';
 import { Audience } from '@/services';
 import PhotoGrid from '@/components/common/PhotoGrid/PhotoGrid';
 import { ServerInternalError } from '@/services';
 import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
+import PostAudienceDialog, {
+  AUDIENCE,
+} from '@/components/modules/Post/PostAudienceDialog';
 
 const schema = z.object({
   images: z.any(),
@@ -132,16 +134,34 @@ const CreatePostForm = () => {
               />
             </Button>
 
-            <DialogChangeAudience
-              audience={audience}
-              setAudience={setAudience}
-              onApplyClick={handleAudienceChange}
+            <PostAudienceDialog
+              trigger={
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="rounded-full"
+                  size="sm"
+                >
+                  {AUDIENCE.find(aud => aud.value === audience.value)?.icon}
+
+                  <Typography.Span
+                    title={
+                      AUDIENCE.find(aud => aud.value === audience.value)?.label
+                    }
+                    weight="medium"
+                    size="sm"
+                  />
+                </Button>
+              }
               onOpenChange={() =>
                 setAudience(prev => ({
                   selected: prev.value,
                   value: prev.value,
                 }))
               }
+              audience={audience}
+              setAudience={setAudience}
+              onApplyClick={handleAudienceChange}
             />
           </div>
 

@@ -2,9 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Audience } from './Audience';
 export type CreatePostInput = {
     images?: any;
     content: string;
-    audience?: 'public' | 'friends' | 'private';
+    audience: Audience;
 };
 

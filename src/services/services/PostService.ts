@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Audience } from '../models/Audience';
 import type { CreatePostInput } from '../models/CreatePostInput';
 import type { Post } from '../models/Post';
 import type { SuccessReponse } from '../models/SuccessReponse';
@@ -106,6 +107,33 @@ export class PostService {
             path: {
                 'postId': postId,
             },
+            errors: {
+                401: `Not Found`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Change Post Audience
+     * @param postId
+     * @param requestBody
+     * @returns SuccessReponse OK
+     * @throws ApiError
+     */
+    public static putChangeAudience(
+        postId: number,
+        requestBody?: {
+            audience: Audience;
+        },
+    ): CancelablePromise<SuccessReponse> {
+        return __request(OpenAPI, {
+            method: 'PUT',
+            url: '/api/v1/post/audience/{postId}',
+            path: {
+                'postId': postId,
+            },
+            body: requestBody,
+            mediaType: 'application/json',
             errors: {
                 401: `Not Found`,
                 500: `Server Internal Error.`,

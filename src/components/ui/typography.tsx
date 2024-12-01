@@ -47,7 +47,7 @@ const typography = cva('-translate-y-[1px]', {
 });
 
 interface TypographyProps {
-  title?: string | number;
+  title?: string | number | ReactNode;
   children?: ReactNode;
   size?: keyof typeof sizes;
   color?: 'primary' | 'foreground' | 'background' | 'muted' | 'destructive';

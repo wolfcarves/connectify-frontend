@@ -1,7 +1,10 @@
-import { ComponentProps, type ReactNode } from 'react';
+import { ComponentProps, useContext, type ReactNode } from 'react';
 import { convertUtil } from '@/utils/convertUtil';
 import UserComponent from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
+import { AUDIENCE } from './PostAudienceDialog';
+import { Audience } from '@/services';
+import { PostContext } from './Post';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {
   return (
@@ -24,23 +27,27 @@ interface UserProps {
   timestamp?: string;
 }
 
-const User = ({ username, ...props }: UserProps) => {
+const User = ({ timestamp, ...props }: UserProps) => {
+  const postCtx = useContext(PostContext);
+
   return (
     <>
-      <div className="flex">
+      <div className="flex gap-x-1">
         <UserComponent
           quality={50}
           unoptimized
-          username={username}
+          timestamp={convertUtil(timestamp)}
           {...props}
         />
 
-        <div className="w-1" />
+        <Typography.Span title="•" color="muted" />
 
         <Typography.Span
-          title={` • ${convertUtil(props.timestamp)}`}
+          title={
+            AUDIENCE.find(aud => aud.value === postCtx?.ctxValue.audience)?.icon
+          }
           color="muted"
-          className="mt-0.5 text-xxs"
+          className="text-xxs mt-[0.27rem]"
         />
       </div>
     </>

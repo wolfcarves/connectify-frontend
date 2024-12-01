@@ -2,9 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Audience } from './Audience';
 export type Post = {
     content: string;
-    audience?: 'public' | 'friends' | 'private';
+    audience: Audience;
     id: number;
     uuid: string;
     is_saved: boolean;
