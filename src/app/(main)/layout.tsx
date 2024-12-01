@@ -1,39 +1,18 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 import Header from '@/components/common/Header/Header';
-import Sidebar from '@/components/common/Sidebar';
-import HeaderMenuLink from '@/components/common/Header/HeaderMenuLink';
+import Sidebar from '@/components/common/Sidebar/Sidebar';
 import NavigationTab from '@/components/common/NavigationTab';
 import CenterContainer from '@/components/common/Container/CenterContainer';
+import LeftSidebar from '@/components/common/Sidebar/LeftSidebar';
 
-export default async function MainLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <div className="pb-14 md:pb-0">
-      <Header
-        menu={
-          <>
-            <HeaderMenuLink
-              href="/login"
-              label="Login account"
-              renderWhen="unauthenticated"
-            />
-            <HeaderMenuLink
-              href="/create"
-              label="Create post"
-              renderWhen="authenticated"
-            />
-          </>
-        }
-      />
+      <Header />
 
-      <div className="flex flex-1 justify-between lg:container mt-5 px-2 md:px-4">
-        <Sidebar position="left" className="hidden md:block">
-          <NavigationTab />
-        </Sidebar>
+      <div className="flex flex-1 justify-between lg:container mt-5 px-2 md:px-4 py-10">
+        <LeftSidebar />
 
         <main className="flex flex-1">
           <CenterContainer>{children}</CenterContainer>

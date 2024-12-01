@@ -85,7 +85,7 @@ const SignUpForm = () => {
   return (
     <FormProvider {...methods}>
       <div className="my-10 mx-auto w-full max-w-[28rem]">
-        <div className="bg-background px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8">
           <div className="w-full max-w-lg space-y-8">
             <div className="flex items-start">
               <BackButton />

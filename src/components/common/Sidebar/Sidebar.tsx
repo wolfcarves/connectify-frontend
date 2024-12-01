@@ -33,12 +33,12 @@ const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
   }, [includedRoutes, params.username, pathname, username]);
 
   if (!render) {
-    return <aside className={`min-w-[15rem] ${className}`} />;
+    return <aside className={`w-[16rem] ${className}`} />;
   }
 
   return (
-    <aside className={`min-w-[15rem] ${className}`}>
-      <div className={`fixed min-w-[15rem]`}>{children}</div>
+    <aside className={`w-[16rem] ${className}`}>
+      <div className={`fixed w-[16rem]`}>{children}</div>
     </aside>
   );
 };

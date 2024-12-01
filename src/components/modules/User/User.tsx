@@ -8,6 +8,7 @@ interface UserProps extends Pick<AvatarProps, 'unoptimized' | 'quality'> {
   username?: string;
   size?: 'base' | 'lg';
   timestamp?: string;
+  clickable?: boolean;
 }
 
 const User = ({
@@ -16,32 +17,45 @@ const User = ({
   username,
   size,
   timestamp,
+  clickable = true,
   ...props
 }: UserProps) => {
   return (
     <div className="flex items-center gap-2.5">
       <Link href={`/${username}`} className="hover:opacity-80">
-        <Avatar src={avatar ?? ''} size={size} {...props} />
+        <Avatar src={avatar} size={size} {...props} />
       </Link>
 
       <div>
-        <Link href={`/${username}`} className="flex flex-col">
+        {clickable ? (
+          <Link href={`/${username}`} className="flex flex-col">
+            <Typography.Span
+              title={name}
+              weight="semibold"
+              className="line-clamp-1 hover:underline h-5"
+            />
+          </Link>
+        ) : (
           <Typography.Span
             title={name}
             weight="semibold"
-            className="line-clamp-1 hover:underline h-5"
+            className="line-clamp-1 h-5"
           />
-        </Link>
+        )}
 
         {username ? (
-          <Link href={`/${username}`} className="flex flex-col">
-            <Typography.Span
-              title={`@${username}`}
-              color="muted"
-              size="sm"
-              className="hover:underline"
-            />
-          </Link>
+          clickable ? (
+            <Link href={`/${username}`} className="flex flex-col">
+              <Typography.Span
+                title={`@${username}`}
+                color="muted"
+                size="sm"
+                className="hover:underline"
+              />
+            </Link>
+          ) : (
+            <Typography.Span title={`@${username}`} color="muted" size="sm" />
+          )
         ) : (
           <Typography.Span title={timestamp} color="muted" size="xs" />
         )}

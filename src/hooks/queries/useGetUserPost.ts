@@ -12,6 +12,5 @@ export default function useGetUserPost(uuid: string) {
       return response?.data;
     },
     staleTime: 0,
-    throwOnError: true,
   });
 }

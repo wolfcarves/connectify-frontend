@@ -1,11 +1,17 @@
-import FeedPosts from '@/features/feed/FeedPosts';
+/* eslint-disable react-hooks/exhaustive-deps */
+'use client';
 
-const HomePage = () => {
-  return (
-    <>
-      <FeedPosts />
-    </>
-  );
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+const IndexPage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/feed');
+  }, []);
+
+  return <>Test</>;
 };
 
-export default HomePage;
+export default IndexPage;

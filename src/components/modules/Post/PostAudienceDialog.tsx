@@ -68,7 +68,7 @@ const PostAudienceDialog = ({
             return (
               <button
                 key={value}
-                className="flex justify-between items-center text-start border rounded-lg py-3 px-4 hover:bg-muted"
+                className="flex justify-between items-center text-start border border-border/50 rounded-lg py-3 px-4 hover:bg-muted"
                 onClick={() =>
                   setAudience(prev => ({
                     selected: value,

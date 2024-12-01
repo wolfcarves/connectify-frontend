@@ -189,12 +189,7 @@ const UserProfileAction = () => {
               handleUnfriend();
             }}
           >
-            <Typography.Span
-              title="Unfriend"
-              weight="medium"
-              size="sm"
-              color="foreground"
-            />
+            Unfriend
           </Button>
 
           <Button

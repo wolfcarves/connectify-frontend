@@ -41,7 +41,7 @@ const LoginForm = () => {
   return (
     <FormProvider {...methods}>
       <div className="my-20 mx-auto w-full max-w-[28rem]">
-        <div className="my-20 bg-background px-4 sm:px-6 lg:px-8">
+        <div className="my-20 px-4 sm:px-6 lg:px-8">
           <div className="space-y-10">
             <div className="flex flex-col gap-1 items-center space-y-2">
               <div className="w-12 h-12 bg-secondary rounded-lg"></div>

@@ -28,7 +28,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dmSans.variable}`}>
+      <body className={`${dmSans.variable} bg-background-light`}>
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <main>{children}</main>

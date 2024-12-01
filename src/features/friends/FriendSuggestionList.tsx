@@ -15,7 +15,7 @@ const FriendSuggestionList = () => {
 
   return (
     <div className="pb-10">
-      <Typography.H4
+      <Typography.H6
         title="People you may know"
         className="my-5"
         weight="medium"

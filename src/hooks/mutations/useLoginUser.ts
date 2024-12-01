@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation';
 import { GET_CURRENT_SESSION_KEY } from '../queries/useGetCurrentSession';
 import { GET_FRIEND_SUGGESTIONS_KEY } from '../queries/useGetFriendSuggestions';
 import { GET_FRIEND_REQUESTS_KEY } from '../queries/useGetFriendRequests';
+import { GET_USER_PROFILE_KEY } from '../queries/useGetUserProfile';
+import { GET_ALL_USER_POSTS_KEY } from '../queries/useGetAllUserPosts';
 
 export default function useLoginUser() {
   const router = useRouter();
@@ -25,6 +27,12 @@ export default function useLoginUser() {
       });
       await queryClient.invalidateQueries({
         queryKey: [GET_FRIEND_REQUESTS_KEY()],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [GET_USER_PROFILE_KEY()],
+      });
+      await queryClient.invalidateQueries({
+        queryKey: [GET_ALL_USER_POSTS_KEY()],
       });
 
       router.push('/');

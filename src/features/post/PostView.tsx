@@ -7,11 +7,14 @@ import PostContainer from '@/components/modules/Post/PostContainer';
 import CommentContainer from '@/components/modules/Comment/CommentContainer';
 import Comment from '@/components/modules/Comment/Comment';
 import PostCommentForm from './form/PostCommentForm';
+import { notFound } from 'next/navigation';
 
 const PostView = ({ uuid }: { uuid: string }) => {
   const { data: postData, isPending: isPostLoading } = useGetUserPost(uuid);
   const { data: commentsData, isPending: isCommentsLoading } =
     useGetPostComments(postData?.post?.id);
+
+  if (!postData && !isPostLoading) return notFound();
 
   return (
     <>

@@ -15,7 +15,7 @@ const FriendRequestList = () => {
 
   return (
     <div className="pb-10">
-      <Typography.H4 title="Friend Requests" className="my-5" weight="medium" />
+      <Typography.H6 title="Friend Requests" className="my-5" weight="medium" />
 
       <div className="grid gap-4 xxs:grid-cols-2 sm:grid-cols-3 min-h-[10rem]">
         {friendRequests && friendRequests!.length == 0 && (

@@ -1,20 +1,14 @@
-import { ReactNode } from 'react';
-import Link from 'next/link';
-import Logo from '../Logo';
+'use client';
 
-const Header = async ({ menu }: { menu?: ReactNode }) => {
+import HeaderLogo from './HeaderLogo';
+import HeaderMenu from './HeaderMenu';
+
+const Header = () => {
   return (
-    <header className="sticky top-0 border-b bg-background z-50">
-      <div className="lg:container">
-        <div className="flex justify-between items-center h-16 md:h-20 w-full px-4 lg:px-0">
-          <div className="flex items-center">
-            <Link href="/">
-              <Logo />
-            </Link>
-          </div>
-
-          <div className="space-x-2">{menu}</div>
-        </div>
+    <header className="sticky top-0 border-b border-b-border/50 bg-background dark:bg-background-light z-50">
+      <div className="flex justify-between items-center lg:container h-14 md:h-16 w-full px-4 lg:px-0">
+        <HeaderLogo />
+        <HeaderMenu />
       </div>
     </header>
   );
