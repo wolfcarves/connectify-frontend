@@ -12,24 +12,24 @@ const FeedCategories = () => {
       <Link href="/feed" className="hover:opacity-70">
         <Typography.H6
           title="Discover"
-          weight={pathname === '/feed' ? 'medium' : 'normal'}
-          color={pathname === '/feed' ? 'primary' : 'foreground'}
+          weight="medium"
+          color={pathname === '/feed' ? 'primary' : 'muted'}
         />
       </Link>
 
       <Link href="/feed/friends" className="hover:opacity-70">
         <Typography.H6
           title="Connections"
-          weight={pathname === '/feed/friends' ? 'medium' : 'normal'}
-          color={pathname === '/feed/friends' ? 'primary' : 'foreground'}
+          weight="medium"
+          color={pathname === '/feed/friends' ? 'primary' : 'muted'}
         />
       </Link>
 
       <Link href="/feed/trending" className="hover:opacity-70">
         <Typography.H6
           title="Trending"
-          weight={pathname === '/feed/trending' ? 'medium' : 'normal'}
-          color={pathname === '/feed/trending' ? 'primary' : 'foreground'}
+          weight="medium"
+          color={pathname === '/feed/trending' ? 'primary' : 'muted'}
         />
       </Link>
     </div>

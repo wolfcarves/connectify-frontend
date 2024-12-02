@@ -13,7 +13,7 @@ const LeftSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const { avatar, name, username } = useSession();
+  const { avatar, name, username, friends_count } = useSession();
 
   return (
     <Sidebar position="left">
@@ -33,7 +33,7 @@ const LeftSidebar = () => {
             </div>
             <div className="flex flex-col text-center">
               <Typography.Span title="Friends" size="xs" weight="medium" />
-              <Typography.Span title="80" size="xs" color="muted" />
+              <Typography.Span title={friends_count} size="xs" color="muted" />
             </div>
             <div className="flex flex-col text-center">
               <Typography.Span title="Saved" size="xs" weight="medium" />
@@ -45,19 +45,10 @@ const LeftSidebar = () => {
 
       <div className="space-y-2 py-4">
         <div className="rounded-2xl border bg-card hover:opacity-90 p-2.5">
-          <div className="pb-2">
-            <Typography.Span
-              title="Navigation"
-              size="sm"
-              weight="medium"
-              color="muted"
-            />
-          </div>
-
           <Button
             size="xs"
             variant="ghost"
-            className="w-full justify-start"
+            className="w-full justify-start rounded-lg"
             onClick={() => router.push('/feed')}
           >
             <Rss
@@ -80,7 +71,7 @@ const LeftSidebar = () => {
           <Button
             size="xs"
             variant="ghost"
-            className="w-full justify-start"
+            className="w-full justify-start rounded-lg"
             onClick={() => router.push('/friends')}
           >
             <Users
@@ -97,7 +88,7 @@ const LeftSidebar = () => {
           <Button
             size="xs"
             variant="ghost"
-            className="w-full justify-start"
+            className="w-full justify-start rounded-lg"
             onClick={() => router.push('/saved')}
           >
             <Bookmarks
@@ -114,7 +105,7 @@ const LeftSidebar = () => {
           <Button
             size="xs"
             variant="ghost"
-            className="w-full justify-start"
+            className="w-full justify-start rounded-lg"
             onClick={() => router.push('/chats')}
           >
             <ChatCircle

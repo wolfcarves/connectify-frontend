@@ -30,6 +30,7 @@ const UserProfileTabs = () => {
                 <Typography.Span
                   title={title}
                   weight={isActive ? 'semibold' : 'normal'}
+                  color={isActive ? 'primary' : 'foreground'}
                 />
               </li>
             </Link>

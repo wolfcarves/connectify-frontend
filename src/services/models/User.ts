@@ -8,6 +8,7 @@ export type User = {
     email: string;
     name: string;
     username: string;
+    friends_count: number;
     created_at: string;
     updated_at: string;
 };

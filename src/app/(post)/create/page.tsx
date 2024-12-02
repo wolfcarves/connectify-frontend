@@ -1,10 +1,10 @@
-import CreatePostForm from '@/features/post/form/CreatePostForm';
+import PostCreateForm from '@/features/post/form/PostCreateForm';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 const CreatePostPage = () => {
   return (
     <>
-      <CreatePostForm />
+      <PostCreateForm />
     </>
   );
 };

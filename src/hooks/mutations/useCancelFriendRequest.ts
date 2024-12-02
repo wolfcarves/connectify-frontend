@@ -18,7 +18,6 @@ export default function useCancelFriendRequest() {
       await queryClient.invalidateQueries({
         queryKey: [GET_FRIEND_SUGGESTIONS_KEY()],
       });
-
       await queryClient.invalidateQueries({
         queryKey: [GET_FRIEND_LIST_KEY()],
       });

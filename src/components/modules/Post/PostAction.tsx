@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import Typography from '@/components/ui/typography';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
-  return <div className="sm:space-x-2">{children}</div>;
+  return <div className="flex">{children}</div>;
 };
 
 interface LikeButtonProps extends ButtonProps {
@@ -51,6 +51,7 @@ export const LikeButton = ({
       variant="ghost"
       size="sm"
       onClick={() => handleLikePost(postId!)}
+      className="flex-1"
       {...props}
     >
       {isLiked ? (
@@ -66,7 +67,7 @@ export const LikeButton = ({
           <Typography.Span
             title="Like"
             weight="medium"
-            className="text-sm sm:text-base"
+            className="text-sm sm:text-base mt-0.5"
           />
         )}
       </div>
@@ -84,12 +85,12 @@ export const CommentButton = ({ href, comments = 0 }: CommentButtonProps) => {
   const handlePush = () => href && router.push(href);
 
   return (
-    <Button variant="ghost" size="sm" onClick={handlePush}>
+    <Button variant="ghost" size="sm" className="flex-1" onClick={handlePush}>
       <AiOutlineMessage className="text-lg me-0 sm:me-1" />
       <Typography.Span
         title="Comment"
         weight="medium"
-        className="text-sm sm:text-base"
+        className="text-sm sm:text-base mt-0.5"
       />
     </Button>
   );
@@ -102,12 +103,12 @@ interface ShareButtonProps {
 
 export const ShareButton = ({ postId, shares = 0 }: ShareButtonProps) => {
   return (
-    <Button variant="ghost" size="sm">
+    <Button variant="ghost" size="sm" className="flex-1">
       <AiOutlineShareAlt className="text-lg me-0 sm:me-1" />
       <Typography.Span
         title="Share"
         weight="medium"
-        className="text-sm sm:text-base"
+        className="text-sm sm:text-base mt-0.5"
       />
     </Button>
   );

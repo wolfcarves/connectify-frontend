@@ -1,13 +1,13 @@
 import Image, { ImageProps } from 'next/image';
 import { cva, VariantProps } from 'class-variance-authority';
 import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
-import { env } from '@/config/env';
 
 const avatar = cva(
   'relative bg-accent flex aspect-square rounded-full overflow-hidden',
   {
     variants: {
       size: {
+        xs: 'min-w-8 w-8 min-h-8 h-8',
         sm: 'min-w-9 w-9 min-h-9 h-9',
         base: 'min-w-9 w-9 min-h-9 h-9 sm:min-w-10 sm:w-10 sm:min-h-10 sm:h-10',
         lg: 'min-w-11 w-11 min-h-11 h-11',

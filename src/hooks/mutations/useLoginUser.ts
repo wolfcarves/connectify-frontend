@@ -35,7 +35,7 @@ export default function useLoginUser() {
         queryKey: [GET_ALL_USER_POSTS_KEY()],
       });
 
-      router.push('/');
+      router.push('/feed');
       router.refresh();
     },
   });

@@ -5,9 +5,10 @@ import useGetPostComments from '@/hooks/queries/useGetPostComments';
 import Post from '@/components/modules/Post/Post';
 import PostContainer from '@/components/modules/Post/PostContainer';
 import CommentContainer from '@/components/modules/Comment/CommentContainer';
-import Comment from '@/components/modules/Comment/Comment';
-import PostCommentForm from './form/PostCommentForm';
+import CommentCreateForm from '../comment/form/CommentCreateForm';
 import { notFound } from 'next/navigation';
+import { CommentCard } from '@/components/modules/Comment/CommentCard';
+import ReplyInput from '@/components/modules/Reply/ReplyInput';
 
 const PostView = ({ uuid }: { uuid: string }) => {
   const { data: postData, isPending: isPostLoading } = useGetUserPost(uuid);
@@ -24,13 +25,22 @@ const PostView = ({ uuid }: { uuid: string }) => {
       <CommentContainer isLoading={isCommentsLoading}>
         {commentsData?.map(data => (
           <>
-            <Comment key={data?.id} data={data} />
+            <CommentCard>
+              <CommentCard.Content
+                avatar={data?.user.avatar}
+                name={data?.user.name}
+                username={data?.user.username}
+                comment={data?.comment}
+              />
+              <CommentCard.Action />
+            </CommentCard>
 
-            <Comment key={data?.id} data={data} />
+            <ReplyInput avatar={data?.user.avatar} />
           </>
         ))}
       </CommentContainer>
-      <PostCommentForm postId={postData?.post?.id} />
+
+      <CommentCreateForm postId={postData?.post?.id} />
     </>
   );
 };

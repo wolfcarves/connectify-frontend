@@ -10,12 +10,7 @@ import {
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu';
-import {
-  BookmarkSimple,
-  HouseLine,
-  PlusCircle,
-  Users,
-} from '@phosphor-icons/react';
+import { BookmarkSimple, HouseLine, Users } from '@phosphor-icons/react';
 
 export let navigation = [
   {
@@ -41,7 +36,7 @@ export let navigation = [
 const HeaderNavigation = () => {
   const pathname = usePathname();
 
-  if (pathname.startsWith('/login') || pathname.startsWith('/signup')) {
+  if (pathname?.startsWith('/login') || pathname?.startsWith('/signup')) {
     return <></>;
   }
 

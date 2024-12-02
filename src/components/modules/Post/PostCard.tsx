@@ -3,12 +3,11 @@ import { convertUtil } from '@/utils/convertUtil';
 import UserComponent from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
 import { AUDIENCE } from './PostAudienceDialog';
-import { Audience } from '@/services';
 import { PostContext } from './Post';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {
   return (
-    <article className="rounded-2xl space-y-5 my-5 bg-card border px-3 py-4">
+    <article className="rounded-2xl space-y-5 my-5 bg-card border px-3 pt-4 pb-2">
       {children}
     </article>
   );
@@ -55,7 +54,9 @@ const User = ({ timestamp, ...props }: UserProps) => {
 };
 
 const Content = ({ children }: { children?: ReactNode }) => {
-  return <Typography.P>{children}</Typography.P>;
+  return (
+    <Typography.P className="whitespace-pre-line">{children}</Typography.P>
+  );
 };
 
 PostCard.User = User;

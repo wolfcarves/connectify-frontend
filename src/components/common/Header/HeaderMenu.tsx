@@ -2,7 +2,9 @@
 
 import { Button } from '../../ui/button';
 import Link from 'next/link';
-import { Bell, ChatCircle, Plus } from '@phosphor-icons/react';
+import { Plus } from '@phosphor-icons/react';
+import { TbMessageCircle, TbMessageCircleFilled } from 'react-icons/tb';
+import { PiBellFill, PiBell } from 'react-icons/pi';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,7 +78,13 @@ const HeaderMenu = () => {
           <Button
             size="icon"
             variant={pathname === '/chats' ? 'default' : 'secondary'}
-            icon={<ChatCircle size={20} />}
+            icon={
+              pathname === '/chats' ? (
+                <TbMessageCircleFilled size={20} />
+              ) : (
+                <TbMessageCircle size={20} />
+              )
+            }
             className="rounded-full text-xs"
           />
         </Link>
@@ -85,7 +93,13 @@ const HeaderMenu = () => {
           <Button
             size="icon"
             variant={pathname === '/notifications' ? 'default' : 'secondary'}
-            icon={<Bell size={20} />}
+            icon={
+              pathname === '/notifications' ? (
+                <PiBellFill size={20} />
+              ) : (
+                <PiBell size={20} />
+              )
+            }
             className="rounded-full text-xs"
           />
         </Link>

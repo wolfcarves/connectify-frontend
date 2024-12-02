@@ -8,8 +8,9 @@ export type Comment = (CommentInput & {
     id: number;
     user: {
         id: number;
-        name: string;
         avatar: string;
+        name: string;
+        username: string;
     };
     created_at: string;
     updated_at: string;

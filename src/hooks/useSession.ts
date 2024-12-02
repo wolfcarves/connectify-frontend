@@ -24,6 +24,7 @@ export default function useSession() {
     email: session?.email,
     name: session?.name,
     username: session?.username,
+    friends_count: session?.friends_count,
     isLoading: isSessionLoading,
   };
 }

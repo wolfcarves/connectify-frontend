@@ -24,7 +24,7 @@ const schema = z.object({
 
 type CreatePostInput = z.infer<typeof schema>;
 
-const CreatePostForm = () => {
+const PostCreateForm = () => {
   const { toast } = useToast();
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -54,7 +54,7 @@ const CreatePostForm = () => {
     try {
       await createPostMutate({
         images,
-        content: data.content,
+        content: data.content.trim(),
         audience: audience.value,
       });
     } catch (error) {
@@ -103,8 +103,9 @@ const CreatePostForm = () => {
         <Typography.H4 title="Create post" className="py-5" weight="semibold" />
 
         <textarea
-          className="bg-transparent w-full h-40 border rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin p-5"
+          className="w-full border rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin p-5"
           placeholder="What's on your mind?"
+          rows={5}
           {...register('content')}
         />
 
@@ -228,4 +229,4 @@ const CreatePostForm = () => {
   );
 };
 
-export default CreatePostForm;
+export default PostCreateForm;
