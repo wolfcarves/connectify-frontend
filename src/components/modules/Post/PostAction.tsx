@@ -55,9 +55,9 @@ export const LikeButton = ({
       {...props}
     >
       {isLiked ? (
-        <AiFillLike className="text-lg me-0 sm:me-1 text-primary" />
+        <AiFillLike className="text-lg text-primary" />
       ) : (
-        <AiOutlineLike className="text-lg me-0 sm:me-1" />
+        <AiOutlineLike className="text-lg" />
       )}
 
       <div className="w-6">
@@ -86,7 +86,7 @@ export const CommentButton = ({ href, comments = 0 }: CommentButtonProps) => {
 
   return (
     <Button variant="ghost" size="sm" className="flex-1" onClick={handlePush}>
-      <AiOutlineMessage className="text-lg me-0 sm:me-1" />
+      <AiOutlineMessage className="text-lg me-0" />
       <Typography.Span
         title="Comment"
         weight="medium"
@@ -104,7 +104,7 @@ interface ShareButtonProps {
 export const ShareButton = ({ postId, shares = 0 }: ShareButtonProps) => {
   return (
     <Button variant="ghost" size="sm" className="flex-1">
-      <AiOutlineShareAlt className="text-lg me-0 sm:me-1" />
+      <AiOutlineShareAlt className="text-lg" />
       <Typography.Span
         title="Share"
         weight="medium"

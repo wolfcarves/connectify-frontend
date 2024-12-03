@@ -43,20 +43,7 @@ const User = ({
           />
         )}
 
-        {username ? (
-          clickable ? (
-            <Link href={`/${username}`} className="flex flex-col">
-              <Typography.Span
-                title={`@${username}`}
-                color="muted"
-                size="sm"
-                className="hover:underline"
-              />
-            </Link>
-          ) : (
-            <Typography.Span title={`@${username}`} color="muted" size="sm" />
-          )
-        ) : (
+        {timestamp && (
           <Typography.Span title={timestamp} color="muted" size="xs" />
         )}
       </div>

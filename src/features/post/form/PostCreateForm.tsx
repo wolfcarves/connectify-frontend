@@ -16,6 +16,7 @@ import { useToast } from '@/components/ui/use-toast';
 import PostAudienceDialog, {
   AUDIENCE,
 } from '@/components/modules/Post/PostAudienceDialog';
+import TextArea from '@/components/ui/textarea';
 
 const schema = z.object({
   images: z.any(),
@@ -102,10 +103,9 @@ const PostCreateForm = () => {
       <form onSubmit={handleSubmit(handleCreatePost)}>
         <Typography.H4 title="Create post" className="py-5" weight="semibold" />
 
-        <textarea
-          className="w-full border rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin p-5"
-          placeholder="What's on your mind?"
+        <TextArea
           rows={5}
+          placeholder="What's on your mind?"
           {...register('content')}
         />
 

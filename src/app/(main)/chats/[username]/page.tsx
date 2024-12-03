@@ -4,6 +4,7 @@ import React from 'react';
 import Avatar from '@/components/common/Avatar/Avatar';
 import { Button } from '@/components/ui/button';
 import { DotsThreeOutline } from '@phosphor-icons/react';
+import TextArea from '@/components/ui/textarea';
 
 const MessageByUsernamePage = () => {
   return (
@@ -25,10 +26,7 @@ const MessageByUsernamePage = () => {
       <div className="flex-1 w-full"></div>
 
       <div>
-        <textarea
-          className="bg-accent text-sm w-full min-h-12 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-4 pt-4"
-          placeholder="Type something..."
-        />
+        <TextArea />
       </div>
     </div>
   );

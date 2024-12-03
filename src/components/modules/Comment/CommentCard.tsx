@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import Avatar from '@/components/common/Avatar/Avatar';
 import Typography from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
@@ -15,19 +15,23 @@ export const CommentContent = ({
   username,
   name,
   comment,
+  isReplyActive,
 }: {
   avatar?: string;
   name?: string;
   username?: string;
   comment?: string;
+  isReplyActive?: boolean;
 }) => {
   return (
     <div className="flex gap-x-2">
       <div>
         <Avatar src={avatar} size="sm" />
-        <div className="flex justify-center w-full h-full">
-          <div className="w-0.5 h-full bg-muted" />
-        </div>
+        {isReplyActive && (
+          <div className="flex justify-center w-full h-full">
+            <div className="w-0.5 h-full bg-muted" />
+          </div>
+        )}
       </div>
 
       <div
@@ -48,20 +52,63 @@ export const CommentContent = ({
   );
 };
 
-export const CommentActionCard = () => {
+export const CommentActionCard = ({
+  isReplyActive,
+  repliesCount,
+  onReplyClick,
+}: {
+  isReplyActive?: boolean;
+  repliesCount?: number;
+  onReplyClick?: () => void;
+}) => {
   return (
-    <div className="flex gap-2 items-center ms-10 px-2">
-      <Typography.Span title="8h" size="xs" color="muted" />
+    <>
+      <div className="flex gap-2 items-center ms-10 px-2 pt-0.5 pb-1">
+        <Typography.Span title="8h" size="xs" color="muted" />
 
-      <div className="flex items-center">
-        <Button type="button" variant="ghost" size="xxs">
-          <Typography.Span title="Like" size="xs" weight="medium" />
-        </Button>
-        <Button type="button" variant="ghost" size="xxs">
-          <Typography.Span title="Reply" size="xs" weight="medium" />
-        </Button>
+        <div className="flex items-center">
+          <Button type="button" variant="ghost" size="xxs">
+            <Typography.Span
+              title="Like"
+              size="xs"
+              weight="medium"
+              color="muted"
+            />
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="xxs"
+            onClick={onReplyClick}
+          >
+            <Typography.Span
+              title="Reply"
+              size="xs"
+              weight="medium"
+              color="muted"
+            />
+          </Button>
+        </div>
       </div>
-    </div>
+
+      {!isReplyActive && repliesCount && repliesCount >= 2 ? (
+        <div className="flex w-full h-6 ps-[1.1rem] pb-1">
+          <div className="w-9 h-1/2 border-b-2 border-l-2 rounded-bl-lg" />
+
+          <button
+            className="my-auto ms-1 hover:opacity-80 -translate-y-1.5"
+            onClick={onReplyClick}
+          >
+            <Typography.Span
+              title={`View all ${repliesCount} replies`}
+              size="xs"
+              weight="medium"
+              color="muted"
+            />
+          </button>
+        </div>
+      ) : null}
+    </>
   );
 };
 

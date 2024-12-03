@@ -36,6 +36,7 @@ const User = ({ timestamp, ...props }: UserProps) => {
           quality={50}
           unoptimized
           timestamp={convertUtil(timestamp)}
+          clickable={false}
           {...props}
         />
 

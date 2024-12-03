@@ -2,9 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CommentInput } from './CommentInput';
-export type Comment = (CommentInput & {
-    comment?: string;
+import type { ReplyInput } from './ReplyInput';
+export type Reply = (ReplyInput & {
     id: number;
     user: {
         id: number;
@@ -12,7 +11,7 @@ export type Comment = (CommentInput & {
         name: string;
         username: string;
     };
-    replies_count: number;
+    reply: string;
     created_at: string;
     updated_at: string;
 });
