@@ -3,6 +3,7 @@ import Avatar from '@/components/common/Avatar/Avatar';
 import Typography from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Spinner from '@/components/ui/spinner';
 
 export const CommentCard = ({ children }: { children?: ReactNode }) => {
   return (
@@ -56,10 +57,12 @@ export const CommentActionCard = ({
   isReplyActive,
   repliesCount,
   onReplyClick,
+  isLoading,
 }: {
   isReplyActive?: boolean;
   repliesCount?: number;
   onReplyClick?: () => void;
+  isLoading?: boolean;
 }) => {
   return (
     <>
@@ -91,12 +94,12 @@ export const CommentActionCard = ({
         </div>
       </div>
 
-      {!isReplyActive && repliesCount && repliesCount >= 2 ? (
+      {(!isReplyActive && repliesCount && repliesCount >= 2) || isLoading ? (
         <div className="flex w-full h-6 ps-[1.1rem] pb-1">
           <div className="w-9 h-1/2 border-b-2 border-l-2 rounded-bl-lg" />
 
           <button
-            className="my-auto ms-1 hover:opacity-80 -translate-y-1.5"
+            className="flex gap-x-1 my-auto ms-1 hover:opacity-80 -translate-y-1.5"
             onClick={onReplyClick}
           >
             <Typography.Span
@@ -105,6 +108,7 @@ export const CommentActionCard = ({
               weight="medium"
               color="muted"
             />
+            {isLoading && <Spinner />}
           </button>
         </div>
       ) : null}

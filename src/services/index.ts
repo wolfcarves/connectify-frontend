@@ -15,6 +15,7 @@ export type { FriendRequest } from './models/FriendRequest';
 export type { FriendSuggestion } from './models/FriendSuggestion';
 export type { GetUserProfileResponseSchema } from './models/GetUserProfileResponseSchema';
 export type { NotFoundError } from './models/NotFoundError';
+export type { Pagination } from './models/Pagination';
 export type { Post } from './models/Post';
 export type { Reply } from './models/Reply';
 export type { ReplyInput } from './models/ReplyInput';

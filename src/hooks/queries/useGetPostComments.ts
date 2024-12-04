@@ -1,16 +1,25 @@
 import { CommentService } from '@/services';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const GET_POST_COMMENTS_KEY = () => 'GET_POST_COMMENTS_KEY';
 
 export default function useGetPostComments(postId?: number) {
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: [GET_POST_COMMENTS_KEY(), postId],
-    queryFn: async () => {
-      const response = await CommentService.getPostComments(postId ?? -1);
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await CommentService.getPostComments(
+        postId ?? -1,
+        pageParam,
+      );
 
-      return response.data;
+      return response;
     },
     enabled: !!postId,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.pagination.remaining_items > 0
+        ? pages.length + 1
+        : undefined;
+    },
   });
 }

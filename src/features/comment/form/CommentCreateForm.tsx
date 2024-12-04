@@ -53,13 +53,6 @@ const CommentCreateForm = ({ postId }: { postId?: number }) => {
           ref(e);
           textareaRef.current = e;
         }}
-        onKeyDown={e => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            handleSubmit(handleCommentSubmit)();
-            textareaRef.current!.value = '';
-          }
-        }}
       />
     </form>
   );

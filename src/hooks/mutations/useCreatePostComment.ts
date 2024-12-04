@@ -1,10 +1,7 @@
 import { CommentService } from '@/services';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { GET_POST_COMMENTS_KEY } from '../queries/useGetPostComments';
+import { useMutation } from '@tanstack/react-query';
 
 export default function useCreatePostComment() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationKey: ['CREATE_POST_COMMENT_KEY'],
     mutationFn: async ({
@@ -20,10 +17,6 @@ export default function useCreatePostComment() {
 
       return response.message;
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [GET_POST_COMMENTS_KEY()],
-      });
-    },
+    onSuccess: async () => {},
   });
 }

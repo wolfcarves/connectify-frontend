@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Comment } from '../models/Comment';
+import type { Pagination } from '../models/Pagination';
 import type { SuccessReponse } from '../models/SuccessReponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -38,19 +39,25 @@ export class CommentService {
     /**
      * Get Post Comments
      * @param postId
+     * @param page
      * @returns any OK
      * @throws ApiError
      */
     public static getPostComments(
         postId: number,
+        page?: number,
     ): CancelablePromise<{
         data: Array<Comment>;
+        pagination: Pagination;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/comment/post/{postId}',
             path: {
                 'postId': postId,
+            },
+            query: {
+                'page': page,
             },
             errors: {
                 401: `Not Found`,
