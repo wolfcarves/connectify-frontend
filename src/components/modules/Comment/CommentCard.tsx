@@ -30,14 +30,14 @@ export const CommentContent = ({
       <div>
         <Avatar src={avatar} size="sm" />
         {isReplyActive && (
-          <div className="flex justify-center w-full h-full">
-            <div className="w-0.5 h-full bg-muted" />
+          <div className="flex justify-center w-full h-full pt-1.5">
+            <div className="w-0.5 h-full bg-border" />
           </div>
         )}
       </div>
 
       <div
-        className="bg-accent min-h-10 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-3 pt-1.5 pb-2"
+        className="dark:bg-accent bg-card shadow-sm min-h-10 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-3 pt-1.5 pb-2"
         style={{ overflowWrap: 'anywhere' }}
       >
         <Link href={`/${username}`}>
@@ -48,7 +48,11 @@ export const CommentContent = ({
             className="hover:opacity-80"
           />
         </Link>
-        <Typography.P title={comment} size="sm" />
+        <Typography.P
+          title={comment}
+          size="sm"
+          className="whitespace-pre-line"
+        />
       </div>
     </div>
   );
@@ -104,22 +108,26 @@ export const CommentActionCard = ({
       </div>
 
       {(!isReplyActive && hasReplies) || (isLoading && hasReplies) ? (
-        <div className="flex w-full h-6 ps-[1.1rem] pb-1">
-          <div className="w-9 h-1/2 border-b-2 border-l-2 rounded-bl-lg" />
+        <>
+          <div className="flex h-5 w-full ps-[17px] pb-1">
+            <div className="w-7 border-b-2 border-l-2 rounded-bl-xl" />
 
-          <button
-            className="flex gap-x-1 my-auto ms-1 hover:opacity-80 -translate-y-1.5 py-1"
-            onClick={onReplyClick}
-          >
-            <Typography.Span
-              title={`View all ${repliesCount} replies`}
-              size="xs"
-              weight="medium"
-              color="muted"
-            />
-            {isLoading && <Spinner />}
-          </button>
-        </div>
+            <button
+              className="flex gap-x-1 my-auto ms-1 hover:opacity-80 mt-1"
+              onClick={onReplyClick}
+            >
+              <Typography.Span
+                title={`View all ${repliesCount} replies`}
+                size="xs"
+                weight="medium"
+                color="muted"
+              />
+              {isLoading && <Spinner />}
+            </button>
+          </div>
+
+          <div className="h-3" />
+        </>
       ) : null}
     </>
   );

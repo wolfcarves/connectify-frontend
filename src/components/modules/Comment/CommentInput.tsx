@@ -19,7 +19,7 @@ const CommentInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
     return (
       <CenterContainer className="flex gap-2.5 pt-2 pb-7">
         <Avatar src={avatar!} size="sm" />
-        <TextArea ref={ref} placeholder="Post comment" {...props} />
+        <TextArea rows={2} ref={ref} placeholder="Post comment" {...props} />
         <Button
           variant="secondary"
           size="sm"

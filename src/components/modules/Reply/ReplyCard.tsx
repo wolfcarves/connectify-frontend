@@ -13,32 +13,36 @@ export const ReplyCard = ({ children }: { children?: ReactNode }) => {
 };
 
 export const ReplyContent = ({
+  isReplyActive,
   avatar,
   username,
   name,
   reply,
-  isReplying,
 }: {
+  isReplyActive?: boolean;
   avatar?: string;
   name?: string;
   username?: string;
   reply?: string;
-  isReplying?: boolean;
 }) => {
   return (
     <div className="flex gap-x-2">
       <div className="relative flex flex-col">
         <div className="flex">
-          <div className="w-[17px] h-full"></div>
-          <div className="w-7 h-4 border-l-2 border-b-2 rounded-bl-[10px]"></div>
+          <div className="flex pe-1.5">
+            <div className="w-[17px] h-full"></div>
+            <div className="w-7 h-4 border-l-2 border-b-2 rounded-bl-[10px]"></div>
+          </div>
           <Avatar src={avatar} size="xs" />
         </div>
 
-        <div className="absolute left-[17px] w-0.5 h-full bg-muted" />
+        {isReplyActive && (
+          <div className="absolute left-[17px] w-0.5 h-full bg-border" />
+        )}
       </div>
 
       <div
-        className="bg-accent min-h-10 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-3 pt-1.5 pb-2"
+        className="dark:bg-accent bg-card shadow-sm min-h-10 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-3 pt-1.5 pb-2"
         style={{ overflowWrap: 'anywhere' }}
       >
         <Link href={`/${username}`}>
@@ -56,16 +60,16 @@ export const ReplyContent = ({
 };
 
 export const ReplyActionCard = ({
-  isReplying,
+  isReplyActive,
   onReplyClick,
 }: {
-  isReplying?: boolean;
+  isReplyActive?: boolean;
   onReplyClick?: () => void;
 }) => {
   return (
     <div className="flex">
       <div className="flex justify-center w-[36px] h-[1.90rem]">
-        <div className="w-0.5 h-full bg-muted" />
+        {isReplyActive && <div className="w-0.5 h-full bg-border" />}
       </div>
 
       <div className="flex gap-2 items-center ms-10 px-2 pt-1">
@@ -73,15 +77,26 @@ export const ReplyActionCard = ({
 
         <div className="flex items-center">
           <Button type="button" variant="ghost" size="xxs">
-            <Typography.Span title="Like" size="xs" weight="medium" />
+            <Typography.Span
+              title="Like"
+              size="xs"
+              weight="medium"
+              color="muted"
+            />
           </Button>
+
           <Button
             type="button"
             variant="ghost"
             size="xxs"
             onClick={onReplyClick}
           >
-            <Typography.Span title="Reply" size="xs" weight="medium" />
+            <Typography.Span
+              title="Reply"
+              size="xs"
+              weight="medium"
+              color="muted"
+            />
           </Button>
         </div>
       </div>

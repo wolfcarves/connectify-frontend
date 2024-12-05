@@ -2,8 +2,9 @@ import { forwardRef, useState } from 'react';
 import type { Comment as CommentType } from '@/services';
 import { CommentCard } from './CommentCard';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
-import Reply from '../Reply/Reply';
 import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
+import { ReplyCard } from '../Reply/ReplyCard';
+import useSession from '@/hooks/useSession';
 
 interface CommentProps {
   data: Omit<CommentType, 'created_at' | 'updated_at'> &
@@ -12,9 +13,14 @@ interface CommentProps {
 
 const Comment = forwardRef<HTMLInputElement, CommentProps>(
   ({ data: comment }: CommentProps, ref) => {
+    const session = useSession();
+
     const [isReplyActive, setIsReplyActive] = useState<boolean>(false);
     const { data: replies, isLoading: isRepliesLoading } =
-      useGetRepliesByCommentId(comment?.id, isReplyActive);
+      useGetRepliesByCommentId(
+        comment?.id,
+        comment.replies_count === 1 || isReplyActive,
+      );
 
     const handleReplyClick = () => {
       setIsReplyActive(true);
@@ -24,7 +30,7 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
       <div ref={ref}>
         <CommentCard>
           <CommentCard.Content
-            isReplyActive={comment?.replies_count > 0 || isReplyActive}
+            isReplyActive={isReplyActive || comment?.replies_count > 0}
             avatar={comment?.user.avatar}
             name={comment?.user.name}
             username={comment?.user.username}
@@ -39,14 +45,40 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
           />
         </CommentCard>
 
+        {/* Show reply if only one */}
+        {replies &&
+          replies?.data.length === 1 &&
+          replies?.data.map(reply => (
+            <ReplyCard key={reply.id}>
+              <ReplyCard.Content
+                avatar={reply?.user.avatar}
+                username={reply?.user.username}
+                name={reply?.user.name}
+                reply={reply?.reply}
+                isReplyActive={isReplyActive}
+              />
+              <ReplyCard.Action isReplyActive={isReplyActive} />
+            </ReplyCard>
+          ))}
+
         {isReplyActive &&
-          replies?.data.map(reply => <Reply key={reply.id} data={reply} />)}
+          replies &&
+          replies?.data.length > 1 &&
+          replies?.data.map(reply => (
+            <ReplyCard key={reply.id}>
+              <ReplyCard.Content
+                avatar={reply?.user.avatar}
+                username={reply?.user.username}
+                name={reply?.user.name}
+                reply={reply?.reply}
+                isReplyActive={isReplyActive}
+              />
+              <ReplyCard.Action isReplyActive={isReplyActive} />
+            </ReplyCard>
+          ))}
 
         {isReplyActive && (
-          <ReplyCreateForm
-            commentId={comment?.id}
-            avatar={comment.user.avatar}
-          />
+          <ReplyCreateForm commentId={comment?.id} avatar={session.avatar!} />
         )}
       </div>
     );

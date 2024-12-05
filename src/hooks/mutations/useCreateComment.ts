@@ -15,7 +15,7 @@ export default function useCreateComment() {
         comment,
       });
 
-      return response;
+      return response.data;
     },
     onSuccess: async () => {},
   });

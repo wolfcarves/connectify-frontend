@@ -21,7 +21,9 @@ export class CommentService {
             comment: string;
         },
     ): CancelablePromise<{
-        id: number;
+        data: {
+            id: number;
+        };
     }> {
         return __request(OpenAPI, {
             method: 'POST',
