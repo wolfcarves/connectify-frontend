@@ -8,7 +8,9 @@ import TextArea from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { IoIosPaperPlane } from 'react-icons/io';
 
-interface CommentInputProps extends ComponentProps<'textarea'> {}
+interface CommentInputProps extends ComponentProps<'textarea'> {
+  isLoading?: boolean;
+}
 
 const CommentInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
   (props: CommentInputProps, ref) => {
@@ -21,6 +23,7 @@ const CommentInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
         <Button
           variant="secondary"
           size="sm"
+          isLoading={props.isLoading}
           icon={<IoIosPaperPlane size={16} />}
           className="rounded-xl"
         />

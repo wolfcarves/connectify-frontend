@@ -4,6 +4,7 @@ import Typography from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Spinner from '@/components/ui/spinner';
+import { parseDate } from '@/utils/parseDate';
 
 export const CommentCard = ({ children }: { children?: ReactNode }) => {
   return (
@@ -54,20 +55,28 @@ export const CommentContent = ({
 };
 
 export const CommentActionCard = ({
+  timestamp,
   isReplyActive,
   repliesCount,
   onReplyClick,
   isLoading,
 }: {
+  timestamp?: string;
   isReplyActive?: boolean;
   repliesCount?: number;
   onReplyClick?: () => void;
   isLoading?: boolean;
 }) => {
+  const hasReplies = repliesCount && repliesCount >= 2;
+
   return (
     <>
       <div className="flex gap-2 items-center ms-10 px-2 pt-0.5 pb-1">
-        <Typography.Span title="8h" size="xs" color="muted" />
+        <Typography.Span
+          title={timestamp ? parseDate(timestamp) : 'Just now'}
+          size="xs"
+          color="muted"
+        />
 
         <div className="flex items-center">
           <Button type="button" variant="ghost" size="xxs">
@@ -94,12 +103,12 @@ export const CommentActionCard = ({
         </div>
       </div>
 
-      {(!isReplyActive && repliesCount && repliesCount >= 2) || isLoading ? (
+      {(!isReplyActive && hasReplies) || (isLoading && hasReplies) ? (
         <div className="flex w-full h-6 ps-[1.1rem] pb-1">
           <div className="w-9 h-1/2 border-b-2 border-l-2 rounded-bl-lg" />
 
           <button
-            className="flex gap-x-1 my-auto ms-1 hover:opacity-80 -translate-y-1.5"
+            className="flex gap-x-1 my-auto ms-1 hover:opacity-80 -translate-y-1.5 py-1"
             onClick={onReplyClick}
           >
             <Typography.Span

@@ -27,14 +27,14 @@ export const ReplyContent = ({
 }) => {
   return (
     <div className="flex gap-x-2">
-      <div className="flex">
-        <div className="flex justify-end w-[19px] h-full">
-          <div className="w-0.5 h-full bg-muted" />
+      <div className="relative flex flex-col">
+        <div className="flex">
+          <div className="w-[17px] h-full"></div>
+          <div className="w-7 h-4 border-l-2 border-b-2 rounded-bl-[10px]"></div>
+          <Avatar src={avatar} size="xs" />
         </div>
 
-        <div className="w-7 h-4 border-b-2"></div>
-
-        <Avatar src={avatar} size="xs" />
+        <div className="absolute left-[17px] w-0.5 h-full bg-muted" />
       </div>
 
       <div

@@ -1,7 +1,7 @@
 import { CommentService } from '@/services';
 import { useMutation } from '@tanstack/react-query';
 
-export default function useCreatePostComment() {
+export default function useCreateComment() {
   return useMutation({
     mutationKey: ['CREATE_POST_COMMENT_KEY'],
     mutationFn: async ({
@@ -15,7 +15,7 @@ export default function useCreatePostComment() {
         comment,
       });
 
-      return response.message;
+      return response;
     },
     onSuccess: async () => {},
   });

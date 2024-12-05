@@ -1,5 +1,5 @@
 import { ComponentProps, useContext, type ReactNode } from 'react';
-import { convertUtil } from '@/utils/convertUtil';
+import { parseDate } from '@/utils/parseDate';
 import UserComponent from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
 import { AUDIENCE } from './PostAudienceDialog';
@@ -35,8 +35,7 @@ const User = ({ timestamp, ...props }: UserProps) => {
         <UserComponent
           quality={50}
           unoptimized
-          timestamp={convertUtil(timestamp)}
-          clickable={false}
+          timestamp={parseDate(timestamp)}
           {...props}
         />
 

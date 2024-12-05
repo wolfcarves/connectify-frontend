@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef } from 'react';
-import useCreatePostComment from '@/hooks/mutations/useCreatePostComment';
+import React, { useEffect, useRef } from 'react';
+import useCreateComment from '@/hooks/mutations/useCreateComment';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import errorHandler from '@/utils/errorHandler';
@@ -16,24 +16,48 @@ const schema = z.object({
 
 type CommentSchema = z.infer<typeof schema>;
 
-const CommentCreateForm = ({ postId }: { postId?: number }) => {
+interface CommentCreateFormProps {
+  postId?: number;
+  onSubmit?: (commentId: number, value: string) => void;
+  onLoad?: (status: boolean) => void;
+}
+
+const CommentCreateForm = ({
+  postId,
+  onSubmit,
+  onLoad,
+}: CommentCreateFormProps) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
   const methods = useForm<CommentSchema>({});
   const { handleSubmit, register, setError } = methods;
 
-  const { mutateAsync: createCommentMutate } = useCreatePostComment();
+  const {
+    mutateAsync: createCommentMutate,
+    isPending: isCreateCommentLoading,
+  } = useCreateComment();
+
+  useEffect(() => {
+    onLoad && onLoad(isCreateCommentLoading);
+  }, [isCreateCommentLoading, onLoad]);
 
   const handleCommentSubmit = async (data: CommentSchema) => {
     try {
-      const requestData = {
-        postId,
-        comment: data?.content,
-      };
+      if (textareaRef?.current)
+        if (
+          textareaRef.current.value !== '' ||
+          textareaRef.current.value !== undefined
+        ) {
+          const requestData = {
+            postId,
+            comment: data?.content,
+          };
 
-      await createCommentMutate(requestData);
+          const createdComment = await createCommentMutate(requestData);
+          onSubmit && onSubmit(createdComment.id, textareaRef.current.value);
 
-      if (textareaRef?.current) textareaRef.current.value = '';
+          textareaRef.current.value = '';
+        }
     } catch (error: unknown) {
       //
       errorHandler(error, schema, setError);
@@ -53,6 +77,7 @@ const CommentCreateForm = ({ postId }: { postId?: number }) => {
           ref(e);
           textareaRef.current = e;
         }}
+        isLoading={isCreateCommentLoading}
       />
     </form>
   );

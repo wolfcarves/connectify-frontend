@@ -6,7 +6,8 @@ import Reply from '../Reply/Reply';
 import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
 
 interface CommentProps {
-  data: CommentType;
+  data: Omit<CommentType, 'created_at' | 'updated_at'> &
+    Partial<Pick<CommentType, 'created_at' | 'updated_at'>>;
 }
 
 const Comment = forwardRef<HTMLInputElement, CommentProps>(
@@ -23,13 +24,14 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
       <div ref={ref}>
         <CommentCard>
           <CommentCard.Content
+            isReplyActive={comment?.replies_count > 0 || isReplyActive}
             avatar={comment?.user.avatar}
             name={comment?.user.name}
             username={comment?.user.username}
             comment={comment.comment}
-            isReplyActive={comment?.replies_count > 0 || isReplyActive}
           />
           <CommentCard.Action
+            timestamp={comment?.created_at}
             isReplyActive={isReplyActive}
             repliesCount={comment?.replies_count}
             onReplyClick={handleReplyClick}
@@ -42,8 +44,8 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
 
         {isReplyActive && (
           <ReplyCreateForm
+            commentId={comment?.id}
             avatar={comment.user.avatar}
-            isLoading={isRepliesLoading}
           />
         )}
       </div>

@@ -5,12 +5,13 @@ import Avatar from '@/components/common/Avatar/Avatar';
 import TextArea from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { IoIosPaperPlane } from 'react-icons/io';
-interface CommentInputProps extends ComponentProps<'textarea'> {
+interface ReplyInputProps extends ComponentProps<'textarea'> {
   avatar: string;
+  isLoading: boolean;
 }
 
-const ReplyInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
-  ({ avatar, ...props }: CommentInputProps, ref) => {
+const ReplyInput = forwardRef<HTMLTextAreaElement, ReplyInputProps>(
+  ({ avatar, isLoading, ...props }: ReplyInputProps, ref) => {
     return (
       <div className="flex w-full ps-[17.1px] pb-2.5">
         <div className="h-6 w-7 border-b-2 border-l-2 rounded-bl-lg" />
@@ -26,6 +27,7 @@ const ReplyInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
             size="sm"
             icon={<IoIosPaperPlane size={16} />}
             className="rounded-xl"
+            isLoading={isLoading}
           />
         </div>
       </div>

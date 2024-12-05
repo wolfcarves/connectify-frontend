@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generateRandomWidth } from '@/utils/generateRandomWidth';
 
@@ -32,4 +32,4 @@ const CommentSkeleton = ({ count = 1 }: { count?: number }) => {
     );
 };
 
-export default CommentSkeleton;
+export default memo(CommentSkeleton);

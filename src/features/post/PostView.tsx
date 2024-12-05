@@ -11,8 +11,16 @@ import { notFound } from 'next/navigation';
 import Comment from '@/components/modules/Comment/Comment';
 import CommentSkeleton from '@/components/modules/Comment/CommentSkeleton';
 import { useIntersection } from '@mantine/hooks';
+import useSession from '@/hooks/useSession';
 
 const PostView = ({ uuid }: { uuid: string }) => {
+  const session = useSession();
+  const [localComments, setLocalComments] = useState<
+    { id: number; comment: string }[]
+  >([]);
+  const [isLocalCommentLoading, setIsLocalCommentLoading] =
+    useState<boolean>(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, entry } = useIntersection({
     root: containerRef.current,
@@ -26,7 +34,6 @@ const PostView = ({ uuid }: { uuid: string }) => {
     data: comments,
     isPending: isCommentsLoading,
     fetchNextPage,
-    isFetchingNextPage,
     hasNextPage,
   } = useGetPostComments(postData?.post?.id);
 
@@ -56,23 +63,46 @@ const PostView = ({ uuid }: { uuid: string }) => {
         {_comments?.map((comment, idx) => {
           return (
             <React.Fragment key={`${comment.id}${idx}`}>
-              {idx === _comments.length - 1 ? (
-                <Comment ref={ref} data={comment} />
-              ) : (
-                <Comment data={comment} />
-              )}
+              <Comment data={comment} />
             </React.Fragment>
           );
         })}
 
-        {isFetchingNextPage && (
-          <div className="space-y-3">
+        {localComments &&
+          localComments.map((comment, idx) => {
+            return (
+              <div key={idx}>
+                <Comment
+                  data={{
+                    id: comment.id,
+                    user: {
+                      avatar: session.avatar!,
+                      id: session.userId!,
+                      name: session.name!,
+                      username: session.username!,
+                    },
+                    replies_count: 0,
+                    comment: comment.comment,
+                  }}
+                />
+              </div>
+            );
+          })}
+
+        {hasNextPage && (
+          <div ref={ref} className="space-y-3">
             <CommentSkeleton count={3} />
           </div>
         )}
       </CommentContainer>
 
-      <CommentCreateForm postId={postData?.post?.id} />
+      <CommentCreateForm
+        postId={postData?.post?.id}
+        onLoad={status => setIsLocalCommentLoading(status)}
+        onSubmit={(commentId, value) =>
+          setLocalComments(prev => [...prev, { id: commentId, comment: value }])
+        }
+      />
     </>
   );
 };
