@@ -19,6 +19,7 @@ import PostAudienceDialog from './PostAudienceDialog';
 import { Audience } from '@/services';
 import useChangePostAudience from '@/hooks/mutations/useChangePostAudience';
 import { PostContext } from './Post';
+import PostDeleteDialog from './PostDeleteDialog';
 
 interface PostMenu {
   postId?: number;
@@ -39,6 +40,7 @@ const PostMenu = ({
   const isOwn = session.username === username;
 
   const [isSaved, setIsSaved] = useState<boolean | undefined>(isPostSaved);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);
   const [isAudienceDialogOpen, setIsAudienceDialogOpen] =
     useState<boolean>(false);
 
@@ -132,7 +134,7 @@ const PostMenu = ({
             )}
           </button>
 
-          {isOwn && (
+          {/* {isOwn && (
             <button
               className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted"
               onClick={handleDeletePost}
@@ -144,6 +146,29 @@ const PostMenu = ({
               )}
               <Typography.Span title="Delete post" weight="medium" />
             </button>
+          )} */}
+
+          {isOwn && (
+            <>
+              <PostDeleteDialog
+                open={isDeleteDialogOpen}
+                onOpenChange={status => {
+                  setIsDeleteDialogOpen(status);
+                }}
+                trigger={
+                  <button className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted">
+                    {isDeletePostLoading ? (
+                      <Spinner />
+                    ) : (
+                      <RiDeleteBin5Fill className="text-xl w-5" />
+                    )}
+                    <Typography.Span title="Delete post" weight="medium" />
+                  </button>
+                }
+                onSubmitClick={handleDeletePost}
+                isLoading={isDeletePostLoading}
+              />
+            </>
           )}
 
           {isOwn && (

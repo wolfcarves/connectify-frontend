@@ -28,7 +28,7 @@ export const CommentContent = ({
   return (
     <div className="flex gap-x-2">
       <div>
-        <Avatar src={avatar} size="sm" />
+        <Avatar href={username} src={avatar} size="sm" />
         {isReplyActive && (
           <div className="flex justify-center w-full h-full pt-1.5">
             <div className="w-0.5 h-full bg-border" />

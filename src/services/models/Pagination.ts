@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Pagination = {
-    page: number;
+    current_page: number;
     total_items: number;
     remaining_items: number;
 };

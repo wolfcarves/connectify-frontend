@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import useGetUserPost from '@/hooks/queries/useGetUserPost';
-import useGetPostComments from '@/hooks/queries/useGetPostComments';
+import useGetCommentsByPostId from '@/hooks/queries/useGetCommentsByPostId';
 import Post from '@/components/modules/Post/Post';
 import PostContainer from '@/components/modules/Post/PostContainer';
 import CommentContainer from '@/components/modules/Comment/CommentContainer';
@@ -35,7 +35,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
     isPending: isCommentsLoading,
     fetchNextPage,
     hasNextPage,
-  } = useGetPostComments(postData?.post?.id);
+  } = useGetCommentsByPostId(postData?.post?.id);
 
   const handleReplyClick = (commentId: number) => {
     if (!activeReplies.includes(commentId))
@@ -55,19 +55,11 @@ const PostView = ({ uuid }: { uuid: string }) => {
 
   return (
     <>
-      <PostContainer isLoading={isPostLoading}>
+      <PostContainer isLoading={isPostLoading} skeletonCount={1}>
         <Post data={postData} />
       </PostContainer>
 
       <CommentContainer isLoading={isCommentsLoading}>
-        {_comments?.map((comment, idx) => {
-          return (
-            <React.Fragment key={`${comment.id}${idx}`}>
-              <Comment data={comment} />
-            </React.Fragment>
-          );
-        })}
-
         {localComments &&
           localComments.map((comment, idx) => {
             return (
@@ -88,6 +80,14 @@ const PostView = ({ uuid }: { uuid: string }) => {
               </div>
             );
           })}
+
+        {_comments?.map((comment, idx) => {
+          return (
+            <React.Fragment key={`${comment.id}${idx}`}>
+              <Comment data={comment} />
+            </React.Fragment>
+          );
+        })}
 
         {hasNextPage && (
           <div ref={ref} className="space-y-3">

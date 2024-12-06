@@ -1,6 +1,7 @@
 import Image, { ImageProps } from 'next/image';
 import { cva, VariantProps } from 'class-variance-authority';
 import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
+import Link from 'next/link';
 
 const avatar = cva(
   'relative bg-accent flex aspect-square rounded-full overflow-hidden',
@@ -26,27 +27,30 @@ type CVAAvatarProps = VariantProps<typeof avatar>;
 export interface AvatarProps
   extends Omit<ImageProps, 'alt' | 'src'>,
     CVAAvatarProps {
+  href?: string;
   src?: string;
 }
 
-const Avatar = ({ src, size, className, ...props }: AvatarProps) => {
+const Avatar = ({ href, src, size, className, ...props }: AvatarProps) => {
   const imageSrc = getCloudinaryProfileImageUrl(src);
 
   return (
-    <div
-      className={`${!avatar && 'animate-pulse'} ${avatar({ className, size })}`}
-    >
-      {imageSrc && (
-        <Image
-          alt="avatar"
-          src={imageSrc}
-          fill
-          className="rounded-full object-cover"
-          sizes="100%"
-          {...props}
-        />
-      )}
-    </div>
+    <Link href={`/${href}`} className="hover:opacity-80">
+      <div
+        className={`${!avatar && 'animate-pulse'} ${avatar({ className, size })}`}
+      >
+        {imageSrc && (
+          <Image
+            alt="avatar"
+            src={imageSrc}
+            fill
+            className="rounded-full object-cover"
+            sizes="100%"
+            {...props}
+          />
+        )}
+      </div>
+    </Link>
   );
 };
 

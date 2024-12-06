@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { generateRandomWidth } from '@/utils/generateRandomWidth';
 
@@ -17,7 +17,10 @@ const PostCardSkeleton = ({ count = 1 }: { count?: number }) => {
     return (
       <>
         {Array.from({ length: count }).map((_, idx) => (
-          <article key={idx} className="rounded-md space-y-4 my-5">
+          <article
+            key={idx}
+            className="rounded-xl space-y-4 my-5 bg-muted/20 p-5"
+          >
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
                 <Skeleton className="min-w-11 w-11 min-h-11 h-11 rounded-full" />
@@ -52,9 +55,9 @@ const PostCardSkeleton = ({ count = 1 }: { count?: number }) => {
               </div>
 
               <div className="flex gap-2 items-center">
-                <Skeleton className="h-6 w-20" />
-                <Skeleton className="h-6 w-20" />
-                <Skeleton className="h-6 w-20" />
+                <Skeleton className="flex flex-1 h-6" />
+                <Skeleton className="flex flex-1 h-6" />
+                <Skeleton className="flex flex-1 h-6" />
               </div>
             </div>
           </article>
@@ -63,4 +66,4 @@ const PostCardSkeleton = ({ count = 1 }: { count?: number }) => {
     );
 };
 
-export default PostCardSkeleton;
+export default memo(PostCardSkeleton);

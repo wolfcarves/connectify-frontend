@@ -11,7 +11,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     <div className="pb-14 md:pb-0">
       <Header />
 
-      <div className="flex flex-1 justify-between lg:container mt-5 px-2 md:px-4 py-10">
+      <div className="flex flex-1 lg:container mt-5 px-2 md:px-4 py-10">
         <LeftSidebar />
 
         <main className="flex flex-1">

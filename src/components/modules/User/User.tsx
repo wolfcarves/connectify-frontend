@@ -22,9 +22,7 @@ const User = ({
 }: UserProps) => {
   return (
     <div className="flex items-center gap-2.5">
-      <Link href={`/${username}`} className="hover:opacity-80">
-        <Avatar src={avatar} size={size} {...props} />
-      </Link>
+      <Avatar href={username!} src={avatar} size={size} {...props} />
 
       <div>
         {clickable ? (

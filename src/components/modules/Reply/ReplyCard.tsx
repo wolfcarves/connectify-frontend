@@ -33,7 +33,7 @@ export const ReplyContent = ({
             <div className="w-[17px] h-full"></div>
             <div className="w-7 h-4 border-l-2 border-b-2 rounded-bl-[10px]"></div>
           </div>
-          <Avatar src={avatar} size="xs" />
+          <Avatar href={username} src={avatar} size="xs" />
         </div>
 
         {isReplyActive && (

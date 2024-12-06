@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Pagination } from '../models/Pagination';
 import type { Post } from '../models/Post';
 import type { User } from '../models/User';
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -23,6 +24,7 @@ export class FeedService {
             post: Post;
             user: User;
         }>;
+        pagination: Pagination;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
