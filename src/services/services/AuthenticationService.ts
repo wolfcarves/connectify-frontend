@@ -12,13 +12,14 @@ import { request as __request } from '../core/request';
 export class AuthenticationService {
     /**
      * Login User
-     * @param requestBody
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static postLoginUser(
+    public static postLoginUser({
+        requestBody,
+    }: {
         requestBody?: UserLoginInput,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/auth/login',
@@ -33,13 +34,14 @@ export class AuthenticationService {
     }
     /**
      * Sign Up User
-     * @param requestBody
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static postSignUpUser(
+    public static postSignUpUser({
+        requestBody,
+    }: {
         requestBody?: UserSignUpInput,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/auth/signup',

@@ -10,26 +10,30 @@ import { request as __request } from '../core/request';
 export class CommentService {
     /**
      * Comment To User Posts
-     * @param postId
-     * @param requestBody
      * @returns any OK
      * @throws ApiError
      */
-    public static postPostComment(
-        postId: number,
+    public static postPostComment({
+        postId,
+        commentId,
+        requestBody,
+    }: {
+        postId?: number,
+        commentId?: number,
         requestBody?: {
-            comment: string;
+            content: string;
         },
-    ): CancelablePromise<{
+    }): CancelablePromise<{
         data: {
             id: number;
         };
     }> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/comment/post/{postId}',
-            path: {
+            url: '/api/v1/comment',
+            query: {
                 'postId': postId,
+                'commentId': commentId,
             },
             body: requestBody,
             mediaType: 'application/json',
@@ -41,26 +45,31 @@ export class CommentService {
     }
     /**
      * Get Post Comments
-     * @param postId
-     * @param page
      * @returns any OK
      * @throws ApiError
      */
-    public static getPostComments(
-        postId: number,
+    public static getPostComments({
+        postId,
+        commentId,
+        page,
+        perPage,
+    }: {
+        postId?: number,
+        commentId?: number,
         page?: number,
-    ): CancelablePromise<{
+        perPage?: number,
+    }): CancelablePromise<{
         data: Array<Comment>;
         pagination: Pagination;
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/comment/post/{postId}',
-            path: {
-                'postId': postId,
-            },
+            url: '/api/v1/comment',
             query: {
+                'postId': postId,
+                'commentId': commentId,
                 'page': page,
+                'perPage': perPage,
             },
             errors: {
                 401: `Not Found`,

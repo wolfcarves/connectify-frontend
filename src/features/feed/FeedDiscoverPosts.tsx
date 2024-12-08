@@ -5,6 +5,7 @@ import Post from '@/components/modules/Post/Post';
 import useGetFeedWorldPosts from '@/hooks/queries/useGetFeedWorldPosts';
 import { useIntersection } from '@mantine/hooks';
 import { useEffect, useRef } from 'react';
+import Typography from '@/components/ui/typography';
 
 const FeedDiscoverPosts = () => {
   const {
@@ -25,6 +26,13 @@ const FeedDiscoverPosts = () => {
   useEffect(() => {
     if (entry?.isIntersecting) fetchNextPage();
   }, [entry]);
+
+  if (_posts?.length === 0)
+    return (
+      <div className="my-10 mx-auto w-max">
+        <Typography.Span title="No posts to show" color="muted" />
+      </div>
+    );
 
   return (
     <PostContainer

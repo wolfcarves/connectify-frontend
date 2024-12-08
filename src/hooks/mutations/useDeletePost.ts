@@ -9,7 +9,7 @@ export default function useDeletePost() {
   return useMutation({
     mutationKey: ['DELETE_POST_KEY'],
     mutationFn: async (postId: number) => {
-      const response = await PostService.deleteUserPost(postId!);
+      const response = await PostService.deleteUserPost({ postId });
       return response;
     },
     onSuccess: async () => {

@@ -3,6 +3,7 @@ import Avatar from '@/components/common/Avatar/Avatar';
 import Typography from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { parseDate } from '@/utils/parseDate';
 
 export const ReplyCard = ({ children }: { children?: ReactNode }) => {
   return (
@@ -62,9 +63,11 @@ export const ReplyContent = ({
 export const ReplyActionCard = ({
   isReplyActive,
   onReplyClick,
+  timestamp,
 }: {
   isReplyActive?: boolean;
   onReplyClick?: () => void;
+  timestamp?: string;
 }) => {
   return (
     <div className="flex">
@@ -72,8 +75,12 @@ export const ReplyActionCard = ({
         {isReplyActive && <div className="w-0.5 h-full bg-border" />}
       </div>
 
-      <div className="flex gap-2 items-center ms-10 px-2 pt-1">
-        <Typography.Span title="8h" size="xs" color="muted" />
+      <div className="flex gap-2 items-center ms-10 ps-3 pt-1">
+        <Typography.Span
+          title={timestamp ? parseDate(timestamp) : 'Just now'}
+          size="xs"
+          color="muted"
+        />
 
         <div className="flex items-center">
           <Button type="button" variant="ghost" size="xxs">

@@ -16,13 +16,13 @@ export const CommentContent = ({
   avatar,
   username,
   name,
-  comment,
+  content,
   isReplyActive,
 }: {
   avatar?: string;
   name?: string;
   username?: string;
-  comment?: string;
+  content?: string;
   isReplyActive?: boolean;
 }) => {
   return (
@@ -37,7 +37,7 @@ export const CommentContent = ({
       </div>
 
       <div
-        className="dark:bg-accent bg-card shadow-sm min-h-10 rounded-2xl resize-none focus:outline-0 focus:ring-1 focus:ring-offset-4 focus:ring-border scroll-smooth scrollbar-thumb-foreground/10 scrollbar-track-foreground/0 scrollbar-thin px-3 pt-1.5 pb-2"
+        className="dark:bg-accent bg-card shadow-sm min-h-10 rounded-2xl px-3 pt-1.5 pb-2"
         style={{ overflowWrap: 'anywhere' }}
       >
         <Link href={`/${username}`}>
@@ -49,7 +49,7 @@ export const CommentContent = ({
           />
         </Link>
         <Typography.P
-          title={comment}
+          title={content}
           size="sm"
           className="whitespace-pre-line"
         />

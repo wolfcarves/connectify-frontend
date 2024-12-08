@@ -6,13 +6,16 @@ export default function useCreateComment() {
     mutationKey: ['CREATE_POST_COMMENT_KEY'],
     mutationFn: async ({
       postId,
-      comment,
+      content,
     }: {
       postId?: number;
-      comment: string;
+      content: string;
     }) => {
-      const response = await CommentService.postPostComment(postId ?? -1, {
-        comment,
+      const response = await CommentService.postPostComment({
+        postId: postId ?? -1,
+        requestBody: {
+          content,
+        },
       });
 
       return response.data;

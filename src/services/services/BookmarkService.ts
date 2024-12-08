@@ -10,15 +10,16 @@ import { request as __request } from '../core/request';
 export class BookmarkService {
     /**
      * Get Save Posts | Get Bookmarks
-     * @param page
-     * @param perPage
      * @returns any OK
      * @throws ApiError
      */
-    public static getBookmarks(
+    public static getBookmarks({
+        page,
+        perPage,
+    }: {
         page?: number,
         perPage?: number,
-    ): CancelablePromise<{
+    }): CancelablePromise<{
         data: Array<Bookmark>;
     }> {
         return __request(OpenAPI, {
@@ -37,13 +38,14 @@ export class BookmarkService {
     }
     /**
      * Save User Post
-     * @param postId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static saveUserPost(
+    public static saveUserPost({
+        postId,
+    }: {
         postId: number,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/bookmark/post/save/{postId}',
@@ -59,13 +61,14 @@ export class BookmarkService {
     }
     /**
      * Unsave User Post
-     * @param postId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static unSaveUserPost(
+    public static unSaveUserPost({
+        postId,
+    }: {
         postId: number,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/bookmark/post/unsave/{postId}',

@@ -6,11 +6,16 @@ import { useForm } from 'react-hook-form';
 import { schema, type ReplyInput as ReplyInputSchema } from './schema';
 
 interface ReplyCreateFormProps {
+  postId?: number;
   commentId: number;
   avatar: string;
 }
 
-const ReplyCreateForm = ({ commentId, avatar }: ReplyCreateFormProps) => {
+const ReplyCreateForm = ({
+  postId,
+  commentId,
+  avatar,
+}: ReplyCreateFormProps) => {
   const { handleSubmit, register, reset } = useForm<ReplyInputSchema>({
     resolver: zodResolver(schema),
   });
@@ -18,9 +23,9 @@ const ReplyCreateForm = ({ commentId, avatar }: ReplyCreateFormProps) => {
   const { mutateAsync: createReply, isPending: isCreateReplyLoading } =
     useCreateReply();
 
-  const handleSubmitForm = async ({ reply }: ReplyInputSchema) => {
+  const handleSubmitForm = async ({ content }: ReplyInputSchema) => {
     if (commentId) {
-      await createReply({ commentId, reply });
+      await createReply({ postId, commentId, content });
       reset();
     }
   };
@@ -28,7 +33,7 @@ const ReplyCreateForm = ({ commentId, avatar }: ReplyCreateFormProps) => {
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <ReplyInput
-        {...register('reply')}
+        {...register('content')}
         avatar={avatar}
         isLoading={isCreateReplyLoading}
       />

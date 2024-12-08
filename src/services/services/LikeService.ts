@@ -9,13 +9,14 @@ import { request as __request } from '../core/request';
 export class LikeService {
     /**
      * Like User Posts
-     * @param postId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static postLikePost(
+    public static postLikePost({
+        postId,
+    }: {
         postId: number,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/like/post/{postId}',

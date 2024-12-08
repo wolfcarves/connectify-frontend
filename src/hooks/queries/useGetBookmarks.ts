@@ -5,16 +5,19 @@ export const GET_BOOKMARKS_KEY = () => 'GET_BOOKMARKS_KEY';
 
 interface IQueryParams {
   page?: number;
-  per_page?: number;
+  perPage?: number;
 }
 
 export default function useGetBookmarks(
-  { page, per_page }: IQueryParams = { page: 1, per_page: 20 },
+  { page, perPage }: IQueryParams = { page: 1, perPage: 20 },
 ) {
   return useQuery({
-    queryKey: [GET_BOOKMARKS_KEY(), page, per_page],
+    queryKey: [GET_BOOKMARKS_KEY(), page, perPage],
     queryFn: async () => {
-      const response = await BookmarkService.getBookmarks(page, per_page);
+      const response = await BookmarkService.getBookmarks({
+        page,
+        perPage,
+      });
 
       return response.data;
     },

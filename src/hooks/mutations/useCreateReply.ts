@@ -1,18 +1,24 @@
-import { ReplyService } from '@/services';
+import { CommentService } from '@/services';
 import { useMutation } from '@tanstack/react-query';
 
 export default function useCreateReply() {
   return useMutation({
     mutationKey: ['CREATE_REPLY_KEY'],
     mutationFn: async ({
+      postId,
       commentId,
-      reply,
+      content,
     }: {
+      postId?: number;
       commentId?: number;
-      reply: string;
+      content: string;
     }) => {
-      const response = await ReplyService.postPostReply(commentId ?? -1, {
-        reply,
+      const response = await CommentService.postPostComment({
+        postId,
+        commentId,
+        requestBody: {
+          content,
+        },
       });
 
       return response;

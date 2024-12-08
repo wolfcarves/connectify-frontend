@@ -50,7 +50,7 @@ const CommentCreateForm = ({
         ) {
           const requestData = {
             postId,
-            comment: data?.content,
+            content: data?.content,
           };
 
           const createdComment = await createCommentMutate(requestData);

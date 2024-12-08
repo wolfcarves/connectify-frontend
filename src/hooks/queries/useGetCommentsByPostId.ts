@@ -7,10 +7,10 @@ export default function useGetCommentsByPostId(postId?: number) {
   return useInfiniteQuery({
     queryKey: [GET_POST_COMMENTS_KEY(), postId],
     queryFn: async ({ pageParam = 1 }) => {
-      const response = await CommentService.getPostComments(
-        postId ?? -1,
-        pageParam,
-      );
+      const response = await CommentService.getPostComments({
+        postId: postId ?? -1,
+        page: pageParam,
+      });
 
       return response;
     },

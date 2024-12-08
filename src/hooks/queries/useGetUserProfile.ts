@@ -1,7 +1,6 @@
 import { UserService } from '@/services';
 import { useQuery } from '@tanstack/react-query';
 import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
-import { env } from '@/config/env';
 
 interface QueryParams {
   userId?: number;
@@ -14,7 +13,7 @@ export default function useGetUserProfile({ userId, username }: QueryParams) {
   return useQuery({
     queryKey: [GET_USER_PROFILE_KEY(), userId, username],
     queryFn: async () => {
-      const response = await UserService.getUserProfile(userId, username);
+      const response = await UserService.getUserProfile({ userId, username });
 
       let avatar = response.data?.avatar;
 

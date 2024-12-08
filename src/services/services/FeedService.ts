@@ -11,15 +11,16 @@ import { request as __request } from '../core/request';
 export class FeedService {
     /**
      * Get Feed World Posts
-     * @param page
-     * @param perPage
      * @returns any OK
      * @throws ApiError
      */
-    public static getFeedWorldPosts(
+    public static getFeedWorldPosts({
+        page,
+        perPage,
+    }: {
         page?: number,
         perPage?: number,
-    ): CancelablePromise<{
+    }): CancelablePromise<{
         data: Array<{
             post: Post;
             user: User;
@@ -41,15 +42,16 @@ export class FeedService {
     }
     /**
      * Get Feed Friends Posts
-     * @param page
-     * @param perPage
      * @returns any OK
      * @throws ApiError
      */
-    public static getFeedFriendsPosts(
+    public static getFeedFriendsPosts({
+        page,
+        perPage,
+    }: {
         page?: number,
         perPage?: number,
-    ): CancelablePromise<{
+    }): CancelablePromise<{
         data: Array<{
             post: Post;
             user: User;

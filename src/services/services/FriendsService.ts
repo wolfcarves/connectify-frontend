@@ -26,13 +26,14 @@ export class FriendsService {
         });
     }
     /**
-     * @param receiverId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static sendFriendRequest(
+    public static sendFriendRequest({
+        receiverId,
+    }: {
         receiverId: string,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/friends/request/send/{receiverId}',
@@ -46,13 +47,14 @@ export class FriendsService {
         });
     }
     /**
-     * @param requesterId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static cancelFriendRequest(
+    public static cancelFriendRequest({
+        requesterId,
+    }: {
         requesterId: string,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/friends/request/cancel/{requesterId}',
@@ -82,13 +84,14 @@ export class FriendsService {
         });
     }
     /**
-     * @param friendId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static acceptFriendRequest(
+    public static acceptFriendRequest({
+        friendId,
+    }: {
         friendId: string,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/friends/request/accept/{friendId}',
@@ -102,13 +105,14 @@ export class FriendsService {
         });
     }
     /**
-     * @param userId
      * @returns any OK
      * @throws ApiError
      */
-    public static getFriendList(
+    public static getFriendList({
+        userId,
+    }: {
         userId: number,
-    ): CancelablePromise<{
+    }): CancelablePromise<{
         data: Array<Friend>;
     }> {
         return __request(OpenAPI, {
@@ -123,13 +127,14 @@ export class FriendsService {
         });
     }
     /**
-     * @param friendId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static unfriendUser(
+    public static unfriendUser({
+        friendId,
+    }: {
         friendId: string,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/friends/remove/{friendId}',

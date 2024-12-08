@@ -4,7 +4,7 @@
 /* eslint-disable */
 import type { CommentInput } from './CommentInput';
 export type Comment = (CommentInput & {
-    comment?: string;
+    content?: string;
     id: number;
     user: {
         id: number;

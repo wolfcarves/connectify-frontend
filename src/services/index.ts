@@ -17,8 +17,6 @@ export type { GetUserProfileResponseSchema } from './models/GetUserProfileRespon
 export type { NotFoundError } from './models/NotFoundError';
 export type { Pagination } from './models/Pagination';
 export type { Post } from './models/Post';
-export type { Reply } from './models/Reply';
-export type { ReplyInput } from './models/ReplyInput';
 export type { ServerInternalError } from './models/ServerInternalError';
 export type { Session } from './models/Session';
 export type { SuccessReponse } from './models/SuccessReponse';
@@ -35,5 +33,4 @@ export { FeedService } from './services/FeedService';
 export { FriendsService } from './services/FriendsService';
 export { LikeService } from './services/LikeService';
 export { PostService } from './services/PostService';
-export { ReplyService } from './services/ReplyService';
 export { UserService } from './services/UserService';

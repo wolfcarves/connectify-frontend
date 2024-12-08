@@ -13,13 +13,22 @@ import { request as __request } from '../core/request';
 export class PostService {
     /**
      * Create Post
-     * @param formData OK
-     * @returns SuccessReponse OK
+     * @returns any OK
      * @throws ApiError
      */
-    public static postCreatePost(
+    public static postCreatePost({
+        formData,
+    }: {
+        /**
+         * OK
+         */
         formData?: CreatePostInput,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<{
+        data: {
+            id: number;
+            uuid: string;
+        };
+    }> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/post',
@@ -34,17 +43,18 @@ export class PostService {
     }
     /**
      * Get User Posts
-     * @param username
-     * @param page
-     * @param perPage
      * @returns any OK
      * @throws ApiError
      */
-    public static getUserPosts(
+    public static getUserPosts({
+        username,
+        page,
+        perPage,
+    }: {
         username: string,
         page?: number,
         perPage?: number,
-    ): CancelablePromise<{
+    }): CancelablePromise<{
         data: Array<{
             post: Post;
             user: User;
@@ -68,13 +78,14 @@ export class PostService {
     }
     /**
      * Get User Post
-     * @param uuid
      * @returns any OK
      * @throws ApiError
      */
-    public static getUserPost(
+    public static getUserPost({
+        uuid,
+    }: {
         uuid: string,
-    ): CancelablePromise<{
+    }): CancelablePromise<{
         data: {
             post: Post;
             user: User;
@@ -94,13 +105,14 @@ export class PostService {
     }
     /**
      * Get User Posts
-     * @param postId
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static deleteUserPost(
+    public static deleteUserPost({
+        postId,
+    }: {
         postId: number,
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/post/{postId}',
@@ -115,17 +127,18 @@ export class PostService {
     }
     /**
      * Change Post Audience
-     * @param postId
-     * @param requestBody
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static putChangeAudience(
+    public static putChangeAudience({
+        postId,
+        requestBody,
+    }: {
         postId: number,
         requestBody?: {
             audience: Audience;
         },
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'PUT',
             url: '/api/v1/post/audience/{postId}',

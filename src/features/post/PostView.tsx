@@ -27,8 +27,6 @@ const PostView = ({ uuid }: { uuid: string }) => {
     threshold: 1,
   });
 
-  const [activeReplies, setActiveReplies] = useState<number[]>([]);
-
   const { data: postData, isPending: isPostLoading } = useGetUserPost(uuid);
   const {
     data: comments,
@@ -36,11 +34,6 @@ const PostView = ({ uuid }: { uuid: string }) => {
     fetchNextPage,
     hasNextPage,
   } = useGetCommentsByPostId(postData?.post?.id);
-
-  const handleReplyClick = (commentId: number) => {
-    if (!activeReplies.includes(commentId))
-      setActiveReplies(prev => [...prev, commentId]);
-  };
 
   const _comments = useMemo(
     () => comments?.pages.flatMap(c => c.data.map(c => c)),
@@ -65,6 +58,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
             return (
               <div key={idx}>
                 <Comment
+                  postId={postData?.post?.id}
                   data={{
                     id: comment.id,
                     user: {
@@ -74,7 +68,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
                       username: session.username!,
                     },
                     replies_count: 0,
-                    comment: comment.comment,
+                    content: comment.comment,
                   }}
                 />
               </div>
@@ -84,7 +78,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
         {_comments?.map((comment, idx) => {
           return (
             <React.Fragment key={`${comment.id}${idx}`}>
-              <Comment data={comment} />
+              <Comment postId={postData?.post?.id} data={comment} />
             </React.Fragment>
           );
         })}

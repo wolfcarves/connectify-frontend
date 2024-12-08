@@ -10,15 +10,19 @@ import { request as __request } from '../core/request';
 export class UserService {
     /**
      * Upload Profile Image
-     * @param formData OK
      * @returns SuccessReponse OK
      * @throws ApiError
      */
-    public static postUploadUserProfileImage(
+    public static postUploadUserProfileImage({
+        formData,
+    }: {
+        /**
+         * OK
+         */
         formData?: {
             avatar?: any;
         },
-    ): CancelablePromise<SuccessReponse> {
+    }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/user/profile/avatar',
@@ -49,15 +53,16 @@ export class UserService {
     }
     /**
      * Get User Profile
-     * @param userId
-     * @param username
      * @returns GetUserProfileResponseSchema OK
      * @throws ApiError
      */
-    public static getUserProfile(
+    public static getUserProfile({
+        userId,
+        username,
+    }: {
         userId?: number,
         username?: string,
-    ): CancelablePromise<GetUserProfileResponseSchema> {
+    }): CancelablePromise<GetUserProfileResponseSchema> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/v1/user/profile',
