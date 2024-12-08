@@ -7,7 +7,7 @@ import { parseDate } from '@/utils/parseDate';
 
 export const ReplyCard = ({ children }: { children?: ReactNode }) => {
   return (
-    <article className="relative  w-max max-w-[400px] min-w-[180px]">
+    <article className="relative w-max max-w-[400px] min-w-[180px]">
       {children}
     </article>
   );
@@ -18,28 +18,33 @@ export const ReplyContent = ({
   avatar,
   username,
   name,
-  reply,
+  content,
+  isNested,
+  isLast,
 }: {
   isReplyActive?: boolean;
   avatar?: string;
   name?: string;
   username?: string;
-  reply?: string;
+  content?: string;
+  isNested?: boolean;
+  isLast?: boolean;
 }) => {
   return (
-    <div className="flex gap-x-2">
-      <div className="relative flex flex-col">
+    <div
+      className={`flex gap-x-2 ms-[17px] border-l-2 ${isLast && 'border-l-transparent'}`}
+    >
+      <div className="flex flex-col">
         <div className="flex">
-          <div className="flex pe-1.5">
-            <div className="w-[17px] h-full"></div>
-            <div className="w-7 h-4 border-l-2 border-b-2 rounded-bl-[10px]"></div>
-          </div>
-          <Avatar href={username} src={avatar} size="xs" />
-        </div>
+          <div className="w-7 h-4 border-l-2 border-b-2 rounded-bl-[10px] -translate-x-[2px]" />
 
-        {isReplyActive && (
-          <div className="absolute left-[17px] w-0.5 h-full bg-border" />
-        )}
+          <div className="ms-1.5">
+            <Avatar href={username} src={avatar} size="xs" />
+            {!isNested && (
+              <div className="mx-auto w-0.5 h-full bg-border mt-1.5" />
+            )}
+          </div>
+        </div>
       </div>
 
       <div
@@ -54,7 +59,7 @@ export const ReplyContent = ({
             className="hover:opacity-80"
           />
         </Link>
-        <Typography.P title={reply} size="sm" />
+        <Typography.P title={content} size="sm" />
       </div>
     </div>
   );
@@ -64,18 +69,30 @@ export const ReplyActionCard = ({
   isReplyActive,
   onReplyClick,
   timestamp,
+  isNested,
+  isLast,
 }: {
   isReplyActive?: boolean;
   onReplyClick?: () => void;
   timestamp?: string;
+  isNested?: boolean;
+  isLast?: boolean;
 }) => {
   return (
     <div className="flex">
       <div className="flex justify-center w-[36px] h-[1.90rem]">
-        {isReplyActive && <div className="w-0.5 h-full bg-border" />}
+        {true && (
+          <div
+            className={`w-0.5 h-full bg-border ${isLast && 'bg-transparent'}`}
+          />
+        )}
       </div>
 
-      <div className="flex gap-2 items-center ms-10 ps-3 pt-1">
+      <div
+        className={`flex justify-center w-[32px] h-[1.90rem] ${!isNested && 'border-r-2'}`}
+      />
+
+      <div className="flex gap-2 items-center ms-6 pt-1">
         <Typography.Span
           title={timestamp ? parseDate(timestamp) : 'Just now'}
           size="xs"

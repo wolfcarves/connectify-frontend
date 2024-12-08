@@ -1,10 +1,10 @@
-import { forwardRef, useCallback, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import type { Comment as CommentType } from '@/services';
 import { CommentCard } from './CommentCard';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
 import useSession from '@/hooks/useSession';
 import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
-import { ReplyCard } from '../Reply/ReplyCard';
+import Reply from '../Reply/Reply';
 
 interface CommentProps {
   postId?: number;
@@ -15,6 +15,7 @@ interface CommentProps {
 const Comment = forwardRef<HTMLInputElement, CommentProps>(
   ({ postId, data: comment }: CommentProps, ref) => {
     const session = useSession();
+    const replyFormRef = useRef<{ setFocus: () => void }>(null);
 
     const [isReplyActive, setIsReplyActive] = useState<boolean>(false);
     const { data: replies, isLoading: isRepliesLoading } =
@@ -25,6 +26,7 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
       });
 
     const handleReplyClick = () => {
+      replyFormRef.current?.setFocus();
       setIsReplyActive(true);
     };
 
@@ -47,29 +49,18 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
           />
         </CommentCard>
 
-        {replies &&
-          replies?.data.length > 1 &&
-          isReplyActive &&
-          replies?.data.map(({ id, user, content, created_at }) => {
+        {isReplyActive &&
+          replies?.data.map(data => {
             return (
-              <ReplyCard key={id}>
-                <ReplyCard.Content
-                  avatar={user?.avatar}
-                  username={user?.username}
-                  name={user?.name}
-                  reply={content}
-                  isReplyActive={isReplyActive}
-                />
-                <ReplyCard.Action
-                  isReplyActive={isReplyActive}
-                  timestamp={created_at}
-                />
-              </ReplyCard>
+              <>
+                <Reply postId={postId} data={data} />
+              </>
             );
           })}
 
         {isReplyActive && !isRepliesLoading && (
           <ReplyCreateForm
+            ref={replyFormRef}
             postId={postId}
             commentId={comment?.id}
             avatar={session.avatar!}
@@ -85,21 +76,52 @@ Comment.displayName = 'Comment';
 export default Comment;
 
 {
-  /* {isReplyActive &&
-          replies &&
-          replies?.data.length > 1 &&
-          replies?.data.map(reply => (
-            <ReplyCard key={reply.id}>
-              <ReplyCard.Content
-                avatar={reply?.user.avatar}
-                username={reply?.user.username}
-                name={reply?.user.name}
-                reply={reply?.content}
-                isReplyActive={isReplyActive}
-              />
-              <ReplyCard.Action isReplyActive={isReplyActive} />
-            </ReplyCard>
-          ))}
+  /* <ReplyCard key={id}>
+                  <ReplyCard.Content
+                    avatar={user?.avatar}
+                    username={user?.username}
+                    name={user?.name}
+                    reply={content}
+                    isReplyActive={isReplyActive}
+                  />
+                  <ReplyCard.Action
+                    isReplyActive={isReplyActive}
+                    timestamp={created_at}
+                  />
+                </ReplyCard> */
+}
 
-       */
+{
+  /* <div className="flex w-full ps-[1.05rem]">
+                  <div className="border-l-2 w-[2rem]" />
+                  <div className="w-full">
+                    <ReplyCard key={id}>
+                      <ReplyCard.Content
+                        avatar={user?.avatar}
+                        username={user?.username}
+                        name={user?.name}
+                        reply={content}
+                        isReplyActive={isReplyActive}
+                      />
+                      <ReplyCard.Action
+                        isReplyActive={isReplyActive}
+                        timestamp={created_at}
+                      />
+                    </ReplyCard>
+                  </div>
+                </div> */
+}
+
+{
+  /* <div className="flex w-full ps-[1.05rem]">
+                  <div className="border-l-2 w-[2rem]" />
+                  <div className="w-full">
+                    <ReplyCreateForm
+                      ref={replyFormRef}
+                      postId={postId}
+                      commentId={comment?.id}
+                      avatar={session.avatar!}
+                    />
+                  </div>
+                </div> */
 }
