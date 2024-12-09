@@ -15,69 +15,85 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
   const session = useSession();
   const replyFormRef = useRef<{ setFocus: () => void }>(null);
 
-  const [isReplyActive, setIsReplyActive] = useState<boolean>(false);
+  const [isReplyActive, setIsReplyActive] = useState<boolean>(
+    reply?.replies_count === 1 || false,
+  );
 
-  const { data: nestedReplies } = useGetRepliesByCommentId({
-    postId,
-    commentId: reply?.id,
-    enabled: !!reply?.id,
-  });
+  const { data: nestedReplies, isLoading: isNestedRepliesLoading } =
+    useGetRepliesByCommentId({
+      postId,
+      commentId: reply?.id,
+      enabled: reply?.replies_count === 1 || isReplyActive,
+    });
 
-  console.log(nestedReplies);
+  const handleReplyClick = () => {
+    replyFormRef.current?.setFocus();
+    setIsReplyActive(true);
+  };
 
   return (
     <>
       <ReplyCard>
         <ReplyCard.Content
+          isReplyActive={isReplyActive || reply?.replies_count >= 1}
           avatar={reply.user.avatar}
           username={reply.user.username}
           name={reply.user.name}
           content={reply.content}
-          isReplyActive={isReplyActive}
           isNested={false}
         />
         <ReplyCard.Action
           isReplyActive={isReplyActive}
+          onReplyClick={handleReplyClick}
+          repliesCount={reply.replies_count}
+          isLoading={isNestedRepliesLoading}
           timestamp={reply.created_at}
         />
       </ReplyCard>
 
-      {nestedReplies?.data.map(data => {
-        return (
-          <div key={data?.id} className="flex items-stretch ms-[17px]">
-            <div className="w-[32px] border-l-2" />
+      {isReplyActive &&
+        nestedReplies?.data.map(data => {
+          return (
+            <div
+              key={data?.id}
+              className="flex items-stretch border-l-2 ps-[30px] ms-[17px]"
+            >
+              <ReplyCard>
+                <ReplyCard.Content
+                  isReplyActive={true}
+                  avatar={data?.user.avatar}
+                  username={data?.user.username}
+                  name={data?.user.name}
+                  content={data?.content}
+                  isNested
+                />
+                <ReplyCard.Action
+                  isNested
+                  isReplyActive={isReplyActive}
+                  onReplyClick={handleReplyClick}
+                  repliesCount={data.replies_count}
+                  isLoading={isNestedRepliesLoading}
+                  timestamp={data.created_at}
+                />
+              </ReplyCard>
+            </div>
+          );
+        })}
 
-            <ReplyCard>
-              <ReplyCard.Content
-                avatar={data?.user.avatar}
-                username={data?.user.username}
-                name={data?.user.name}
-                content={data?.content}
-                isReplyActive={true}
-                isNested
-              />
-              <ReplyCard.Action
-                isNested
-                isReplyActive={true}
-                timestamp={reply?.created_at}
-              />
-            </ReplyCard>
+      {isReplyActive && !isNestedRepliesLoading && (
+        <div className="flex w-full ps-[1.05rem] xs:ps-[1.07rem]">
+          <div className="border-l-2 w-[2.250rem] xs:w-[2.130rem]" />
+
+          <div className="w-full">
+            <ReplyCreateForm
+              ref={replyFormRef}
+              postId={postId}
+              commentId={reply?.id}
+              avatar={session.avatar!}
+            />
           </div>
-        );
-      })}
-
-      <div className="flex w-full ps-[1.1rem]">
-        <div className="border-l-2 w-[2.1rem]" />
-
-        <div className="w-full">
-          <ReplyCreateForm
-            ref={replyFormRef}
-            postId={postId}
-            commentId={reply?.id}
-            avatar={session.avatar!}
-          />
         </div>
-      </div>
+      )}
     </>
   );
 };

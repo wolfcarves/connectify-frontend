@@ -22,7 +22,7 @@ const CommentContainer = ({
     );
 
   return (
-    <div className="pb-32 px-3" {...props}>
+    <div className="pb-32 px-0 sm:px-3" {...props}>
       <Typography.H6
         title="Comments"
         size="sm"

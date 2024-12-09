@@ -17,7 +17,10 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
     const session = useSession();
     const replyFormRef = useRef<{ setFocus: () => void }>(null);
 
-    const [isReplyActive, setIsReplyActive] = useState<boolean>(false);
+    const [isReplyActive, setIsReplyActive] = useState<boolean>(
+      comment?.replies_count === 1 || false,
+    );
+
     const { data: replies, isLoading: isRepliesLoading } =
       useGetRepliesByCommentId({
         postId,
@@ -42,20 +45,16 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
           />
           <CommentCard.Action
             isReplyActive={isReplyActive}
-            timestamp={comment?.created_at}
-            repliesCount={comment?.replies_count}
             onReplyClick={handleReplyClick}
+            repliesCount={comment?.replies_count}
             isLoading={isRepliesLoading}
+            timestamp={comment?.created_at}
           />
         </CommentCard>
 
         {isReplyActive &&
           replies?.data.map(data => {
-            return (
-              <>
-                <Reply postId={postId} data={data} />
-              </>
-            );
+            return <Reply key={data?.id} postId={postId} data={data} />;
           })}
 
         {isReplyActive && !isRepliesLoading && (
@@ -74,54 +73,3 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
 Comment.displayName = 'Comment';
 
 export default Comment;
-
-{
-  /* <ReplyCard key={id}>
-                  <ReplyCard.Content
-                    avatar={user?.avatar}
-                    username={user?.username}
-                    name={user?.name}
-                    reply={content}
-                    isReplyActive={isReplyActive}
-                  />
-                  <ReplyCard.Action
-                    isReplyActive={isReplyActive}
-                    timestamp={created_at}
-                  />
-                </ReplyCard> */
-}
-
-{
-  /* <div className="flex w-full ps-[1.05rem]">
-                  <div className="border-l-2 w-[2rem]" />
-                  <div className="w-full">
-                    <ReplyCard key={id}>
-                      <ReplyCard.Content
-                        avatar={user?.avatar}
-                        username={user?.username}
-                        name={user?.name}
-                        reply={content}
-                        isReplyActive={isReplyActive}
-                      />
-                      <ReplyCard.Action
-                        isReplyActive={isReplyActive}
-                        timestamp={created_at}
-                      />
-                    </ReplyCard>
-                  </div>
-                </div> */
-}
-
-{
-  /* <div className="flex w-full ps-[1.05rem]">
-                  <div className="border-l-2 w-[2rem]" />
-                  <div className="w-full">
-                    <ReplyCreateForm
-                      ref={replyFormRef}
-                      postId={postId}
-                      commentId={comment?.id}
-                      avatar={session.avatar!}
-                    />
-                  </div>
-                </div> */
-}

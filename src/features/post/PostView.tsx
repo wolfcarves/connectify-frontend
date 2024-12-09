@@ -36,7 +36,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
   } = useGetCommentsByPostId(postData?.post?.id);
 
   const _comments = useMemo(
-    () => comments?.pages.flatMap(c => c.data.map(c => c)),
+    () => comments?.pages.flatMap(c => c.data),
     [comments],
   );
 
@@ -54,9 +54,9 @@ const PostView = ({ uuid }: { uuid: string }) => {
 
       <CommentContainer isLoading={isCommentsLoading}>
         {localComments &&
-          localComments.map((comment, idx) => {
+          localComments.map(comment => {
             return (
-              <div key={idx}>
+              <div key={comment?.id}>
                 <Comment
                   postId={postData?.post?.id}
                   data={{
@@ -77,9 +77,11 @@ const PostView = ({ uuid }: { uuid: string }) => {
 
         {_comments?.map((comment, idx) => {
           return (
-            <React.Fragment key={`${comment.id}${idx}`}>
-              <Comment postId={postData?.post?.id} data={comment} />
-            </React.Fragment>
+            <Comment
+              key={comment.id}
+              postId={postData?.post?.id}
+              data={comment}
+            />
           );
         })}
 

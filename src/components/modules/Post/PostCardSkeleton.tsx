@@ -19,7 +19,7 @@ const PostCardSkeleton = ({ count = 1 }: { count?: number }) => {
         {Array.from({ length: count }).map((_, idx) => (
           <article
             key={idx}
-            className="rounded-xl space-y-4 my-5 bg-muted/20 p-5"
+            className="rounded-2xl space-y-4 my-5 bg-muted/20 p-5"
           >
             <div className="space-y-4">
               <div className="flex items-center space-x-4">

@@ -13,7 +13,7 @@ interface CommentInputProps extends ComponentProps<'textarea'> {
 }
 
 const CommentInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
-  (props: CommentInputProps, ref) => {
+  ({ isLoading, ...props }: CommentInputProps, ref) => {
     const { avatar } = useSession();
 
     return (
@@ -23,7 +23,7 @@ const CommentInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
         <Button
           variant="secondary"
           size="sm"
-          isLoading={props.isLoading}
+          isLoading={isLoading}
           icon={<IoIosPaperPlane size={16} />}
           className="rounded-xl"
         />
