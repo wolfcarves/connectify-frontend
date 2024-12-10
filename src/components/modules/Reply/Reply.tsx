@@ -89,7 +89,6 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
               ref={replyFormRef}
               postId={postId}
               commentId={reply?.id}
-              avatar={session.avatar!}
             />
           </div>
         </div>

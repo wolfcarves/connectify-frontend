@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import useCreateComment from '@/hooks/mutations/useCreateComment';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,42 +22,26 @@ interface CommentCreateFormProps {
   onLoad?: (status: boolean) => void;
 }
 
-const CommentCreateForm = ({
-  postId,
-  onSubmit,
-  onLoad,
-}: CommentCreateFormProps) => {
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-
+const CommentCreateForm = ({ postId, onSubmit }: CommentCreateFormProps) => {
   const methods = useForm<CommentSchema>({});
-  const { handleSubmit, register, setError } = methods;
+  const { handleSubmit, register, setError, reset } = methods;
 
   const {
     mutateAsync: createCommentMutate,
     isPending: isCreateCommentLoading,
   } = useCreateComment();
 
-  useEffect(() => {
-    onLoad && onLoad(isCreateCommentLoading);
-  }, [isCreateCommentLoading, onLoad]);
-
-  const handleCommentSubmit = async (data: CommentSchema) => {
+  const handleCommentSubmit = async ({ content }: CommentSchema) => {
     try {
-      if (textareaRef?.current)
-        if (
-          textareaRef.current.value !== '' ||
-          textareaRef.current.value !== undefined
-        ) {
-          const requestData = {
-            postId,
-            content: data?.content,
-          };
+      const requestData = {
+        postId,
+        content: content,
+      };
 
-          const createdComment = await createCommentMutate(requestData);
-          onSubmit && onSubmit(createdComment.id, textareaRef.current.value);
+      const createdComment = await createCommentMutate(requestData);
+      onSubmit?.(createdComment.id, content);
 
-          textareaRef.current.value = '';
-        }
+      reset();
     } catch (error: unknown) {
       //
       errorHandler(error, schema, setError);
@@ -73,10 +57,7 @@ const CommentCreateForm = ({
     >
       <CommentInput
         {...registerContent}
-        ref={e => {
-          ref(e);
-          textareaRef.current = e;
-        }}
+        ref={ref}
         isLoading={isCreateCommentLoading}
       />
     </form>

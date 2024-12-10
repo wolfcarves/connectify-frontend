@@ -10,22 +10,15 @@ import CommentCreateForm from '../comment/form/CommentCreateForm';
 import { notFound } from 'next/navigation';
 import Comment from '@/components/modules/Comment/Comment';
 import CommentSkeleton from '@/components/modules/Comment/CommentSkeleton';
-import { useIntersection } from '@mantine/hooks';
 import useSession from '@/hooks/useSession';
+import Typography from '@/components/ui/typography';
+import { Button } from '@/components/ui/button';
 
 const PostView = ({ uuid }: { uuid: string }) => {
   const session = useSession();
   const [localComments, setLocalComments] = useState<
-    { id: number; comment: string }[]
+    { id: number; content: string }[]
   >([]);
-  const [isLocalCommentLoading, setIsLocalCommentLoading] =
-    useState<boolean>(false);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { ref, entry } = useIntersection({
-    root: containerRef.current,
-    threshold: 1,
-  });
 
   const { data: postData, isPending: isPostLoading } = useGetUserPost(uuid);
   const {
@@ -33,6 +26,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
     isPending: isCommentsLoading,
     fetchNextPage,
     hasNextPage,
+    isFetchingNextPage,
   } = useGetCommentsByPostId(postData?.post?.id);
 
   const _comments = useMemo(
@@ -40,9 +34,17 @@ const PostView = ({ uuid }: { uuid: string }) => {
     [comments],
   );
 
-  useEffect(() => {
-    if (entry?.isIntersecting && hasNextPage) fetchNextPage();
-  }, [entry?.isIntersecting, fetchNextPage, hasNextPage]);
+  const commentsCount = useMemo(
+    () =>
+      comments?.pages.map(p => p.pagination.remaining_items)?.[
+        comments.pages.length - 1
+      ],
+    [comments?.pages],
+  );
+
+  const handleShowOtherComments = () => {
+    fetchNextPage();
+  };
 
   if (!postData && !isPostLoading) return notFound();
 
@@ -68,14 +70,14 @@ const PostView = ({ uuid }: { uuid: string }) => {
                       username: session.username!,
                     },
                     replies_count: 0,
-                    content: comment.comment,
+                    content: comment.content,
                   }}
                 />
               </div>
             );
           })}
 
-        {_comments?.map((comment, idx) => {
+        {_comments?.map(comment => {
           return (
             <Comment
               key={comment.id}
@@ -85,8 +87,14 @@ const PostView = ({ uuid }: { uuid: string }) => {
           );
         })}
 
-        {hasNextPage && (
-          <div ref={ref} className="space-y-3">
+        {hasNextPage && !isFetchingNextPage && (
+          <Button variant="ghost" size="xxs" onClick={handleShowOtherComments}>
+            View other {commentsCount} comments
+          </Button>
+        )}
+
+        {isFetchingNextPage && (
+          <div className="space-y-3">
             <CommentSkeleton count={3} />
           </div>
         )}
@@ -94,9 +102,8 @@ const PostView = ({ uuid }: { uuid: string }) => {
 
       <CommentCreateForm
         postId={postData?.post?.id}
-        onLoad={status => setIsLocalCommentLoading(status)}
         onSubmit={(commentId, value) =>
-          setLocalComments(prev => [...prev, { id: commentId, comment: value }])
+          setLocalComments(prev => [...prev, { id: commentId, content: value }])
         }
       />
     </>

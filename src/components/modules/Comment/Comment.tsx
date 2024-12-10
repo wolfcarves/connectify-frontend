@@ -16,6 +16,11 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
   ({ postId, data: comment }: CommentProps, ref) => {
     const session = useSession();
     const replyFormRef = useRef<{ setFocus: () => void }>(null);
+    const [localReplies, setLocalReplies] = useState<
+      { id: number; content: string }[]
+    >([]);
+    const [isLocalReplyLoading, seIsLocalReplyLoading] =
+      useState<boolean>(false);
 
     const [isReplyActive, setIsReplyActive] = useState<boolean>(
       comment?.replies_count === 1 || false,
@@ -57,12 +62,40 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
             return <Reply key={data?.id} postId={postId} data={data} />;
           })}
 
+        <div className={isLocalReplyLoading ? 'opacity-50' : ''}>
+          {localReplies &&
+            localReplies.map(reply => {
+              return (
+                <Reply
+                  key={reply?.id}
+                  postId={postId}
+                  data={{
+                    id: reply.id,
+                    content: reply.content,
+                    replies_count: 0,
+                    user: {
+                      avatar: session.avatar!,
+                      id: session.userId!,
+                      name: session.name!,
+                      username: session.username!,
+                    },
+                  }}
+                />
+              );
+            })}
+        </div>
+
         {isReplyActive && !isRepliesLoading && (
           <ReplyCreateForm
             ref={replyFormRef}
             postId={postId}
             commentId={comment?.id}
-            avatar={session.avatar!}
+            onSubmit={(commentId, value) =>
+              setLocalReplies(prev => [
+                ...prev,
+                { id: commentId, content: value },
+              ])
+            }
           />
         )}
       </div>

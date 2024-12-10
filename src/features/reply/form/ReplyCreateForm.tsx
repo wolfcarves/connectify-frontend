@@ -8,11 +8,11 @@ import { schema, type ReplyInput as ReplyInputSchema } from './schema';
 interface ReplyCreateFormProps {
   postId?: number;
   commentId: number;
-  avatar: string;
+  onSubmit?: (commentId: number, value: string) => void;
 }
 
 const ReplyCreateForm = forwardRef(
-  ({ postId, commentId, avatar }: ReplyCreateFormProps, ref) => {
+  ({ postId, commentId, onSubmit }: ReplyCreateFormProps, ref) => {
     const { handleSubmit, register, reset, setFocus } =
       useForm<ReplyInputSchema>({ resolver: zodResolver(schema) });
 
@@ -21,7 +21,8 @@ const ReplyCreateForm = forwardRef(
 
     const handleSubmitForm = async ({ content }: ReplyInputSchema) => {
       if (commentId) {
-        await createReply({ postId, commentId, content });
+        const createdReply = await createReply({ postId, commentId, content });
+        onSubmit?.(createdReply.data.id, content);
         reset();
       }
     };
@@ -32,11 +33,7 @@ const ReplyCreateForm = forwardRef(
 
     return (
       <form onSubmit={handleSubmit(handleSubmitForm)}>
-        <ReplyInput
-          {...register('content')}
-          avatar={avatar}
-          isLoading={isCreateReplyLoading}
-        />
+        <ReplyInput {...register('content')} isLoading={isCreateReplyLoading} />
       </form>
     );
   },

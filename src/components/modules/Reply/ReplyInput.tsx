@@ -5,13 +5,15 @@ import Avatar from '@/components/common/Avatar/Avatar';
 import TextArea from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { IoIosPaperPlane } from 'react-icons/io';
+import useSession from '@/hooks/useSession';
 interface ReplyInputProps extends ComponentProps<'textarea'> {
-  avatar: string;
   isLoading: boolean;
 }
 
 const ReplyInput = forwardRef<HTMLTextAreaElement, ReplyInputProps>(
-  ({ avatar, isLoading, ...props }: ReplyInputProps, ref) => {
+  ({ isLoading, ...props }: ReplyInputProps, ref) => {
+    const { avatar } = useSession();
+
     return (
       <div className="flex w-full ps-[17.1px] pb-2.5">
         <div className="pe-1.5">
