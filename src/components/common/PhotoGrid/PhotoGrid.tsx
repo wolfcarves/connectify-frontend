@@ -38,7 +38,7 @@ const PhotoGridItem = ({
         {...props}
       >
         {isLoading ? (
-          <Spinner className="absolute inset-0 m-auto w-max" />
+          <Spinner />
         ) : (
           <NextImage
             key={id}
