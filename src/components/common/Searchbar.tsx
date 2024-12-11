@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { IoSearchOutline } from 'react-icons/io5';
-import CenterContainer from './Container/CenterContainer';
+import CenterContainer from '../../containers/CenterContainer';
 
 const searchSchema = z.object({
   query: z.string(),

@@ -1,33 +1,20 @@
 import React from 'react';
 import type { ReactNode } from 'react';
 import Header from '@/components/common/Header/Header';
-import Sidebar from '@/components/common/Sidebar/Sidebar';
-import NavigationTab from '@/components/common/NavigationTab';
-import CenterContainer from '@/components/common/Container/CenterContainer';
+import CenterContainer from '@/containers/CenterContainer';
 import LeftSidebar from '@/components/common/Sidebar/LeftSidebar';
+import RightSidebar from '@/components/common/Sidebar/RightSidebar';
+import MainContainer from '@/containers/MainContainer';
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="pb-14 md:pb-0">
+    <MainContainer>
       <Header />
-
       <div className="flex flex-1 lg:container mt-5 px-2 md:px-4 py-10">
         <LeftSidebar />
-
-        <main className="flex flex-1">
-          <CenterContainer>{children}</CenterContainer>
-        </main>
-
-        <Sidebar
-          position="right"
-          className="hidden xl:block"
-          includedRoutes={['/messages']}
-        />
+        <CenterContainer>{children}</CenterContainer>
+        <RightSidebar />
       </div>
-
-      <div className="block md:hidden">
-        <NavigationTab />
-      </div>
-    </div>
+    </MainContainer>
   );
 }

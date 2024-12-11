@@ -3,7 +3,7 @@
 import React, { ComponentProps, forwardRef } from 'react';
 import useSession from '@/hooks/useSession';
 import Avatar from '@/components/common/Avatar/Avatar';
-import CenterContainer from '@/components/common/Container/CenterContainer';
+import CenterContainer from '@/containers/CenterContainer';
 import TextArea from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { IoIosPaperPlane } from 'react-icons/io';

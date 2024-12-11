@@ -8,7 +8,7 @@ export default function useSaveUserPost() {
   return useMutation({
     mutationKey: ['SAVE_USER_POST_KEY'],
     mutationFn: async (postId: number) => {
-      return await BookmarkService.saveUserPost(postId);
+      return await BookmarkService.saveUserPost({ postId });
     },
     onSuccess: async () => {
       await queryCLient.invalidateQueries({

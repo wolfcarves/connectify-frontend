@@ -8,7 +8,7 @@ export default function useUnSaveUserPost() {
   return useMutation({
     mutationKey: ['UNSAVE_USER_POST_KEY'],
     mutationFn: async (postId: number) => {
-      return await BookmarkService.unSaveUserPost(postId);
+      return await BookmarkService.unSaveUserPost({ postId });
     },
     onSuccess: async () => {
       await queryCLient.invalidateQueries({

@@ -1,7 +1,9 @@
+'use client';
+
 import Image, { ImageProps } from 'next/image';
 import { cva, VariantProps } from 'class-variance-authority';
 import getCloudinaryProfileImageUrl from '@/utils/getCloudinaryProfileImageUrl';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const avatar = cva(
   'relative bg-accent flex aspect-square rounded-full overflow-hidden',
@@ -32,25 +34,25 @@ export interface AvatarProps
 }
 
 const Avatar = ({ href, src, size, className, ...props }: AvatarProps) => {
+  const router = useRouter();
   const imageSrc = getCloudinaryProfileImageUrl(src);
 
   return (
-    <Link href={`/${href}`} className="hover:opacity-80">
-      <div
-        className={`${!avatar && 'animate-pulse'} ${avatar({ className, size })}`}
-      >
-        {imageSrc && (
-          <Image
-            alt="avatar"
-            src={imageSrc}
-            fill
-            className="rounded-full object-cover"
-            sizes="100%"
-            {...props}
-          />
-        )}
-      </div>
-    </Link>
+    <div
+      onClick={href ? () => router.push(`/${href}`) : undefined}
+      className={`${!avatar && 'animate-pulse'} ${avatar({ className, size })} ${href && 'hover:opacity-80 hover:cursor-pointer'} select-none`}
+    >
+      {imageSrc && (
+        <Image
+          alt="avatar"
+          src={imageSrc}
+          fill
+          className="rounded-full object-cover"
+          sizes="100%"
+          {...props}
+        />
+      )}
+    </div>
   );
 };
 

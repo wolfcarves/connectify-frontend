@@ -1,7 +1,7 @@
 import FeedCategories from '@/features/feed/FeedCategories';
 import React, { ReactNode } from 'react';
 
-const layout = ({ children }: { children: ReactNode }) => {
+const FeedLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
       <FeedCategories />
@@ -10,4 +10,4 @@ const layout = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default layout;
+export default FeedLayout;

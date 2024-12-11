@@ -1,10 +1,10 @@
 'use client';
 
+import { useRef, useState } from 'react';
 import { Button } from '../../ui/button';
 import Link from 'next/link';
 import { Plus } from '@phosphor-icons/react';
 import { TbMessageCircle, TbMessageCircleFilled } from 'react-icons/tb';
-import { PiBellFill, PiBell } from 'react-icons/pi';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +21,9 @@ import { usePathname } from 'next/navigation';
 import { RiSettings4Fill } from 'react-icons/ri';
 import Typography from '@/components/ui/typography';
 import { IoLogOut } from 'react-icons/io5';
+import { PiBellFill, PiBell } from 'react-icons/pi';
+import { HiDotsHorizontal } from 'react-icons/hi';
+import { useClickOutside } from '@mantine/hooks';
 
 const HeaderMenu = () => {
   const pathname = usePathname();
@@ -33,9 +36,7 @@ const HeaderMenu = () => {
 
   const handleLogout = async () => {
     try {
-      const res = await destroySessionMutate();
-
-      console.log('res', res);
+      await destroySessionMutate();
     } catch (error) {
       console.log('error?');
     }
@@ -70,39 +71,12 @@ const HeaderMenu = () => {
             size="icon"
             variant={pathname === '/create' ? 'default' : 'secondary'}
             icon={<Plus size={20} />}
-            className="rounded-full text-xs"
+            className="text-xs"
           />
         </Link>
 
-        <Link href={'/chats'}>
-          <Button
-            size="icon"
-            variant={pathname === '/chats' ? 'default' : 'secondary'}
-            icon={
-              pathname === '/chats' ? (
-                <TbMessageCircleFilled size={20} />
-              ) : (
-                <TbMessageCircle size={20} />
-              )
-            }
-            className="rounded-full text-xs"
-          />
-        </Link>
-
-        <Link href={'/notifications'}>
-          <Button
-            size="icon"
-            variant={pathname === '/notifications' ? 'default' : 'secondary'}
-            icon={
-              pathname === '/notifications' ? (
-                <PiBellFill size={20} />
-              ) : (
-                <PiBell size={20} />
-              )
-            }
-            className="rounded-full text-xs"
-          />
-        </Link>
+        <HeaderMenuChatsDropdown />
+        <HeaderMenuNotificationsDropdown />
 
         <DropdownMenuTrigger asChild>
           <Button
@@ -152,4 +126,130 @@ const HeaderMenu = () => {
   );
 };
 
+const HeaderMenuChatsDropdown = () => {
+  const { avatar } = useSession();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const popupRef = useClickOutside(() => setIsOpen(false));
+
+  return (
+    <div className="relative">
+      <Button
+        size="icon"
+        variant={isOpen ? 'default' : 'secondary'}
+        className="text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+        icon={
+          isOpen ? (
+            <TbMessageCircleFilled size={20} />
+          ) : (
+            <TbMessageCircle size={20} />
+          )
+        }
+        onClick={() => setIsOpen(prev => !prev)}
+      />
+
+      <div
+        ref={popupRef}
+        className={`${!isOpen && 'hidden'} absolute right-0 top-12 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl`}
+      >
+        <div className="p-2">
+          <Typography.Span
+            title="Messages"
+            color="muted"
+            className="uppercase"
+            weight="medium"
+            size="sm"
+          />
+        </div>
+
+        <div className="relative">
+          <div className="flex gap-x-2 text-start w-full hover:bg-muted/50 hover:cursor-pointer p-3">
+            <Avatar src={avatar} size="lg" />
+            <div className="flex flex-col">
+              <Typography.Span title="Rodel Crisosto" weight="medium" />
+              <Typography.Span
+                title="Kumusta na par?"
+                className="line-clamp-3"
+                size="sm"
+                color="muted"
+              />
+            </div>
+          </div>
+
+          <Button
+            variant="ghost"
+            className="absolute right-5 top-0 bottom-0 my-auto rounded-full hover:bg-muted"
+            icon={<HiDotsHorizontal size={20} className="text-foreground/90" />}
+            size="icon"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const HeaderMenuNotificationsDropdown = () => {
+  const { avatar } = useSession();
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const popupRef = useClickOutside(() => setIsOpen(false));
+
+  return (
+    <div className="relative">
+      <Button
+        size="icon"
+        variant={isOpen ? 'default' : 'secondary'}
+        className="text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+        onClick={() => setIsOpen(prev => !prev)}
+        icon={isOpen ? <PiBellFill size={20} /> : <PiBell size={20} />}
+      />
+
+      <div
+        ref={popupRef}
+        className={`${!isOpen && 'hidden'} absolute right-0 top-12 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl`}
+      >
+        <div className="p-2">
+          <Typography.Span
+            title="Notifications"
+            color="muted"
+            className="uppercase"
+            weight="medium"
+            size="sm"
+          />
+        </div>
+
+        <button className="flex items-center gap-x-2 w-full hover:bg-muted/50 p-3">
+          <Avatar src={avatar} size="lg" />
+          <Typography.Span
+            title="Rodel Crisosto likes your post"
+            className="line-clamp-3"
+          />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default HeaderMenu;
+
+/*
+ <div className="absolute right-0 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl">
+        <div className="p-2">
+          <Typography.Span
+            title="Messages"
+            color="muted"
+            className="uppercase"
+            weight="medium"
+            size="sm"
+          />
+        </div>
+
+        <button className="flex items-center gap-x-2 w-full hover:bg-muted/50 p-3">
+          <Avatar src={avatar} size="lg" />
+          <Typography.Span
+            title="Rodel Crisosto likes your post"
+            className="line-clamp-3"
+          />
+        </button>
+      </div>  
+*/
