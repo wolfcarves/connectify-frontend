@@ -11,8 +11,8 @@ import { notFound } from 'next/navigation';
 import Comment from '@/components/modules/Comment/Comment';
 import CommentSkeleton from '@/components/modules/Comment/CommentSkeleton';
 import useSession from '@/hooks/useSession';
-import Typography from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 const PostView = ({ uuid }: { uuid: string }) => {
   const session = useSession();
@@ -87,10 +87,19 @@ const PostView = ({ uuid }: { uuid: string }) => {
           );
         })}
 
-        {hasNextPage && !isFetchingNextPage && (
-          <Button variant="ghost" size="xxs" onClick={handleShowOtherComments}>
-            View other {commentsCount} comments
-          </Button>
+        {hasNextPage && (
+          <div className="flex py-1">
+            <Button
+              variant="ghost"
+              size="xxs"
+              onClick={handleShowOtherComments}
+              disabled={isFetchingNextPage}
+            >
+              View other {commentsCount} comments
+            </Button>
+
+            {isFetchingNextPage && <Spinner />}
+          </div>
         )}
 
         {isFetchingNextPage && (

@@ -14,6 +14,9 @@ interface ReplyProps {
 const Reply = ({ postId, data: reply }: ReplyProps) => {
   const session = useSession();
   const replyFormRef = useRef<{ setFocus: () => void }>(null);
+  const [nestedLocalReplies, setNestedLocalReplies] = useState<
+    { id: number; content: string }[]
+  >([]);
 
   const [isReplyActive, setIsReplyActive] = useState<boolean>(
     reply?.replies_count === 1 || false,
@@ -80,6 +83,31 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
           );
         })}
 
+      {nestedLocalReplies &&
+        nestedLocalReplies.map(reply => {
+          return (
+            <div
+              key={reply?.id}
+              className="flex items-stretch border-l-2 ps-[30px] ms-[17px]"
+            >
+              <Reply
+                postId={postId}
+                data={{
+                  id: reply.id,
+                  content: reply.content,
+                  replies_count: 0,
+                  user: {
+                    avatar: session.avatar!,
+                    id: session.userId!,
+                    name: session.name!,
+                    username: session.username!,
+                  },
+                }}
+              />
+            </div>
+          );
+        })}
+
       {isReplyActive && !isNestedRepliesLoading && (
         <div className="flex w-full ps-[1.05rem] xs:ps-[1.07rem]">
           <div className="border-l-2 w-[2.250rem] xs:w-[2.130rem]" />
@@ -89,6 +117,12 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
               ref={replyFormRef}
               postId={postId}
               commentId={reply?.id}
+              onSubmit={(commentId, value) =>
+                setNestedLocalReplies(prev => [
+                  ...prev,
+                  { id: commentId, content: value },
+                ])
+              }
             />
           </div>
         </div>
