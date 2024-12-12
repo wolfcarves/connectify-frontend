@@ -7,7 +7,7 @@ const HeaderSearch = () => {
     <div className="flex items-center gap-x-2 select-none">
       <input
         placeholder="Search"
-        className="border bg-card rounded-2xl w-[30rem] ms-40 py-2 px-4 focus:outline-none"
+        className="border bg-card rounded-2xl w-[30rem] ms-[15rem] py-2 px-4 focus:outline-none"
       />
 
       <Button

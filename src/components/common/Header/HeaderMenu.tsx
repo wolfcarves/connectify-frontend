@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../ui/button';
 import Link from 'next/link';
 import { Plus } from '@phosphor-icons/react';
@@ -22,25 +22,14 @@ import { RiSettings4Fill } from 'react-icons/ri';
 import Typography from '@/components/ui/typography';
 import { IoLogOut } from 'react-icons/io5';
 import { PiBellFill, PiBell } from 'react-icons/pi';
-import { HiDotsHorizontal } from 'react-icons/hi';
 import { useClickOutside } from '@mantine/hooks';
+import ChatDropdownList from '@/features/chats/ChatDropdownList';
+import ChatBox from '@/features/chats/ChatBox';
+import ChatDropdown from '@/features/chats/ChatDropdown';
 
 const HeaderMenu = () => {
   const pathname = usePathname();
-  const { avatar, name, username, isAuth } = useSession();
-
-  const {
-    mutateAsync: destroySessionMutate,
-    isPending: isDestroySessionLoading,
-  } = useDestroySession();
-
-  const handleLogout = async () => {
-    try {
-      await destroySessionMutate();
-    } catch (error) {
-      console.log('error?');
-    }
-  };
+  const { isAuth } = useSession();
 
   switch (pathname) {
     case '/signup':
@@ -64,125 +53,21 @@ const HeaderMenu = () => {
   }
 
   return (
-    <DropdownMenu>
-      <div className="flex gap-x-2 items-center">
-        <Link href={'/create'}>
-          <Button
-            size="icon"
-            variant={pathname === '/create' ? 'default' : 'secondary'}
-            icon={<Plus size={20} />}
-            className="text-xs"
-          />
-        </Link>
+    <div className="flex items-center gap-x-4">
+      <Link href={'/create'}>
+        <Button
+          variant={pathname === '/create' ? 'default' : 'secondary'}
+          className="text-xs"
+        >
+          Create Post
+          <Plus size={14} />
+        </Button>
+      </Link>
 
-        <HeaderMenuChatsDropdown />
+      <div className="flex items-center gap-x-2">
+        <ChatDropdown />
         <HeaderMenuNotificationsDropdown />
-
-        <DropdownMenuTrigger asChild>
-          <Button
-            size="icon"
-            icon={<Avatar src={avatar} size="base" />}
-            className="rounded-full mt-auto text-xs bg-blue-500"
-          />
-        </DropdownMenuTrigger>
-
-        <DropdownMenuContent align="end" className="w-[250px] rounded-lg">
-          <Link href={`/${username}`}>
-            <DropdownMenuItem>
-              <div className="hover:bg-muted p-1">
-                <User
-                  avatar={avatar}
-                  name={name}
-                  username={username}
-                  clickable={false}
-                />
-              </div>
-            </DropdownMenuItem>
-          </Link>
-          <DropdownMenuSeparator />
-
-          <Link href="/account-settings">
-            <DropdownMenuItem className="p-2.5">
-              <div className="flex gap-x-2 items-center ">
-                <RiSettings4Fill size={24} className="w-6" />
-                <Typography.Span title="Settings" weight="medium" size="sm" />
-              </div>
-            </DropdownMenuItem>
-          </Link>
-
-          <DropdownMenuItem className="p-2.5" onClick={handleLogout}>
-            <div className="flex gap-x-2 items-center">
-              {isDestroySessionLoading ? (
-                <Spinner />
-              ) : (
-                <IoLogOut size={24} className="w-6" />
-              )}
-              Logout
-            </div>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </div>
-    </DropdownMenu>
-  );
-};
-
-const HeaderMenuChatsDropdown = () => {
-  const { avatar } = useSession();
-
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const popupRef = useClickOutside(() => setIsOpen(false));
-
-  return (
-    <div className="relative">
-      <Button
-        size="icon"
-        variant={isOpen ? 'default' : 'secondary'}
-        className="text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
-        icon={
-          isOpen ? (
-            <TbMessageCircleFilled size={20} />
-          ) : (
-            <TbMessageCircle size={20} />
-          )
-        }
-        onClick={() => setIsOpen(prev => !prev)}
-      />
-
-      <div
-        ref={popupRef}
-        className={`${!isOpen && 'hidden'} absolute right-0 top-12 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl`}
-      >
-        <div className="p-2">
-          <Typography.Span
-            title="Messages"
-            color="muted"
-            className="uppercase"
-            weight="medium"
-            size="sm"
-          />
-        </div>
-
-        <div className="relative">
-          <div className="flex gap-x-2 text-start w-full hover:bg-muted/50 hover:cursor-pointer p-3">
-            <Avatar src={avatar} size="lg" />
-            <div className="flex flex-col">
-              <Typography.Span title="Rodel Crisosto" weight="medium" />
-              <Typography.Span
-                title="Kumusta na par?"
-                className="line-clamp-3"
-                size="sm"
-                color="muted"
-              />
-            </div>
-          </div>
-
-          <Button
-            variant="ghost"
-            className="absolute right-5 top-0 bottom-0 my-auto rounded-full hover:bg-muted"
-            icon={<HiDotsHorizontal size={20} className="text-foreground/90" />}
-            size="icon"
-          />
-        </div>
+        <HeaderMenuProfileDropdown />
       </div>
     </div>
   );
@@ -190,7 +75,6 @@ const HeaderMenuChatsDropdown = () => {
 
 const HeaderMenuNotificationsDropdown = () => {
   const { avatar } = useSession();
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const popupRef = useClickOutside(() => setIsOpen(false));
 
@@ -227,6 +111,71 @@ const HeaderMenuNotificationsDropdown = () => {
         </button>
       </div>
     </div>
+  );
+};
+
+const HeaderMenuProfileDropdown = () => {
+  const { avatar, name, username } = useSession();
+
+  const {
+    mutateAsync: destroySessionMutate,
+    isPending: isDestroySessionLoading,
+  } = useDestroySession();
+
+  const handleLogout = async () => {
+    try {
+      await destroySessionMutate();
+    } catch (error) {
+      console.log('error?');
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          size="icon"
+          icon={<Avatar src={avatar} size="base" />}
+          className="rounded-full mt-auto text-xs bg-blue-500"
+        />
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end" className="w-[250px] rounded-lg">
+        <Link href={`/${username}`}>
+          <DropdownMenuItem>
+            <div className="hover:bg-muted p-1">
+              <User
+                avatar={avatar}
+                name={name}
+                username={username}
+                clickable={false}
+              />
+            </div>
+          </DropdownMenuItem>
+        </Link>
+        <DropdownMenuSeparator />
+
+        <Link href="/account-settings">
+          <DropdownMenuItem className="p-2.5">
+            <div className="flex gap-x-2 items-center ">
+              <RiSettings4Fill size={24} className="w-6" />
+              <Typography.Span title="Settings" weight="medium" size="sm" />
+            </div>
+          </DropdownMenuItem>
+        </Link>
+
+        <DropdownMenuItem className="p-2.5" onClick={handleLogout}>
+          <div className="flex gap-x-2 items-center">
+            {isDestroySessionLoading ? (
+              <Spinner />
+            ) : (
+              <IoLogOut size={24} className="w-6" />
+            )}
+            Logout
+          </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

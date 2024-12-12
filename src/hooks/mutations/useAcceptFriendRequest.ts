@@ -10,7 +10,9 @@ export default function useAcceptFriendRequest() {
     mutationKey: ['ACCEPT_FRIEND_REQUEST_KEY'],
     // userId to send request to
     mutationFn: async (userId?: number) => {
-      const response = await FriendsService.acceptFriendRequest(String(userId));
+      const response = await FriendsService.acceptFriendRequest({
+        friendId: String(userId),
+      });
       return response;
     },
     onSuccess: async () => {
