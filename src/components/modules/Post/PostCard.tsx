@@ -2,7 +2,7 @@ import { ComponentProps, useContext, type ReactNode } from 'react';
 import { parseDate } from '@/utils/parseDate';
 import UserComponent from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
-import { AUDIENCE } from './PostAudienceDialog';
+import { AUDIENCE } from '../../../features/post/modal/PostAudienceModal';
 import { PostContext } from './Post';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {

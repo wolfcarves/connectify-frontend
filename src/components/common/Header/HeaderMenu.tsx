@@ -23,34 +23,25 @@ import Typography from '@/components/ui/typography';
 import { IoLogOut } from 'react-icons/io5';
 import { PiBellFill, PiBell } from 'react-icons/pi';
 import { useClickOutside } from '@mantine/hooks';
-import ChatDropdownList from '@/features/chats/ChatDropdownList';
-import ChatBox from '@/features/chats/ChatBox';
 import ChatDropdown from '@/features/chats/ChatDropdown';
+import LoginModal from '@/features/auth/modal/LoginModal';
 
 const HeaderMenu = () => {
   const pathname = usePathname();
   const { isAuth } = useSession();
 
-  switch (pathname) {
-    case '/signup':
-      if (!isAuth)
-        return (
-          <Link href="/login">
+  if (!isAuth)
+    return (
+      <>
+        <LoginModal
+          trigger={
             <Button className="rounded-full text-xs" size="sm">
               Login account
             </Button>
-          </Link>
-        );
-    default:
-      if (!isAuth)
-        return (
-          <Link href="/signup">
-            <Button className="rounded-full text-xs" size="sm">
-              Create account
-            </Button>
-          </Link>
-        );
-  }
+          }
+        />
+      </>
+    );
 
   return (
     <div className="flex items-center gap-x-4">
@@ -84,7 +75,7 @@ const HeaderMenuNotificationsDropdown = () => {
         size="icon"
         variant={isOpen ? 'default' : 'secondary'}
         className="text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
-        onClick={() => setIsOpen(prev => !prev)}
+        onClick={() => setIsOpen(true)}
         icon={isOpen ? <PiBellFill size={20} /> : <PiBell size={20} />}
       />
 

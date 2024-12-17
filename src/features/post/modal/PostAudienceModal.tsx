@@ -28,47 +28,72 @@ export const AUDIENCE: AudienceOptions[] = [
   { label: 'Only me', icon: <LuLock size={14} />, value: 'private' },
 ];
 
-interface PostDeleteDialogProps extends DialogProps {
+interface PostAudienceModalProps extends DialogProps {
   trigger: ReactNode;
-  onSubmitClick: () => void;
-  isLoading?: boolean;
+  audience: {
+    selected: Audience;
+    value: Audience;
+  };
+  setAudience: Dispatch<
+    SetStateAction<{
+      selected: Audience;
+      value: Audience;
+    }>
+  >;
+  onApplyClick: () => void;
+  isApplyLoading?: boolean;
 }
 
-const PostDeleteDialog = ({
+const PostAudienceModal = ({
   trigger,
-  onSubmitClick,
-  isLoading,
+  audience,
+  setAudience,
+  onApplyClick,
+  isApplyLoading,
   ...props
-}: PostDeleteDialogProps) => {
+}: PostAudienceModalProps) => {
   return (
     <Dialog {...props}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader>
-          <DialogTitle>Are you sure to delete this post?</DialogTitle>
+          <DialogTitle>Change audience</DialogTitle>
           <DialogDescription>
-            This will be permanently deleted from your post.
+            Select your preferred audience to ensure the right people see your
+            content.
           </DialogDescription>
         </DialogHeader>
+        <div className="flex flex-col space-y-2">
+          {AUDIENCE.map(({ label, value, icon }) => {
+            return (
+              <button
+                key={value}
+                className="flex justify-between items-center text-start border border-border/50 rounded-lg py-3 px-4 hover:bg-muted"
+                onClick={() =>
+                  setAudience(prev => ({
+                    selected: value,
+                    value: prev.value,
+                  }))
+                }
+              >
+                <div className="flex items-center gap-2">
+                  {icon}
+                  {label}
+                </div>
+                <Radio isSelected={audience.selected === value} />
+              </button>
+            );
+          })}
+        </div>
         <DialogFooter>
           <DialogClose asChild>
             <Button
               type="button"
-              variant="ghost"
               className="rounded-full text-xs"
-              isLoading={isLoading}
+              isLoading={isApplyLoading}
+              onClick={() => onApplyClick()}
             >
-              Cancel
-            </Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button
-              type="button"
-              className="rounded-full text-xs"
-              isLoading={isLoading}
-              onClick={() => onSubmitClick()}
-            >
-              Confirm
+              Apply changes
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -77,4 +102,4 @@ const PostDeleteDialog = ({
   );
 };
 
-export default PostDeleteDialog;
+export default PostAudienceModal;

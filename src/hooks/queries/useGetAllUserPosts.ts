@@ -5,20 +5,20 @@ export const GET_ALL_USER_POSTS_KEY = () => 'GET_ALL_USER_POSTS_KEY';
 
 interface IQueryParams {
   page?: number;
-  per_page?: number;
+  perPage?: number;
 }
 
 export default function useGetAllUserPosts(
   username: string,
-  { page, per_page }: IQueryParams = { page: 1, per_page: 20 },
+  { page, perPage }: IQueryParams = { page: 1, perPage: 20 },
 ) {
   return useQuery({
-    queryKey: [GET_ALL_USER_POSTS_KEY(), username, page, per_page],
+    queryKey: [GET_ALL_USER_POSTS_KEY(), username, page, perPage],
     queryFn: async () => {
       const response = await PostService.getUserPosts({
         username,
         page,
-        per_page,
+        perPage,
       });
 
       return response.data;

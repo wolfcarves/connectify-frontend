@@ -9,8 +9,10 @@ export default function useSignUpUser() {
       const location = await getUserLocation();
 
       const response = await AuthenticationService.postSignUpUser({
-        ...data,
-        city: location?.city,
+        requestBody: {
+          ...data,
+          city: location?.city,
+        },
       });
 
       return 'response';

@@ -15,11 +15,11 @@ import Spinner from '@/components/ui/spinner';
 import useSession from '@/hooks/useSession';
 import useDeletePost from '@/hooks/mutations/useDeletePost';
 import { IoPeople } from 'react-icons/io5';
-import PostAudienceDialog from './PostAudienceDialog';
+import PostAudienceDialog from '../../../features/post/modal/PostAudienceModal';
 import { Audience } from '@/services';
 import useChangePostAudience from '@/hooks/mutations/useChangePostAudience';
 import { PostContext } from './Post';
-import PostDeleteDialog from './PostDeleteDialog';
+import PostDeleteDialog from '../../../features/post/modal/PostDeleteModal';
 
 interface PostMenu {
   postId?: number;

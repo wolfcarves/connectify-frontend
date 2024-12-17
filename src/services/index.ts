@@ -6,10 +6,15 @@
 export type { Audience } from './models/Audience';
 export type { BadRequestError } from './models/BadRequestError';
 export type { Bookmark } from './models/Bookmark';
+export type { Chat } from './models/Chat';
+export type { ChatMessage } from './models/ChatMessage';
+export type { ChatSendMessageInput } from './models/ChatSendMessageInput';
+export type { ChatSendMessageResponse } from './models/ChatSendMessageResponse';
 export type { Comment } from './models/Comment';
 export type { CommentInput } from './models/CommentInput';
 export type { ConflictError } from './models/ConflictError';
 export type { CreatePostInput } from './models/CreatePostInput';
+export type { ForbiddenError } from './models/ForbiddenError';
 export type { Friend } from './models/Friend';
 export type { FriendRequest } from './models/FriendRequest';
 export type { FriendSuggestion } from './models/FriendSuggestion';
@@ -28,6 +33,7 @@ export type { ValidationError } from './models/ValidationError';
 
 export { AuthenticationService } from './services/AuthenticationService';
 export { BookmarkService } from './services/BookmarkService';
+export { ChatService } from './services/ChatService';
 export { CommentService } from './services/CommentService';
 export { FeedService } from './services/FeedService';
 export { FriendsService } from './services/FriendsService';

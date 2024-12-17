@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useClickOutside } from '@mantine/hooks';
 import { TbMessageCircle, TbMessageCircleFilled } from 'react-icons/tb';
-import ChatDropdownList from './ChatDropdownList';
+import Chats from './Chats';
 import ChatBox from './ChatBox';
 
 const ChatDropdown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const [userId, setUserId] = useState<number>();
+  const [roomId, setRoomId] = useState<string>();
   const [isChatBoxOpen, setIsChatBoxOpen] = useState<boolean>(false);
 
   const popupRef = useClickOutside(() => setIsDropdownOpen(false));
@@ -24,7 +26,7 @@ const ChatDropdown = () => {
             <TbMessageCircle size={20} />
           )
         }
-        onClick={() => setIsDropdownOpen(prev => !prev)}
+        onClick={() => setIsDropdownOpen(true)}
       />
 
       <div
@@ -34,17 +36,23 @@ const ChatDropdown = () => {
         <div
           className={`min-w-[380px] duration-200 ${isChatBoxOpen && '-translate-x-full'}`}
         >
-          <ChatDropdownList
-            onMessageClick={e => {
+          <Chats
+            onMessageClick={(e, userId, roomId) => {
+              setUserId(userId);
+              setRoomId(roomId);
               setIsChatBoxOpen(true);
             }}
           />
         </div>
 
         <div
-          className={`min-w-[380px] duration-200 ${isChatBoxOpen && '-translate-x-full'}`}
+          className={`flex flex-col min-w-[380px] h-full duration-200 ${isChatBoxOpen && '-translate-x-full'}`}
         >
-          <ChatBox onBackClick={() => setIsChatBoxOpen(false)} />
+          <ChatBox
+            userId={userId}
+            roomId={roomId}
+            onBackClick={() => setIsChatBoxOpen(false)}
+          />
         </div>
       </div>
     </div>

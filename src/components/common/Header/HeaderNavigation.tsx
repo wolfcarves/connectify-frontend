@@ -36,10 +36,6 @@ export let navigation = [
 const HeaderNavigation = () => {
   const pathname = usePathname();
 
-  if (pathname?.startsWith('/login') || pathname?.startsWith('/signup')) {
-    return <></>;
-  }
-
   return (
     <NavigationMenu className="ms-24">
       <NavigationMenuList>

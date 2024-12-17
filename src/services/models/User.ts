@@ -9,6 +9,9 @@ export type User = {
     name: string;
     username: string;
     friends_count: number;
+    is_friend: boolean;
+    has_request: boolean;
+    request_from?: 'us' | 'them' | null;
     created_at: string;
     updated_at: string;
 };

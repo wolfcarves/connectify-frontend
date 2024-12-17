@@ -1,7 +1,6 @@
-import React from 'react';
 import UserProfilePosts from '@/features/username/posts/UserProfilePosts';
 
-const UserProfilePage = () => {
+const UserProfilePage = async () => {
   return (
     <>
       <UserProfilePosts />

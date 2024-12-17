@@ -2,8 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { User } from './User';
-export type GetUserProfileResponseSchema = {
-    data: User;
+export type ForbiddenError = {
+    error: {
+        message: string;
+        statusCode: number;
+    };
 };
 

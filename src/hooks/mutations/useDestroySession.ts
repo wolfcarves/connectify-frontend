@@ -1,10 +1,8 @@
 import { AuthenticationService } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { GET_CURRENT_SESSION_KEY } from '../queries/useGetCurrentSession';
 
 export default function useDestroySession() {
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -14,8 +12,7 @@ export default function useDestroySession() {
       return response;
     },
     onSuccess: async () => {
-      router.refresh();
-      router.replace('/login');
+      window.location.reload();
 
       await queryClient.invalidateQueries({
         queryKey: [GET_CURRENT_SESSION_KEY()],

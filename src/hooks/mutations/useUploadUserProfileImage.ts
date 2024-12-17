@@ -10,7 +10,7 @@ export default function useUploadUserProfileImage() {
     mutationKey: ['UPLOAD_USER_PROFILE_IMAGE'],
     mutationFn: async (data: FormData) => {
       const response = await UserService.postUploadUserProfileImage({
-        avatar: data.get('avatar'),
+        formData: { avatar: data.get('avatar') },
       });
 
       return response;

@@ -14,7 +14,9 @@ export default function useLoginUser() {
   return useMutation({
     mutationKey: ['LOGIN_USER_KEY'],
     mutationFn: async (data: UserLoginInput) => {
-      const response = await AuthenticationService.postLoginUser(data);
+      const response = await AuthenticationService.postLoginUser({
+        requestBody: data,
+      });
 
       return response;
     },

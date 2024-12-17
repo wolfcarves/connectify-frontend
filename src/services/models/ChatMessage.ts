@@ -2,8 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { User } from './User';
-export type GetUserProfileResponseSchema = {
-    data: User;
+export type ChatMessage = {
+    id: number;
+    content: string;
+    is_own: boolean;
+    created_at: string;
+    updated_at: string;
 };
 

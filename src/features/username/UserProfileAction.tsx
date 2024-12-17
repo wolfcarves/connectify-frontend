@@ -100,6 +100,8 @@ const UserProfileAction = () => {
     }
   };
 
+  const handleCreateChat = async () => {};
+
   if (isUserProfileLoading) return <UserProfileActionSkeleton />;
 
   return (
@@ -197,6 +199,7 @@ const UserProfileAction = () => {
             variant="default"
             size="sm"
             className="rounded-full"
+            onClick={handleCreateChat}
           >
             Message
           </Button>
