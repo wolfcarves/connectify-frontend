@@ -19,7 +19,7 @@ const input = cva('border bg-card rounded-md focus:outline-none', {
   },
 });
 
-interface InputProps<T extends FieldValues>
+export interface InputProps<T extends FieldValues>
   extends Omit<ShadInputProps, 'size'>,
     VariantProps<typeof input> {
   name: Path<T>;
@@ -53,8 +53,8 @@ const Input = <T extends FieldValues>({
             <FormControl>
               <ShadInput
                 type={type}
-                {...restProps}
                 {...field}
+                {...restProps}
                 className={input({ size, className })}
               />
             </FormControl>

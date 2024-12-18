@@ -2,7 +2,7 @@ import { ComponentProps, useContext, type ReactNode } from 'react';
 import { parseDate } from '@/utils/parseDate';
 import UserComponent from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
-import { AUDIENCE } from '../../../features/post/modal/PostAudienceModal';
+import { AUDIENCE } from './PostAudienceModal';
 import { PostContext } from './Post';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {
@@ -13,20 +13,20 @@ const PostCard = ({ children }: { children?: ReactNode }) => {
   );
 };
 
-const Header = (props: ComponentProps<'div'>) => {
+const PostCardHeader = (props: ComponentProps<'div'>) => {
   return (
     <div className="flex justify-between items-start gap-2.5" {...props} />
   );
 };
 
-interface UserProps {
+interface PostCardUserProps {
   avatar?: string;
   name?: string;
   username?: string;
   timestamp?: string;
 }
 
-const User = ({ timestamp, ...props }: UserProps) => {
+const PostCardUser = ({ timestamp, ...props }: PostCardUserProps) => {
   const postCtx = useContext(PostContext);
 
   return (
@@ -53,14 +53,14 @@ const User = ({ timestamp, ...props }: UserProps) => {
   );
 };
 
-const Content = ({ children }: { children?: ReactNode }) => {
+const PostCardContent = ({ children }: { children?: ReactNode }) => {
   return (
     <Typography.P className="whitespace-pre-line">{children}</Typography.P>
   );
 };
 
-PostCard.User = User;
-PostCard.Header = Header;
-PostCard.Content = Content;
+PostCard.User = PostCardUser;
+PostCard.Header = PostCardHeader;
+PostCard.Content = PostCardContent;
 
 export default PostCard;

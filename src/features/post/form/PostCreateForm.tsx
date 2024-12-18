@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { useToast } from '@/components/ui/use-toast';
 import PostAudienceDialog, {
   AUDIENCE,
-} from '@/features/post/modal/PostAudienceModal';
+} from '@/components/modules/Post/PostAudienceModal';
 import TextArea from '@/components/ui/textarea';
 
 const schema = z.object({

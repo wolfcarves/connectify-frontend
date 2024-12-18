@@ -11,8 +11,11 @@ export default function useChangePostAudience() {
       postId: number;
       audience: Audience;
     }) => {
-      const response = await PostService.putChangeAudience(postId, {
-        audience,
+      const response = await PostService.putChangeAudience({
+        postId,
+        requestBody: {
+          audience,
+        },
       });
 
       return response;

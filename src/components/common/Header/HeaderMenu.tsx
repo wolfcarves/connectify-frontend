@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Button } from '../../ui/button';
 import Link from 'next/link';
 import { Plus } from '@phosphor-icons/react';
-import { TbMessageCircle, TbMessageCircleFilled } from 'react-icons/tb';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,10 +22,13 @@ import Typography from '@/components/ui/typography';
 import { IoLogOut } from 'react-icons/io5';
 import { PiBellFill, PiBell } from 'react-icons/pi';
 import { useClickOutside } from '@mantine/hooks';
-import ChatDropdown from '@/features/chats/ChatDropdown';
+import ChatDropdown from '@/features/chats/dropdown/ChatDropdown';
 import LoginModal from '@/features/auth/modal/LoginModal';
+import { TbMessageCircle, TbMessageCircleFilled } from 'react-icons/tb';
 
 const HeaderMenu = () => {
+  const [isChatDropdownOpen, setIsChatDropdownOpen] = useState<boolean>(true);
+
   const pathname = usePathname();
   const { isAuth } = useSession();
 
@@ -56,7 +58,25 @@ const HeaderMenu = () => {
       </Link>
 
       <div className="flex items-center gap-x-2">
-        <ChatDropdown />
+        <ChatDropdown
+          trigger={
+            <Button
+              size="icon"
+              variant={isChatDropdownOpen ? 'default' : 'secondary'}
+              className="text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+              icon={
+                isChatDropdownOpen ? (
+                  <TbMessageCircleFilled size={20} />
+                ) : (
+                  <TbMessageCircle size={20} />
+                )
+              }
+              onClick={() => setIsChatDropdownOpen(true)}
+            />
+          }
+          isOpen={isChatDropdownOpen}
+          setIsOpen={setIsChatDropdownOpen}
+        />
         <HeaderMenuNotificationsDropdown />
         <HeaderMenuProfileDropdown />
       </div>
