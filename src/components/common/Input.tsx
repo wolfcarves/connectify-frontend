@@ -22,8 +22,8 @@ const input = cva('border bg-card rounded-md focus:outline-none', {
 export interface InputProps<T extends FieldValues>
   extends Omit<ShadInputProps, 'size'>,
     VariantProps<typeof input> {
-  name: Path<T>;
-  control: Control<T>;
+  name?: Path<T>;
+  control?: Control<T>;
   type?: 'file' | 'text' | 'number' | 'password';
   label?: string;
   defaultValue?: PathValue<T, Path<T>>;
@@ -40,6 +40,16 @@ const Input = <T extends FieldValues>({
   ...restProps
 }: InputProps<T>) => {
   const def = defaultValue ? defaultValue : type === 'number' ? 0 : '';
+
+  if (!name) {
+    return (
+      <ShadInput
+        type={type}
+        {...restProps}
+        className={input({ size, className })}
+      />
+    );
+  }
 
   return (
     <FormField

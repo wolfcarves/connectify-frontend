@@ -5,7 +5,9 @@ export default function useCreateChat() {
   return useMutation({
     mutationKey: ['CREATE_CHAT_KEY'],
     mutationFn: async (recipientId: number) => {
-      const response = ChatService;
+      const response = await ChatService.postCreateChat({ recipientId });
+
+      return response.data.chat_id;
     },
   });
 }

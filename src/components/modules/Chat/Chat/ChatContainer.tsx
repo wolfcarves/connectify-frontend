@@ -1,19 +1,9 @@
-import React, { ComponentProps, ReactNode } from 'react';
-import ChatSkeleton from './ChatSkeleton';
+import React, { ComponentProps } from 'react';
 
-interface ChatContainerProps extends ComponentProps<'div'> {
-  children?: ReactNode;
-  isLoading?: boolean;
-}
+interface ChatContainerProps extends ComponentProps<'div'> {}
 
-const ChatContainer = ({
-  isLoading,
-  children,
-  ...props
-}: ChatContainerProps) => {
-  return (
-    <div {...props}>{isLoading ? <ChatSkeleton count={10} /> : children}</div>
-  );
+const ChatContainer = ({ ...props }: ChatContainerProps) => {
+  return <div {...props} />;
 };
 
 export default ChatContainer;

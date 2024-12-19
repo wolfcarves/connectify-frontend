@@ -32,7 +32,34 @@ export class ChatService {
                 'recipientId': recipientId,
             },
             errors: {
-                400: `Bad Request Error`,
+                401: `Not Found`,
+                500: `Server Internal Error.`,
+            },
+        });
+    }
+    /**
+     * Get Chat Details
+     * @returns any OK
+     * @throws ApiError
+     */
+    public static getChat({
+        chatId,
+    }: {
+        chatId: number,
+    }): CancelablePromise<{
+        data: {
+            id: number;
+            avatar: string;
+            name: string;
+        };
+    }> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/chats/{chatId}',
+            path: {
+                'chatId': chatId,
+            },
+            errors: {
                 401: `Not Found`,
                 500: `Server Internal Error.`,
             },
@@ -82,7 +109,7 @@ export class ChatService {
     }> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/chats/{chatId}',
+            url: '/api/v1/chats/messages/{chatId}',
             path: {
                 'chatId': chatId,
             },

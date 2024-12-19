@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { Button } from '../../ui/button';
 import Link from 'next/link';
 import { Plus } from '@phosphor-icons/react';
@@ -20,14 +20,15 @@ import { usePathname } from 'next/navigation';
 import { RiSettings4Fill } from 'react-icons/ri';
 import Typography from '@/components/ui/typography';
 import { IoLogOut } from 'react-icons/io5';
-import { PiBellFill, PiBell } from 'react-icons/pi';
 import { useClickOutside } from '@mantine/hooks';
-import ChatDropdown from '@/features/chats/dropdown/ChatDropdown';
+import { TbMessageCircleFilled, TbMessageCircle } from 'react-icons/tb';
 import LoginModal from '@/features/auth/modal/LoginModal';
-import { TbMessageCircle, TbMessageCircleFilled } from 'react-icons/tb';
+import ChatMessages from '@/components/modules/Chat/ChatMessage/ChatMessages';
+import Chats from '@/components/modules/Chat/Chat/Chats';
 
 const HeaderMenu = () => {
-  const [isChatDropdownOpen, setIsChatDropdownOpen] = useState<boolean>(true);
+  const [isChatDropdownOpen, setIsChatDropdownOpen] = useState<boolean>(false);
+  const [chatId, setChatId] = useState<number>();
 
   const pathname = usePathname();
   const { isAuth } = useSession();
@@ -58,7 +59,7 @@ const HeaderMenu = () => {
       </Link>
 
       <div className="flex items-center gap-x-2">
-        <ChatDropdown
+        <HeaderMenuDropdown
           trigger={
             <Button
               size="icon"
@@ -76,54 +77,98 @@ const HeaderMenu = () => {
           }
           isOpen={isChatDropdownOpen}
           setIsOpen={setIsChatDropdownOpen}
-        />
-        <HeaderMenuNotificationsDropdown />
+        >
+          <div
+            className={`min-w-[380px] duration-200 ${chatId && '-translate-x-full'}`}
+          >
+            <Chats onChatClick={chatId => setChatId(chatId)} />
+          </div>
+
+          <div
+            className={`min-w-[380px] duration-200 ${chatId && '-translate-x-full'}`}
+          >
+            <ChatMessages
+              chatId={chatId}
+              onBackClick={() => setChatId(undefined)}
+            />
+          </div>
+        </HeaderMenuDropdown>
+
         <HeaderMenuProfileDropdown />
       </div>
     </div>
   );
 };
 
-const HeaderMenuNotificationsDropdown = () => {
-  const { avatar } = useSession();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+interface HeaderMenuDropdownProps {
+  trigger: ReactNode;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  children: ReactNode;
+}
+
+const HeaderMenuDropdown = ({
+  trigger,
+  isOpen,
+  setIsOpen,
+  children,
+}: HeaderMenuDropdownProps) => {
   const popupRef = useClickOutside(() => setIsOpen(false));
 
   return (
     <div className="relative">
-      <Button
-        size="icon"
-        variant={isOpen ? 'default' : 'secondary'}
-        className="text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
-        onClick={() => setIsOpen(true)}
-        icon={isOpen ? <PiBellFill size={20} /> : <PiBell size={20} />}
-      />
+      {trigger}
 
       <div
         ref={popupRef}
-        className={`${!isOpen && 'hidden'} absolute right-0 top-12 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl`}
+        className={`${!isOpen && 'hidden'} flex absolute right-0 top-12 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl overflow-hidden`}
       >
-        <div className="p-2">
-          <Typography.Span
-            title="Notifications"
-            color="muted"
-            className="uppercase"
-            weight="medium"
-            size="sm"
-          />
-        </div>
-
-        <button className="flex items-center gap-x-2 w-full hover:bg-muted/50 p-3">
-          <Avatar src={avatar} size="lg" />
-          <Typography.Span
-            title="Rodel Crisosto likes your post"
-            className="line-clamp-3"
-          />
-        </button>
+        {children}
       </div>
     </div>
   );
 };
+
+// const HeaderMenuNotificationsDropdown = () => {
+//   const { avatar } = useSession();
+//   const [isOpen, setIsOpen] = useState<boolean>(false);
+//   const popupRef = useClickOutside(() => setIsOpen(false));
+
+//   return (
+//     <div className="relative">
+//       <Button
+//         size="icon"
+//         variant={isOpen ? 'default' : 'secondary'}
+//         className="text-xs focus-visible:ring-0 focus-visible:ring-offset-0"
+//         onClick={() => setIsOpen(true)}
+//         icon={isOpen ? <PiBellFill size={20} /> : <PiBell size={20} />}
+//       />
+
+//       <div
+//         ref={popupRef}
+//         className={`${!isOpen && 'hidden'} absolute right-0 top-12 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl`}
+//       >
+//         <div className="p-2">
+//           <Typography.Span
+//             title="Notifications"
+//             color="muted"
+//             className="uppercase"
+//             weight="medium"
+//             size="sm"
+//           />
+//         </div>
+
+//         <button className="flex items-center gap-x-2 w-full hover:bg-muted/50 p-3">
+//           <Avatar src={avatar} size="lg" />
+//           <Typography.Span
+//             title="Rodel Crisosto likes your post"
+//             className="line-clamp-3"
+//           />
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
 
 const HeaderMenuProfileDropdown = () => {
   const { avatar, name, username } = useSession();
