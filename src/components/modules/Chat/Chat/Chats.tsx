@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Chat from '@/components/modules/Chat/Chat/Chat';
 import ChatContainer from '@/components/modules/Chat/Chat/ChatContainer';
 import useGetChats from '@/hooks/queries/useGetChats';
@@ -6,6 +6,7 @@ import Typography from '@/components/ui/typography';
 import { User } from '@/services';
 import ChatSkeleton from '@/components/modules/Chat/Chat/ChatSkeleton';
 import useCreateChat from '@/hooks/mutations/useCreateChat';
+import socket from '@/lib/socket';
 
 interface ChatsProps {
   onChatClick?: (chatId: number) => void;
@@ -32,6 +33,10 @@ const Chats = ({ onChatClick }: ChatsProps) => {
     setChatId(chatId);
     onChatClick?.(chatId);
   };
+
+  useEffect(() => {
+    if (chatId) socket.emit('join_chat', String(chatId));
+  }, [chatId]);
 
   return (
     <ChatContainer>
@@ -72,6 +77,7 @@ const Chats = ({ onChatClick }: ChatsProps) => {
           <Chat.Item
             key={user?.id}
             id={user.id}
+            user_id={user.id}
             avatar={user.avatar}
             name={user.name}
             onClick={() => handleInitiateChat(user?.id)}

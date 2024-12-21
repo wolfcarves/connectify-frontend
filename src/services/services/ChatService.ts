@@ -49,6 +49,7 @@ export class ChatService {
     }): CancelablePromise<{
         data: {
             id: number;
+            user_id: number;
             avatar: string;
             name: string;
         };
@@ -101,8 +102,12 @@ export class ChatService {
      */
     public static getChatMessages({
         chatId,
+        page,
+        perPage,
     }: {
         chatId: number,
+        page?: number,
+        perPage?: number,
     }): CancelablePromise<{
         data: Array<ChatMessage>;
         pagination: Pagination;
@@ -112,6 +117,10 @@ export class ChatService {
             url: '/api/v1/chats/messages/{chatId}',
             path: {
                 'chatId': chatId,
+            },
+            query: {
+                'page': page,
+                'per_page': perPage,
             },
             errors: {
                 400: `Bad Request Error`,

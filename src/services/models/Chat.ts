@@ -4,6 +4,7 @@
 /* eslint-disable */
 export type Chat = {
     id: number;
+    user_id: number;
     avatar: string;
     name: string;
     latest_message: string;

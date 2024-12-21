@@ -1,13 +1,24 @@
-import { ChatService, SendMessageInput } from '@/services';
+import { ChatService, ChatSendMessageInput } from '@/services';
 import { useMutation } from '@tanstack/react-query';
 
 export default function useSendChatMessage() {
   return useMutation({
     mutationKey: ['SEND_CHAT_MESSAGE_KEY'],
-    mutationFn: async (data: SendMessageInput) => {
-      const response = ChatService.postChatSendMessage({ requestBody: data });
+    mutationFn: async ({
+      chatId,
+      data,
+    }: {
+      chatId: number;
+      data: ChatSendMessageInput;
+    }) => {
+      const response = await ChatService.postChatSendMessage({
+        chatId,
+        requestBody: data,
+      });
 
-      return response;
+      return {
+        messageId: response.data.messageId,
+      };
     },
   });
 }

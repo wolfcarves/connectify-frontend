@@ -5,10 +5,7 @@ import { IoIosPaperPlane, IoMdArrowRoundBack } from 'react-icons/io';
 import useSession from '@/hooks/useSession';
 import Avatar from '@/components/common/Avatar/Avatar';
 import useSendChatMessage from '@/hooks/mutations/useSendChatMessage';
-import io from 'socket.io-client';
 import useGetUserProfile from '@/hooks/queries/useGetUserProfile';
-
-const socket = io('http://localhost:5000');
 
 const ChatBox = ({
   userId,
@@ -34,13 +31,6 @@ const ChatBox = ({
 
   const handleSendMessage = async () => {
     if (message !== undefined || !userId) {
-      await sendMessage({ recipientId: userId, message });
-
-      socket.emit('send_message', {
-        roomId,
-        message,
-      });
-
       setMessage('');
     }
   };

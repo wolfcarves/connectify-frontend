@@ -25,6 +25,7 @@ import { TbMessageCircleFilled, TbMessageCircle } from 'react-icons/tb';
 import LoginModal from '@/features/auth/modal/LoginModal';
 import ChatMessages from '@/components/modules/Chat/ChatMessage/ChatMessages';
 import Chats from '@/components/modules/Chat/Chat/Chats';
+import Dropdown from '../Dropdown/Dropdown';
 
 const HeaderMenu = () => {
   const [isChatDropdownOpen, setIsChatDropdownOpen] = useState<boolean>(false);
@@ -59,7 +60,9 @@ const HeaderMenu = () => {
       </Link>
 
       <div className="flex items-center gap-x-2">
-        <HeaderMenuDropdown
+        <Dropdown
+          isOpen={isChatDropdownOpen}
+          setIsOpen={setIsChatDropdownOpen}
           trigger={
             <Button
               size="icon"
@@ -75,55 +78,24 @@ const HeaderMenu = () => {
               onClick={() => setIsChatDropdownOpen(true)}
             />
           }
-          isOpen={isChatDropdownOpen}
-          setIsOpen={setIsChatDropdownOpen}
         >
-          <div
-            className={`min-w-[380px] duration-200 ${chatId && '-translate-x-full'}`}
+          <Dropdown.Content
+            visible={!chatId}
+            out="left"
+            className="min-w-[380px]"
           >
             <Chats onChatClick={chatId => setChatId(chatId)} />
-          </div>
+          </Dropdown.Content>
 
-          <div
-            className={`min-w-[380px] duration-200 ${chatId && '-translate-x-full'}`}
-          >
+          <Dropdown.Content visible={!!chatId} className="min-w-[380px]">
             <ChatMessages
               chatId={chatId}
               onBackClick={() => setChatId(undefined)}
             />
-          </div>
-        </HeaderMenuDropdown>
+          </Dropdown.Content>
+        </Dropdown>
 
         <HeaderMenuProfileDropdown />
-      </div>
-    </div>
-  );
-};
-
-interface HeaderMenuDropdownProps {
-  trigger: ReactNode;
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  children: ReactNode;
-}
-
-const HeaderMenuDropdown = ({
-  trigger,
-  isOpen,
-  setIsOpen,
-  children,
-}: HeaderMenuDropdownProps) => {
-  const popupRef = useClickOutside(() => setIsOpen(false));
-
-  return (
-    <div className="relative">
-      {trigger}
-
-      <div
-        ref={popupRef}
-        className={`${!isOpen && 'hidden'} flex absolute right-0 top-12 w-[380px] h-[calc(100vh-15rem)] border bg-background-light rounded-xl overflow-hidden`}
-      >
-        {children}
       </div>
     </div>
   );
