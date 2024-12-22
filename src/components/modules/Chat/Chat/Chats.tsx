@@ -9,6 +9,7 @@ import useCreateChat from '@/hooks/mutations/useCreateChat';
 import socket from '@/lib/socket';
 
 interface ChatsProps {
+  // eslint-disable-next-line no-unused-vars
   onChatClick?: (chatId: number) => void;
 }
 
@@ -20,8 +21,7 @@ const Chats = ({ onChatClick }: ChatsProps) => {
   const [chatId, setChatId] = useState<number>();
 
   const { data: chats, isPending: isChatsLoading } = useGetChats();
-  const { mutateAsync: createChat, isPending: isCreateChatLoading } =
-    useCreateChat();
+  const { mutateAsync: createChat } = useCreateChat();
 
   const handleInitiateChat = async (recipientId: number) => {
     const chatId = await createChat(recipientId);

@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, ReactNode, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../../ui/button';
 import Link from 'next/link';
 import { Plus } from '@phosphor-icons/react';
@@ -20,7 +20,6 @@ import { usePathname } from 'next/navigation';
 import { RiSettings4Fill } from 'react-icons/ri';
 import Typography from '@/components/ui/typography';
 import { IoLogOut } from 'react-icons/io5';
-import { useClickOutside } from '@mantine/hooks';
 import { TbMessageCircleFilled, TbMessageCircle } from 'react-icons/tb';
 import LoginModal from '@/features/auth/modal/LoginModal';
 import ChatMessages from '@/components/modules/Chat/ChatMessage/ChatMessages';

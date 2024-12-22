@@ -1,4 +1,11 @@
-import React, { ReactNode, ComponentProps, forwardRef } from 'react';
+import React, {
+  ReactNode,
+  ComponentProps,
+  forwardRef,
+  memo,
+  useEffect,
+  useRef,
+} from 'react';
 import { Button } from '@/components/ui/button';
 import { IoArrowBackOutline } from 'react-icons/io5';
 import { BsThreeDots } from 'react-icons/bs';
@@ -66,20 +73,22 @@ interface ChatMessageItemProps {
   isMessageOwn: boolean;
 }
 
-const ChatMessageItem = ({
-  avatar,
-  message,
-  isMessageOwn,
-}: ChatMessageItemProps) => {
-  return (
-    <div className={`flex gap-x-2 ${isMessageOwn && 'flex-row-reverse'} py-2`}>
-      <Avatar src={avatar} size="sm" />
-      <div className="h-max max-w-56 bg-muted rounded-xl px-2.5 py-1.5">
-        <Typography.P title={message} />
+const ChatMessageItem = memo(
+  ({ avatar, message, isMessageOwn }: ChatMessageItemProps) => {
+    return (
+      <div
+        className={`flex gap-x-2 ${isMessageOwn && 'flex-row-reverse'} py-2`}
+      >
+        <Avatar src={avatar} size="sm" />
+        <div className="h-max max-w-56 bg-muted rounded-xl px-2.5 py-1.5">
+          <Typography.P title={message} />
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  },
+);
+
+ChatMessageItem.displayName = 'ChatMessageItem';
 
 interface ChatMessageInputProps {
   chatId?: number;
@@ -87,14 +96,17 @@ interface ChatMessageInputProps {
 }
 
 const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const { userId } = useSession();
-  const [content, setContent] = React.useState<string>('');
   const { mutateAsync: sendMessage, isPending: isSendMessageLoading } =
     useSendChatMessage();
 
   const handleSendMessage = async () => {
     try {
-      if (chatId) {
+      if (chatId && inputRef.current) {
+        const content = inputRef.current.value;
+
         const { messageId } = await sendMessage({ chatId, data: { content } });
 
         const message: ChatMessageType = {
@@ -108,19 +120,33 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
 
         socket.emit('send_message', message);
         onSubmit?.(message);
-        setContent('');
+        inputRef.current.value = '';
       }
     } catch (error) {
       //
     }
   };
 
+  useEffect(() => {
+    const enterToSubmit = (event: KeyboardEvent) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        handleSendMessage();
+      }
+    };
+
+    inputRef.current?.addEventListener('keypress', enterToSubmit);
+
+    return () => {
+      inputRef.current?.removeEventListener('keypress', enterToSubmit);
+    };
+  }, []);
+
   return (
     <div className="flex items-center border-t p-2">
       <input
+        ref={inputRef}
         type="text"
-        value={content}
-        onChange={e => setContent(e.target.value)}
         placeholder="Type a message..."
         className="flex-1 bg-transparent border rounded-full outline-none px-3 py-2"
       />
