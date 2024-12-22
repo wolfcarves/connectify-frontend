@@ -1,10 +1,12 @@
 'use client';
 
 import Typography from '@/components/ui/typography';
+import useSession from '@/hooks/useSession';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const FeedCategories = () => {
+  const session = useSession();
   const pathname = usePathname();
 
   return (
@@ -17,13 +19,15 @@ const FeedCategories = () => {
         />
       </Link>
 
-      <Link href="/feed/friends" className="hover:opacity-70">
-        <Typography.H6
-          title="Connections"
-          weight="medium"
-          color={pathname === '/feed/friends' ? 'primary' : 'muted'}
-        />
-      </Link>
+      {session.isAuth && (
+        <Link href="/feed/friends" className="hover:opacity-70">
+          <Typography.H6
+            title="Connections"
+            weight="medium"
+            color={pathname === '/feed/friends' ? 'primary' : 'muted'}
+          />
+        </Link>
+      )}
 
       <Link href="/feed/trending" className="hover:opacity-70">
         <Typography.H6

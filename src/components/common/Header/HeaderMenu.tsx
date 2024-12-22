@@ -21,7 +21,7 @@ import { RiSettings4Fill } from 'react-icons/ri';
 import Typography from '@/components/ui/typography';
 import { IoLogOut } from 'react-icons/io5';
 import { TbMessageCircleFilled, TbMessageCircle } from 'react-icons/tb';
-import LoginModal from '@/features/auth/modal/LoginModal';
+import AuthModal from '@/features/auth/modal/AuthModal';
 import ChatMessages from '@/components/modules/Chat/ChatMessage/ChatMessages';
 import Chats from '@/components/modules/Chat/Chat/Chats';
 import Dropdown from '../Dropdown/Dropdown';
@@ -36,7 +36,7 @@ const HeaderMenu = () => {
   if (!isAuth)
     return (
       <>
-        <LoginModal
+        <AuthModal
           trigger={
             <Button className="rounded-full text-xs" size="sm">
               Login account

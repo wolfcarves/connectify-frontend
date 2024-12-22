@@ -25,7 +25,7 @@ const FeedDiscoverPosts = () => {
 
   useEffect(() => {
     if (entry?.isIntersecting) fetchNextPage();
-  }, [entry]);
+  }, []);
 
   if (_posts?.length === 0)
     return (

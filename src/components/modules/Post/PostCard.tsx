@@ -4,13 +4,10 @@ import UserComponent from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
 import { AUDIENCE } from './PostAudienceModal';
 import { PostContext } from './Post';
+import Card from '@/components/common/Card/Card';
 
 const PostCard = ({ children }: { children?: ReactNode }) => {
-  return (
-    <article className="rounded-2xl space-y-5 my-5 bg-card border px-3 pt-4 pb-2">
-      {children}
-    </article>
-  );
+  return <Card className="space-y-5 my-5 px-3 pt-4 pb-2">{children}</Card>;
 };
 
 const PostCardHeader = (props: ComponentProps<'div'>) => {

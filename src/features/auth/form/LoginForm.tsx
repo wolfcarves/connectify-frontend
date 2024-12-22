@@ -8,6 +8,7 @@ import { z } from 'zod';
 import useLoginUser from '@/hooks/mutations/useLoginUser';
 import errorHandler from '@/utils/errorHandler';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Typography from '@/components/ui/typography';
 
 export const schema = z.object({
   username: z.string().min(1, 'Please enter your username'),
@@ -45,16 +46,15 @@ const LoginForm = () => {
           <div>
             <Input
               type="text"
-              size="lg"
               name="username"
               control={control}
               placeholder="Username or email"
+              autoComplete="off"
             />
           </div>
           <div>
             <Input
               type="password"
-              size="lg"
               name="password"
               control={control}
               placeholder="Password"
@@ -62,14 +62,32 @@ const LoginForm = () => {
           </div>
         </div>
 
-        <div>
+        <div className="space-y-2">
           <Button
             type="submit"
             className="w-full rounded-xl"
-            size="lg"
             isLoading={isLoginUserLoading}
           >
             Login
+          </Button>
+
+          <Button type="button" variant="link" className="w-full rounded-xl">
+            Create an account
+          </Button>
+        </div>
+
+        <div className="flex gap-x-2 items-center w-full">
+          <div className="h-[1px] flex flex-1 bg-muted" />
+          <Typography.Span title="Or authorize with" size="sm" />
+          <div className="h-[1px] flex flex-1 bg-muted" />
+        </div>
+
+        <div className="flex gap-x-2">
+          <Button type="button" variant="outline" className="w-full rounded-xl">
+            Google
+          </Button>
+          <Button type="button" variant="outline" className="w-full rounded-xl">
+            Facebook
           </Button>
         </div>
       </form>
