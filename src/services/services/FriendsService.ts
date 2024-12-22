@@ -32,7 +32,7 @@ export class FriendsService {
     public static sendFriendRequest({
         receiverId,
     }: {
-        receiverId: string,
+        receiverId: number,
     }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -53,7 +53,7 @@ export class FriendsService {
     public static cancelFriendRequest({
         requesterId,
     }: {
-        requesterId: string,
+        requesterId: number,
     }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
@@ -90,7 +90,7 @@ export class FriendsService {
     public static acceptFriendRequest({
         friendId,
     }: {
-        friendId: string,
+        friendId: number,
     }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'POST',
@@ -133,7 +133,7 @@ export class FriendsService {
     public static unfriendUser({
         friendId,
     }: {
-        friendId: string,
+        friendId: number,
     }): CancelablePromise<SuccessReponse> {
         return __request(OpenAPI, {
             method: 'DELETE',

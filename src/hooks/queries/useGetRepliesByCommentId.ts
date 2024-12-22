@@ -6,7 +6,7 @@ export default function useGetRepliesByCommentId({
   commentId,
   enabled,
 }: {
-  postId?: number;
+  postId: number;
   commentId?: number;
   enabled: boolean;
 }) {

@@ -9,9 +9,9 @@ export default function useCancelFriendRequest() {
   return useMutation({
     mutationKey: ['CANCEL_FRIEND_REQUEST_KEY'],
     // userId to send request to
-    mutationFn: async (userId?: number) => {
+    mutationFn: async (requesterId: number) => {
       const response = await FriendsService.cancelFriendRequest({
-        requesterId: String(userId),
+        requesterId,
       });
 
       return response.message;

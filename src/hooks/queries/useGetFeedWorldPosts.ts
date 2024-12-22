@@ -5,16 +5,16 @@ export const GET_FEED_WORLD_POSTS_KEY = () => 'GET_FEED_WORLD_POSTS_KEY';
 
 interface IQueryParams {
   page?: number;
-  per_page?: number;
+  perPage?: number;
 }
 
 export default function useGetFeedWorldPosts(
-  { page, per_page }: IQueryParams = { page: 1, per_page: 10 },
+  { page, perPage }: IQueryParams = { page: 1, perPage: 10 },
 ) {
   return useInfiniteQuery({
-    queryKey: [GET_FEED_WORLD_POSTS_KEY(), page, per_page],
+    queryKey: [GET_FEED_WORLD_POSTS_KEY(), page, perPage],
     queryFn: async () => {
-      const response = await FeedService.getFeedWorldPosts({ page, per_page });
+      const response = await FeedService.getFeedWorldPosts({ page, perPage });
       return response;
     },
     getNextPageParam: (lastPage, pages) => {

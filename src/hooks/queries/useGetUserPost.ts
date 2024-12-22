@@ -8,7 +8,6 @@ export default function useGetUserPost(uuid: string) {
     queryKey: [GET_USER_POST_KEY(), uuid],
     queryFn: async () => {
       const response = await PostService.getUserPost({ uuid });
-
       return response?.data;
     },
     staleTime: 0,

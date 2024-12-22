@@ -56,7 +56,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
             return (
               <div key={comment?.id}>
                 <Comment
-                  postId={postData?.post?.id}
+                  postId={postData?.post.id!}
                   data={{
                     id: comment.id,
                     user: {
@@ -73,11 +73,11 @@ const PostView = ({ uuid }: { uuid: string }) => {
             );
           })}
 
-        {_comments?.map((comment, idx) => {
+        {_comments?.map(comment => {
           return (
             <Comment
               key={comment.id}
-              postId={postData?.post?.id}
+              postId={postData?.post.id!}
               data={comment}
             />
           );

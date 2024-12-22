@@ -51,12 +51,14 @@ const UserProfileAction = () => {
 
   const handleSendRequest = async () => {
     try {
-      const response = await sendRequest(userProfile?.id);
-      await queryClient.invalidateQueries({
-        queryKey: [GET_USER_PROFILE_KEY()],
-      });
+      if (userProfile?.id) {
+        const response = await sendRequest(userProfile?.id);
+        await queryClient.invalidateQueries({
+          queryKey: [GET_USER_PROFILE_KEY()],
+        });
 
-      toast({ title: response });
+        toast({ title: response });
+      }
     } catch (error) {
       toast({ title: 'Something went wrong' });
     }
@@ -64,11 +66,13 @@ const UserProfileAction = () => {
 
   const handleAcceptRequest = async () => {
     try {
-      const response = await acceptFriendRequest(userProfile?.id);
-      await queryClient.invalidateQueries({
-        queryKey: [GET_USER_PROFILE_KEY()],
-      });
-      toast({ title: response.message });
+      if (userProfile?.id) {
+        const response = await acceptFriendRequest(userProfile?.id);
+        await queryClient.invalidateQueries({
+          queryKey: [GET_USER_PROFILE_KEY()],
+        });
+        toast({ title: response.message });
+      }
     } catch (error) {
       toast({ title: 'Something went wrong' });
     }
@@ -76,12 +80,13 @@ const UserProfileAction = () => {
 
   const handleCancelRequest = async () => {
     try {
-      const response = await cancelRequest(userProfile?.id);
-      await queryClient.invalidateQueries({
-        queryKey: [GET_USER_PROFILE_KEY()],
-      });
-
-      toast({ title: response });
+      if (userProfile?.id) {
+        const response = await cancelRequest(userProfile?.id);
+        await queryClient.invalidateQueries({
+          queryKey: [GET_USER_PROFILE_KEY()],
+        });
+        toast({ title: response });
+      }
     } catch (error) {
       toast({ title: 'Something went wrong' });
     }
@@ -89,12 +94,13 @@ const UserProfileAction = () => {
 
   const handleUnfriend = async () => {
     try {
-      const response = await unfriendUser(userProfile?.id);
-      await queryClient.invalidateQueries({
-        queryKey: [GET_USER_PROFILE_KEY()],
-      });
-
-      toast({ title: response });
+      if (userProfile?.id) {
+        const response = await unfriendUser(userProfile?.id);
+        await queryClient.invalidateQueries({
+          queryKey: [GET_USER_PROFILE_KEY()],
+        });
+        toast({ title: response });
+      }
     } catch (error) {
       toast({ title: 'Something went wrong' });
     }

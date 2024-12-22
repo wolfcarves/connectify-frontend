@@ -7,7 +7,7 @@ import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
 import Reply from '../Reply/Reply';
 
 interface CommentProps {
-  postId?: number;
+  postId: number;
   data: Omit<CommentType, 'created_at' | 'updated_at'> &
     Partial<Pick<CommentType, 'created_at' | 'updated_at'>>;
 }

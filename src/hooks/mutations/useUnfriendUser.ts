@@ -8,9 +8,9 @@ export default function useUnfriendUser() {
   return useMutation({
     mutationKey: ['UNFRIEND_USER_KEY'],
     // userId to send request to
-    mutationFn: async (userId?: number) => {
+    mutationFn: async (friendId: number) => {
       const response = await FriendsService.unfriendUser({
-        friendId: String(userId),
+        friendId,
       });
       return response.message;
     },
