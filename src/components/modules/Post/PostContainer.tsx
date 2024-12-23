@@ -18,12 +18,15 @@ const PostContainer = ({
   if (isLoading) return <PostCardSkeleton count={skeletonCount} />;
 
   return (
-    <>
-      <div className={`space-y-3 sm:space-y-5 ${className}`} {...props}>
-        {children}
-        {isFetchingNextPage && <PostCardSkeleton count={2} />}
-      </div>
-    </>
+    <div className={`space-y-3 sm:space-y-5 ${className}`} {...props}>
+      {children}
+
+      {isFetchingNextPage && (
+        <div className="px-2">
+          <PostCardSkeleton count={2} />
+        </div>
+      )}
+    </div>
   );
 };
 

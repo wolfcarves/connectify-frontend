@@ -23,7 +23,12 @@ const ReplyInput = forwardRef<HTMLTextAreaElement, ReplyInputProps>(
         <div className="flex gap-x-1.5 mt-[0.5rem] w-full">
           <div className="flex gap-x-2 w-full">
             <Avatar src={avatar} size="xs" />
-            <TextArea ref={ref} placeholder="Post reply" {...props} />
+            <TextArea
+              ref={ref}
+              placeholder="Post reply"
+              className="bg-muted"
+              {...props}
+            />
           </div>
 
           <Button

@@ -10,7 +10,7 @@ const FeedCategories = () => {
   const pathname = usePathname();
 
   return (
-    <div className="flex gap-x-6 items-center">
+    <div className="flex gap-x-6 items-center px-3 sm:px-0 py-4">
       <Link href="/feed" className="hover:opacity-70">
         <Typography.H6
           title="Discover"

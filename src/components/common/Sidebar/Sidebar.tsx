@@ -37,7 +37,7 @@ const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
   }
 
   return (
-    <aside className={`w-[16rem] select-none ${className}`}>
+    <aside className={`w-[16rem] ${className}`}>
       <div
         className={`fixed w-[16rem] h-[calc(100vh-10rem)] overflow-auto
         [&::-webkit-scrollbar]:w-2

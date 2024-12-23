@@ -21,9 +21,12 @@ interface PostProps {
     post: Post;
     user: UserType;
   };
+  modal?: boolean;
 }
 
-const Post = ({ data }: PostProps) => {
+const Post = ({ data, modal }: PostProps) => {
+  console.log('modal', modal);
+
   const [ctxValue, setCtxValue] = useState<{ audience: Audience | null }>({
     audience: data?.post.audience!,
   });
@@ -36,7 +39,7 @@ const Post = ({ data }: PostProps) => {
 
   return (
     <PostContext.Provider value={{ ctxValue, setCtxValue }}>
-      <PostCard key={data?.post.id}>
+      <PostCard key={data?.post.id} withBorder={!modal}>
         <PostCard.Header>
           <PostCard.User
             avatar={data?.user.avatar}
@@ -65,7 +68,7 @@ const Post = ({ data }: PostProps) => {
             postId={data?.post.id}
             isLiked={data?.post.is_liked}
           />
-          <PostAction.Comment href={`/post/${data?.post.uuid}`} />
+          <PostAction.Comment uuid={data?.post.uuid} />
           <PostAction.Share postId={data?.post.id} />
         </PostAction>
       </PostCard>

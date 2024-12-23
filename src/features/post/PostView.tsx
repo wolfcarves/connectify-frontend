@@ -13,7 +13,7 @@ import CommentSkeleton from '@/components/modules/Comment/CommentSkeleton';
 import { useIntersection } from '@mantine/hooks';
 import useSession from '@/hooks/useSession';
 
-const PostView = ({ uuid }: { uuid: string }) => {
+const PostView = ({ uuid, modal }: { uuid: string; modal?: boolean }) => {
   const session = useSession();
   const [localComments, setLocalComments] = useState<
     { id: number; comment: string }[]
@@ -31,7 +31,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
     isPending: isCommentsLoading,
     fetchNextPage,
     hasNextPage,
-  } = useGetCommentsByPostId(postData?.post?.id);
+  } = useGetCommentsByPostId(postData?.post?.id!);
 
   const _comments = useMemo(
     () => comments?.pages.flatMap(c => c.data),
@@ -47,39 +47,50 @@ const PostView = ({ uuid }: { uuid: string }) => {
   return (
     <>
       <PostContainer isLoading={isPostLoading} skeletonCount={1}>
-        <Post data={postData} />
+        <Post data={postData} modal={modal} />
       </PostContainer>
 
-      <CommentContainer isLoading={isCommentsLoading}>
+      <CommentContainer
+        isLoading={isCommentsLoading}
+        hasComment={
+          localComments.length > 0 || (_comments && _comments?.length > 0)
+        }
+      >
         {localComments &&
-          localComments.map(comment => {
-            return (
-              <div key={comment?.id}>
-                <Comment
-                  postId={postData?.post.id!}
-                  data={{
-                    id: comment.id,
-                    user: {
-                      avatar: session.avatar!,
-                      id: session.userId!,
-                      name: session.name!,
-                      username: session.username!,
-                    },
-                    replies_count: 0,
-                    content: comment.comment,
-                  }}
-                />
-              </div>
-            );
-          })}
+          localComments
+            .map(comment => {
+              return (
+                <div key={comment?.id}>
+                  <Comment
+                    postId={postData?.post.id!}
+                    data={{
+                      id: comment.id,
+                      user: {
+                        avatar: session.avatar!,
+                        id: session.userId!,
+                        name: session.name!,
+                        username: session.username!,
+                      },
+                      replies_count: 0,
+                      content: comment.comment,
+                    }}
+                  />
+                </div>
+              );
+            })
+            .reverse()}
 
-        {_comments?.map(comment => {
+        {_comments?.map((comment, idx) => {
           return (
-            <Comment
-              key={comment.id}
-              postId={postData?.post.id!}
-              data={comment}
-            />
+            <>
+              <Comment
+                key={comment.id}
+                postId={postData?.post.id!}
+                data={comment}
+              />
+
+              {_comments.length - 1 === idx && <div className="h-24" />}
+            </>
           );
         })}
 
@@ -95,6 +106,7 @@ const PostView = ({ uuid }: { uuid: string }) => {
         onSubmit={(commentId, value) =>
           setLocalComments(prev => [...prev, { id: commentId, comment: value }])
         }
+        isCard={modal}
       />
     </>
   );

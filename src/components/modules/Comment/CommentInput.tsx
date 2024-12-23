@@ -17,9 +17,15 @@ const CommentInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
     const { avatar } = useSession();
 
     return (
-      <CenterContainer className="flex gap-2.5 pt-2 pb-7">
+      <div className="flex gap-2.5 pt-2 pe-2 w-full">
         <Avatar src={avatar!} size="sm" />
-        <TextArea rows={2} ref={ref} placeholder="Post comment" {...props} />
+        <TextArea
+          rows={2}
+          ref={ref}
+          placeholder="Post comment"
+          className="bg-background-light"
+          {...props}
+        />
         <Button
           variant="secondary"
           size="sm"
@@ -27,7 +33,7 @@ const CommentInput = forwardRef<HTMLTextAreaElement, CommentInputProps>(
           icon={<IoIosPaperPlane size={16} />}
           className="rounded-xl"
         />
-      </CenterContainer>
+      </div>
     );
   },
 );

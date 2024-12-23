@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import useCreateComment from '@/hooks/mutations/useCreateComment';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import errorHandler from '@/utils/errorHandler';
 import CommentInput from '@/components/modules/Comment/CommentInput';
+import useEnterToSubmit from '@/utils/useEnterToSubmit';
 
 const schema = z.object({
   content: z
@@ -20,9 +21,15 @@ interface CommentCreateFormProps {
   postId?: number;
   onSubmit?: (commentId: number, value: string) => void;
   onLoad?: (status: boolean) => void;
+  isCard?: boolean;
 }
 
-const CommentCreateForm = ({ postId, onSubmit }: CommentCreateFormProps) => {
+const CommentCreateForm = ({
+  postId,
+  onSubmit,
+  isCard = false,
+}: CommentCreateFormProps) => {
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const methods = useForm<CommentSchema>({});
   const { handleSubmit, register, setError, reset } = methods;
 
@@ -50,15 +57,23 @@ const CommentCreateForm = ({ postId, onSubmit }: CommentCreateFormProps) => {
 
   const { ref, ...registerContent } = register('content');
 
+  useEnterToSubmit(inputRef, async () => {
+    await handleSubmit(handleCommentSubmit)();
+  });
+
   return (
     <form
-      className="fixed start-0 bottom-0 w-full bg-background-light"
+      className={`${isCard ? 'fixed -bottom-1 start-0 end-0 mx-auto px-2 pb-5 bg-card' : 'fixed start-0 end-0 -bottom-0 max-w-lg mx-auto bg-background-light w-full border-t pb-4'}`}
       onSubmit={handleSubmit(handleCommentSubmit)}
     >
       <CommentInput
         {...registerContent}
-        ref={ref}
+        ref={e => {
+          inputRef.current = e;
+          ref(e);
+        }}
         isLoading={isCreateCommentLoading}
+        className="bg-muted"
       />
     </form>
   );

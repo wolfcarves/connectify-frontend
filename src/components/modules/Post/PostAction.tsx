@@ -9,8 +9,8 @@ import {
 import { ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@phosphor-icons/react';
 import useLikePost from '@/hooks/mutations/useLikePost';
-import { useRouter } from 'next/navigation';
 import Typography from '@/components/ui/typography';
+import PostModal from '@/features/post/PostModal';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
   return <div className="flex">{children}</div>;
@@ -76,23 +76,32 @@ export const LikeButton = ({
 };
 
 interface CommentButtonProps {
-  href?: string;
+  uuid?: string;
   comments?: number;
 }
 
-export const CommentButton = ({ href, comments = 0 }: CommentButtonProps) => {
-  const router = useRouter();
-  const handlePush = () => href && router.push(href);
+export const CommentButton = ({ uuid, comments = 0 }: CommentButtonProps) => {
+  const handlePush = async () => {};
 
   return (
-    <Button variant="ghost" size="sm" className="flex-1" onClick={handlePush}>
-      <AiOutlineMessage className="text-lg me-0" />
-      <Typography.Span
-        title="Comment"
-        weight="medium"
-        className="text-sm sm:text-base mt-0.5"
-      />
-    </Button>
+    <PostModal
+      uuid={uuid!}
+      trigger={
+        <Button
+          variant="ghost"
+          size="sm"
+          className="flex-1"
+          onClick={handlePush}
+        >
+          <AiOutlineMessage className="text-lg me-0" />
+          <Typography.Span
+            title="Comment"
+            weight="medium"
+            className="text-sm sm:text-base mt-0.5"
+          />
+        </Button>
+      }
+    />
   );
 };
 

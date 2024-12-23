@@ -8,3 +8,14 @@ export const generateRandomWidth = (
 
   return width;
 };
+
+export const generateRandomHeight = (
+  minHeight: number,
+  maxHeight: number,
+): number => {
+  const height = Math.floor(
+    Math.random() * (maxHeight - minHeight + 1) + minHeight,
+  );
+
+  return height;
+};

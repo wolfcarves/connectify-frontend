@@ -6,8 +6,27 @@ import { AUDIENCE } from './PostAudienceModal';
 import { PostContext } from './Post';
 import Card from '@/components/common/Card/Card';
 
-const PostCard = ({ children }: { children?: ReactNode }) => {
-  return <Card className="space-y-5 my-5 px-3 pt-4 pb-2">{children}</Card>;
+interface PostCardProps extends ComponentProps<'div'> {
+  children?: ReactNode;
+  withBorder?: boolean;
+}
+
+const PostCard = ({ children, withBorder = true, ...props }: PostCardProps) => {
+  if (!withBorder)
+    return (
+      <article
+        className={`space-y-5 pt-4 pb-2 ${!withBorder && 'pe-2'}`}
+        {...props}
+      >
+        {children}
+      </article>
+    );
+
+  return (
+    <Card className="space-y-5 px-3 pt-4 pb-2" {...props}>
+      {children}
+    </Card>
+  );
 };
 
 const PostCardHeader = (props: ComponentProps<'div'>) => {
