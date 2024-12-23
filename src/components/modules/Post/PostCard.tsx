@@ -1,4 +1,4 @@
-import { ComponentProps, useContext, type ReactNode } from 'react';
+import { ComponentProps, useContext, useState, type ReactNode } from 'react';
 import { parseDate } from '@/utils/parseDate';
 import UserComponent from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';
@@ -70,8 +70,26 @@ const PostCardUser = ({ timestamp, ...props }: PostCardUserProps) => {
 };
 
 const PostCardContent = ({ children }: { children?: ReactNode }) => {
+  const isContentLong = (children as string).length >= 120;
+
+  const [expanded, setExpanded] = useState<boolean>(!isContentLong);
+
   return (
-    <Typography.P className="whitespace-pre-line">{children}</Typography.P>
+    <>
+      <Typography.P className={`whitespace-pre-line`}>
+        <span className={`${!expanded && 'line-clamp-2'}`}>{children}</span>
+
+        {!expanded && (
+          <button onClick={() => setExpanded(true)}>
+            <Typography.Span
+              title="See more..."
+              weight="medium"
+              className="hover:opacity-90"
+            />
+          </button>
+        )}
+      </Typography.P>
+    </>
   );
 };
 

@@ -17,7 +17,7 @@ const PostModal = ({ trigger, uuid, ...props }: PostModal) => {
     <Dialog {...props}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
 
-      <DialogContent className="p-0 bg-card overflow-hidden">
+      <DialogContent className="min-w-[620px] p-0 bg-card overflow-hidden">
         <Card className="p-0 border-0">
           <PostModalHeader />
           <PostModalScrollContainer>

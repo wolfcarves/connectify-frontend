@@ -25,8 +25,6 @@ interface PostProps {
 }
 
 const Post = ({ data, modal }: PostProps) => {
-  console.log('modal', modal);
-
   const [ctxValue, setCtxValue] = useState<{ audience: Audience | null }>({
     audience: data?.post.audience!,
   });
