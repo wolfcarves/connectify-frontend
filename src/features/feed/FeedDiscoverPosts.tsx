@@ -14,6 +14,7 @@ const FeedDiscoverPosts = () => {
     fetchNextPage,
     hasNextPage,
   } = useGetFeedWorldPosts();
+
   const triggerElementRef = useRef<HTMLDivElement>(null);
 
   const { ref, entry } = useIntersection({

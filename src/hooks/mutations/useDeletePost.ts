@@ -1,7 +1,6 @@
 import { PostService } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GET_ALL_USER_POSTS_KEY } from '../queries/useGetAllUserPosts';
-import { GET_FEED_WORLD_POSTS_KEY } from '../queries/useGetFeedWorldPosts';
 
 export default function useDeletePost() {
   const queryClient = useQueryClient();
@@ -15,9 +14,6 @@ export default function useDeletePost() {
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [GET_ALL_USER_POSTS_KEY()],
-      });
-      await queryClient.invalidateQueries({
-        queryKey: [GET_FEED_WORLD_POSTS_KEY()],
       });
     },
   });

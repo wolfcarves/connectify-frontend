@@ -14,17 +14,18 @@ export const PostContext = createContext<{
     audience: Audience | null;
   };
   setCtxValue: Dispatch<SetStateAction<{ audience: Audience | null }>>;
+  modal: boolean;
 } | null>(null);
 
 interface PostProps {
-  data?: {
+  data: {
     post: Post;
     user: UserType;
   };
   modal?: boolean;
 }
 
-const Post = ({ data, modal }: PostProps) => {
+const Post = ({ data, modal = false }: PostProps) => {
   const [ctxValue, setCtxValue] = useState<{ audience: Audience | null }>({
     audience: data?.post.audience!,
   });
@@ -36,24 +37,25 @@ const Post = ({ data, modal }: PostProps) => {
   });
 
   return (
-    <PostContext.Provider value={{ ctxValue, setCtxValue }}>
-      <PostCard key={data?.post.id} withBorder={!modal}>
+    <PostContext.Provider value={{ ctxValue, setCtxValue, modal }}>
+      <PostCard key={data.post.id} withBorder={!modal}>
         <PostCard.Header>
           <PostCard.User
-            avatar={data?.user.avatar}
-            name={data?.user.name}
-            username={data?.user.username}
-            timestamp={data?.post.created_at}
+            avatar={data.user.avatar}
+            name={data.user.name}
+            username={data.user.username}
+            timestamp={data.post.created_at}
           />
           <PostMenu
-            postId={data?.post.id}
-            isPostSaved={data?.post.is_saved}
-            username={data?.user.username}
+            postId={data.post.id}
+            isPostSaved={data.post.is_saved}
+            username={data.user.username}
             audience={ctxValue?.audience!}
           />
         </PostCard.Header>
+
         <>
-          <PostCard.Content>{data?.post.content}</PostCard.Content>
+          <PostCard.Content>{data.post.content}</PostCard.Content>
 
           {!!images && (
             <div className="mt-2">
@@ -61,9 +63,11 @@ const Post = ({ data, modal }: PostProps) => {
             </div>
           )}
         </>
+
         <PostAction>
           <PostAction.Like
             postId={data?.post.id}
+            uuid={data?.post.uuid}
             isLiked={data?.post.is_liked}
           />
           <PostAction.Comment uuid={data?.post.uuid} />

@@ -42,7 +42,7 @@ const DropdownContent = ({
 }: DropdownContentProps) => {
   return (
     <div
-      className={`absolute inset-0 ${visible ? 'left-0 z-50' : out === 'left' ? '-left-full' : 'left-full'} bg-card duration-200 ${className}`}
+      className={`absolute inset-0 ${visible ? 'left-0' : out === 'left' ? '-left-full' : 'left-full'} bg-card duration-200 ${className}`}
       {...props}
     >
       {children}

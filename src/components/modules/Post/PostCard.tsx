@@ -70,19 +70,22 @@ const PostCardUser = ({ timestamp, ...props }: PostCardUserProps) => {
 };
 
 const PostCardContent = ({ children }: { children?: ReactNode }) => {
-  const isContentLong = (children as string).length >= 120;
-
+  const charCount = 140;
+  const isContentLong = (children as string).length >= charCount;
   const [expanded, setExpanded] = useState<boolean>(!isContentLong);
 
   return (
     <>
-      <Typography.P className={`whitespace-pre-line`}>
-        <span className={`${!expanded && 'line-clamp-2'}`}>{children}</span>
+      <Typography.P>
+        {expanded ? children : `${(children as string).slice(0, charCount)}...`}
 
         {!expanded && (
-          <button onClick={() => setExpanded(true)}>
+          <button
+            className="inline-flex ml-2"
+            onClick={() => setExpanded(true)}
+          >
             <Typography.Span
-              title="See more..."
+              title="See more"
               weight="medium"
               className="hover:opacity-90"
             />

@@ -16,13 +16,6 @@ const CommentContainer = ({
   hasComment,
   ...props
 }: CommentContainerProps) => {
-  if (isLoading)
-    return (
-      <div className="space-y-4 pb-2">
-        <CommentSkeleton count={10} />
-      </div>
-    );
-
   return (
     <div className="pb-2" {...props}>
       <Typography.H6
@@ -31,6 +24,12 @@ const CommentContainer = ({
         weight="medium"
         className="my-4"
       />
+
+      {isLoading && (
+        <div className="space-y-4 pb-2">
+          <CommentSkeleton count={10} />
+        </div>
+      )}
 
       {hasComment ? (
         <div className={`${!postId ? 'mt-5' : 'mt-2'}`}>{children}</div>

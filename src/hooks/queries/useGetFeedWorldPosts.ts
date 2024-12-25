@@ -1,5 +1,5 @@
 import { FeedService } from '@/services';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const GET_FEED_WORLD_POSTS_KEY = () => 'GET_FEED_WORLD_POSTS_KEY';
 
@@ -12,7 +12,7 @@ export default function useGetFeedWorldPosts(
   { page, perPage }: IQueryParams = { page: 1, perPage: 10 },
 ) {
   return useInfiniteQuery({
-    queryKey: [GET_FEED_WORLD_POSTS_KEY(), page, perPage],
+    queryKey: [GET_FEED_WORLD_POSTS_KEY()],
     queryFn: async () => {
       const response = await FeedService.getFeedWorldPosts({ page, perPage });
       return response;
@@ -23,6 +23,5 @@ export default function useGetFeedWorldPosts(
         : undefined;
     },
     initialPageParam: 1,
-    staleTime: 0,
   });
 }

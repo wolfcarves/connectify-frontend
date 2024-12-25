@@ -1,4 +1,6 @@
-import { ReactNode, useEffect, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+
+import { ReactNode, useContext, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   AiOutlineLike,
@@ -10,37 +12,49 @@ import { ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@phosphor-icons/react';
 import useLikePost from '@/hooks/mutations/useLikePost';
 import Typography from '@/components/ui/typography';
-import PostModal from '@/features/post/PostModal';
+import PostModal from '@/components/modules/Post/PostModal';
+import { PostContext } from './Post';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_USER_POST_KEY } from '@/hooks/queries/useGetUserPost';
+import { useLikedPostsStore } from '@/store/postStore';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
   return <div className="flex">{children}</div>;
 };
 
 interface LikeButtonProps extends ButtonProps {
-  postId?: number;
-  isLiked?: boolean;
+  postId: number;
+  uuid: string;
+  isLiked: boolean;
   likes?: number;
 }
 
 export const LikeButton = ({
   postId,
-  isLiked: isCurrentlyLiked,
+  uuid,
+  isLiked: isAlreadyLike,
   likes = 0,
   ...props
 }: LikeButtonProps) => {
-  const [isLiked, setIsLiked] = useState<boolean | undefined>(isCurrentlyLiked);
+  const queryClient = useQueryClient();
+  const ctxValue = useContext(PostContext);
+
+  useEffect(() => {
+    console.log('isAlreadyLike', isAlreadyLike);
+  }, [isAlreadyLike]);
 
   const { mutateAsync: likePostMutate, isPending: isLikePostLoading } =
     useLikePost();
 
-  useEffect(() => {
-    setIsLiked(isCurrentlyLiked);
-  }, [isCurrentlyLiked]);
-
   const handleLikePost = async (post_id: number) => {
     try {
       await likePostMutate(post_id);
-      setIsLiked(prev => !prev);
+
+      if (ctxValue?.modal) {
+        await queryClient.invalidateQueries({
+          queryKey: [GET_USER_POST_KEY(uuid)],
+        });
+      }
     } catch (error) {
       //
     }
@@ -54,7 +68,7 @@ export const LikeButton = ({
       className="flex-1"
       {...props}
     >
-      {isLiked ? (
+      {isAlreadyLike ? (
         <AiFillLike className="text-lg text-primary" />
       ) : (
         <AiOutlineLike className="text-lg" />
@@ -81,18 +95,26 @@ interface CommentButtonProps {
 }
 
 export const CommentButton = ({ uuid, comments = 0 }: CommentButtonProps) => {
-  const handlePush = async () => {};
+  const postCtx = useContext(PostContext);
+  const modal = postCtx?.modal;
+
+  if (modal)
+    return (
+      <Button variant="ghost" size="sm" className="flex-1">
+        <AiOutlineMessage className="text-lg me-0" />
+        <Typography.Span
+          title="Comment"
+          weight="medium"
+          className="text-sm sm:text-base mt-0.5"
+        />
+      </Button>
+    );
 
   return (
     <PostModal
       uuid={uuid!}
       trigger={
-        <Button
-          variant="ghost"
-          size="sm"
-          className="flex-1"
-          onClick={handlePush}
-        >
+        <Button variant="ghost" size="sm" className="w-full">
           <AiOutlineMessage className="text-lg me-0" />
           <Typography.Span
             title="Comment"
