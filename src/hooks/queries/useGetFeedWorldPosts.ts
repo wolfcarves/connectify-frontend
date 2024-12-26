@@ -1,7 +1,18 @@
-import { FeedService } from '@/services';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { FeedService, Pagination, Post, User } from '@/services';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 
 export const GET_FEED_WORLD_POSTS_KEY = () => 'GET_FEED_WORLD_POSTS_KEY';
+
+export type FeedPostData = InfiniteData<
+  {
+    data: Array<{
+      post: Post;
+      user: User;
+    }>;
+    pagination: Pagination;
+  },
+  unknown
+>;
 
 interface IQueryParams {
   page?: number;

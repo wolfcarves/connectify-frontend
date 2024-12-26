@@ -9,7 +9,7 @@ export default async function prefetchUserPost(uuid: string) {
   const authCookie = (await cookies()).get('auth_session');
 
   return await queryClient.prefetchQuery({
-    queryKey: [GET_USER_POST_KEY()],
+    queryKey: [GET_USER_POST_KEY(), uuid],
     queryFn: async () => {
       OpenAPI.HEADERS = {
         cookie: `${authCookie?.name}=${authCookie?.value}`,

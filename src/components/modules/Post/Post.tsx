@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, Dispatch, SetStateAction, useState } from 'react';
+import { createContext, Dispatch, memo, SetStateAction, useState } from 'react';
 import PostCard from '@/components/modules/Post/PostCard';
 import PostAction from '@/components/modules/Post/PostAction';
 import type { Audience, Post, User as UserType } from '@/services';
@@ -67,6 +67,7 @@ const Post = ({ data, modal = false }: PostProps) => {
         <PostAction>
           <PostAction.Like
             postId={data?.post.id}
+            username={data?.user.username}
             uuid={data?.post.uuid}
             isLiked={data?.post.is_liked}
           />
@@ -78,4 +79,4 @@ const Post = ({ data, modal = false }: PostProps) => {
   );
 };
 
-export default Post;
+export default memo(Post);

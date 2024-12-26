@@ -1,6 +1,9 @@
 import { PostService } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { GET_ALL_USER_POSTS_KEY } from '../queries/useGetAllUserPosts';
+import {
+  GET_FEED_WORLD_POSTS_KEY,
+  FeedPostData,
+} from '../queries/useGetFeedWorldPosts';
 
 export default function useDeletePost() {
   const queryClient = useQueryClient();
@@ -9,12 +12,22 @@ export default function useDeletePost() {
     mutationKey: ['DELETE_POST_KEY'],
     mutationFn: async (postId: number) => {
       const response = await PostService.deleteUserPost({ postId });
+
       return response;
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({
-        queryKey: [GET_ALL_USER_POSTS_KEY()],
-      });
+    onMutate: async (postId: number) => {
+      queryClient.setQueryData(
+        [GET_FEED_WORLD_POSTS_KEY()],
+        (oldPosts: FeedPostData) => {
+          return {
+            ...oldPosts,
+            pages: oldPosts.pages.map(page => ({
+              ...page,
+              data: page.data.filter(p => p.post.id !== postId),
+            })),
+          };
+        },
+      );
     },
   });
 }

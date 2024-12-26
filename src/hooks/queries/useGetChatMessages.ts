@@ -2,6 +2,7 @@ import { ChatService } from '@/services';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const GET_CHAT_MESSAGES_KEY = () => 'GET_CHAT_MESSAGES_KEY';
+
 export default function useGetChatMessages({
   chatId,
   page,

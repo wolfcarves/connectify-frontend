@@ -16,7 +16,6 @@ import PostModal from '@/components/modules/Post/PostModal';
 import { PostContext } from './Post';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_USER_POST_KEY } from '@/hooks/queries/useGetUserPost';
-import { useLikedPostsStore } from '@/store/postStore';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
   return <div className="flex">{children}</div>;
@@ -24,6 +23,7 @@ const PostAction = ({ children }: { children?: ReactNode }) => {
 
 interface LikeButtonProps extends ButtonProps {
   postId: number;
+  username: string;
   uuid: string;
   isLiked: boolean;
   likes?: number;
@@ -31,6 +31,7 @@ interface LikeButtonProps extends ButtonProps {
 
 export const LikeButton = ({
   postId,
+  username,
   uuid,
   isLiked: isAlreadyLike,
   likes = 0,
@@ -39,20 +40,16 @@ export const LikeButton = ({
   const queryClient = useQueryClient();
   const ctxValue = useContext(PostContext);
 
-  useEffect(() => {
-    console.log('isAlreadyLike', isAlreadyLike);
-  }, [isAlreadyLike]);
-
   const { mutateAsync: likePostMutate, isPending: isLikePostLoading } =
     useLikePost();
 
-  const handleLikePost = async (post_id: number) => {
+  const handleLikePost = async (postId: number) => {
     try {
-      await likePostMutate(post_id);
+      await likePostMutate({ postId, username });
 
       if (ctxValue?.modal) {
         await queryClient.invalidateQueries({
-          queryKey: [GET_USER_POST_KEY(uuid)],
+          queryKey: [GET_USER_POST_KEY(), uuid],
         });
       }
     } catch (error) {

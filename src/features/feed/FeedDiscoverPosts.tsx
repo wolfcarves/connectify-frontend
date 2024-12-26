@@ -10,7 +10,7 @@ import Typography from '@/components/ui/typography';
 const FeedDiscoverPosts = () => {
   const {
     data: posts,
-    isPending: isPostsLoading,
+    isPending: isPostsPending,
     fetchNextPage,
     hasNextPage,
   } = useGetFeedWorldPosts();
@@ -37,7 +37,7 @@ const FeedDiscoverPosts = () => {
 
   return (
     <PostContainer
-      isLoading={isPostsLoading}
+      isLoading={isPostsPending}
       isFetchingNextPage={hasNextPage}
       skeletonCount={10}
     >
