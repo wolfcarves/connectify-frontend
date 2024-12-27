@@ -1,4 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import ChatMessage from './ChatMessage';
 import useGetChat from '@/hooks/queries/useGetChat';
 import Spinner from '@/components/ui/spinner';
@@ -10,7 +17,7 @@ import { useIntersection } from '@mantine/hooks';
 
 interface ChatMessagesProps {
   chatId?: number;
-  onBackClick?: () => void;
+  onBackClick?: Dispatch<SetStateAction<boolean>>;
 }
 
 const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
@@ -57,7 +64,7 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
   if (isChatPending)
     return (
       <ChatMessage>
-        <ChatMessage.Header name="" onBackClick={onBackClick} />
+        <ChatMessage.Header name="" onBackClick={() => onBackClick?.(false)} />
         <ChatMessage.Body center>
           <Spinner />
         </ChatMessage.Body>
@@ -66,7 +73,10 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
 
   return (
     <ChatMessage>
-      <ChatMessage.Header name={chatDetails?.name} onBackClick={onBackClick} />
+      <ChatMessage.Header
+        name={chatDetails?.name}
+        onBackClick={() => onBackClick?.(false)}
+      />
       <ChatMessage.Body>
         {localChatMessages
           ?.map(message => {
@@ -111,6 +121,7 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
           </div>
         )}
       </ChatMessage.Body>
+
       <ChatMessage.Input
         chatId={chatId}
         onSubmit={data => setLocalChatMessages(prev => [...prev, data])}
@@ -119,4 +130,4 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
   );
 };
 
-export default ChatMessages;
+export default memo(ChatMessages);

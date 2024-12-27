@@ -2,6 +2,7 @@ import { cva } from 'class-variance-authority';
 import { ComponentProps, ReactNode } from 'react';
 
 const sizes = {
+  xxs: 'text-xxs',
   xs: 'text-xs',
   sm: 'text-sm',
   base: 'text-base',

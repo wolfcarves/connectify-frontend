@@ -28,6 +28,7 @@ import Dropdown from '../Dropdown/Dropdown';
 
 const HeaderMenu = () => {
   const [isChatDropdownOpen, setIsChatDropdownOpen] = useState<boolean>(false);
+  const [isConversationOpen, setIsConversationOpen] = useState<boolean>(false);
   const [chatId, setChatId] = useState<number>();
 
   const pathname = usePathname();
@@ -79,18 +80,23 @@ const HeaderMenu = () => {
           }
         >
           <Dropdown.Content
-            visible={!chatId}
+            visible={!isConversationOpen}
             out="left"
             className="min-w-[380px]"
           >
-            <Chats onChatClick={chatId => setChatId(chatId)} />
+            <Chats
+              onChatClick={chatId => {
+                setChatId(chatId);
+                setIsConversationOpen(true);
+              }}
+            />
           </Dropdown.Content>
 
-          <Dropdown.Content visible={!!chatId} className="min-w-[380px]">
-            <ChatMessages
-              chatId={chatId}
-              onBackClick={() => setChatId(undefined)}
-            />
+          <Dropdown.Content
+            visible={isConversationOpen}
+            className="min-w-[380px]"
+          >
+            <ChatMessages chatId={chatId} onBackClick={setIsConversationOpen} />
           </Dropdown.Content>
         </Dropdown>
 

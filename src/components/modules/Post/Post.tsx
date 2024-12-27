@@ -1,6 +1,13 @@
 'use client';
 
-import { createContext, Dispatch, memo, SetStateAction, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  memo,
+  SetStateAction,
+  useMemo,
+  useState,
+} from 'react';
 import PostCard from '@/components/modules/Post/PostCard';
 import PostAction from '@/components/modules/Post/PostAction';
 import type { Audience, Post, User as UserType } from '@/services';
@@ -8,6 +15,7 @@ import PhotoGrid from '@/components/common/PhotoGrid/PhotoGrid';
 import { getCldImageUrl } from 'next-cloudinary';
 import { env } from '@/config/env';
 import PostMenu from './PostMenu';
+import convertEngagementCount from '@/utils/convertEngagementCount';
 
 export const PostContext = createContext<{
   ctxValue: {
@@ -30,11 +38,15 @@ const Post = ({ data, modal = false }: PostProps) => {
     audience: data?.post.audience!,
   });
 
-  const images = data?.post.images?.map(({ image }) => {
-    return getCldImageUrl({
-      src: `${env?.cloudinaryPostPublicID}/${data?.post.uuid}/${image}`,
-    });
-  });
+  const images = useMemo(
+    () =>
+      data?.post.images?.map(({ image }) => {
+        return getCldImageUrl({
+          src: `${env?.cloudinaryPostPublicID}/${data?.post.uuid}/${image}`,
+        });
+      }),
+    [data],
+  );
 
   return (
     <PostContext.Provider value={{ ctxValue, setCtxValue, modal }}>
@@ -56,12 +68,7 @@ const Post = ({ data, modal = false }: PostProps) => {
 
         <>
           <PostCard.Content>{data.post.content}</PostCard.Content>
-
-          {!!images && (
-            <div className="mt-2">
-              <PhotoGrid images={images} />
-            </div>
-          )}
+          {!!images && <PhotoGrid images={images} />}
         </>
 
         <PostAction>
@@ -70,8 +77,12 @@ const Post = ({ data, modal = false }: PostProps) => {
             username={data?.user.username}
             uuid={data?.post.uuid}
             isLiked={data?.post.is_liked}
+            likesCount={convertEngagementCount(data?.post.likes_count)}
           />
-          <PostAction.Comment uuid={data?.post.uuid} />
+          <PostAction.Comment
+            uuid={data?.post.uuid}
+            commentsCount={convertEngagementCount(data?.post.comments_count)}
+          />
           <PostAction.Share postId={data?.post.id} />
         </PostAction>
       </PostCard>

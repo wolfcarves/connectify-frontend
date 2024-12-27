@@ -10,7 +10,6 @@ export default function useGetAllUserPosts(username: string) {
       const response = await PostService.getUserPosts({
         username,
         page: pageParam,
-        perPage: 3,
       });
 
       return response;

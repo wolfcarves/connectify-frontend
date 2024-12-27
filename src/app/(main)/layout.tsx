@@ -12,9 +12,9 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     <MainContainer>
       <Header />
       <BodyContainer>
-        {/* <LeftSidebar /> */}
+        <LeftSidebar />
         <CenterContainer>{children}</CenterContainer>
-        {/* <RightSidebar /> */}
+        <RightSidebar />
       </BodyContainer>
     </MainContainer>
   );

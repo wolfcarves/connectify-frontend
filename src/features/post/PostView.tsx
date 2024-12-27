@@ -43,6 +43,10 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
     if (entry?.isIntersecting && hasNextPage) fetchNextPage();
   }, [entry?.isIntersecting, fetchNextPage, hasNextPage]);
 
+  const handleCommentSubmit = (commentId: number, value: string) => {
+    setLocalComments(prev => [...prev, { id: commentId, comment: value }]);
+  };
+
   if (!postData && !isPostLoading) return notFound();
 
   return (
@@ -106,12 +110,7 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
       {postData?.post.id && (
         <CommentInput
           postId={postData?.post?.id}
-          onSubmit={(commentId, value) =>
-            setLocalComments(prev => [
-              ...prev,
-              { id: commentId, comment: value },
-            ])
-          }
+          onSubmit={handleCommentSubmit}
           modal={modal}
         />
       )}

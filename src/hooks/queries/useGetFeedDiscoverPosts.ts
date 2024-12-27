@@ -19,13 +19,16 @@ interface IQueryParams {
   perPage?: number;
 }
 
-export default function useGetFeedWorldPosts(
+export default function useGetFeedDiscoverPosts(
   { page, perPage }: IQueryParams = { page: 1, perPage: 10 },
 ) {
   return useInfiniteQuery({
     queryKey: [GET_FEED_WORLD_POSTS_KEY()],
     queryFn: async () => {
-      const response = await FeedService.getFeedWorldPosts({ page, perPage });
+      const response = await FeedService.getFeedDiscoverPosts({
+        page,
+        perPage,
+      });
       return response;
     },
     getNextPageParam: (lastPage, pages) => {

@@ -30,7 +30,7 @@ const User = ({
             <Typography.Span
               title={name}
               weight="semibold"
-              className="line-clamp-1 hover:underline h-5"
+              className="line-clamp-1 hover:opacity-80 h-5"
             />
           </Link>
         ) : (

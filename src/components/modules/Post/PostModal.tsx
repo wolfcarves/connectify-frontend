@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import {
   DialogDescription,
   DialogTitle,
@@ -56,4 +56,4 @@ const PostModalHeader = () => {
   );
 };
 
-export default PostModal;
+export default memo(PostModal);

@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   GET_FEED_WORLD_POSTS_KEY,
   FeedPostData,
-} from '../queries/useGetFeedWorldPosts';
+} from '../queries/useGetFeedDiscoverPosts';
 
 export default function useDeletePost() {
   const queryClient = useQueryClient();

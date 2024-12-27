@@ -2,7 +2,7 @@
 
 import PostContainer from '@/components/modules/Post/PostContainer';
 import Post from '@/components/modules/Post/Post';
-import useGetFeedWorldPosts from '@/hooks/queries/useGetFeedWorldPosts';
+import useGetFeedDiscoverPosts from '@/hooks/queries/useGetFeedDiscoverPosts';
 import { useIntersection } from '@mantine/hooks';
 import { useEffect, useRef } from 'react';
 import Typography from '@/components/ui/typography';
@@ -13,7 +13,7 @@ const FeedDiscoverPosts = () => {
     isPending: isPostsPending,
     fetchNextPage,
     hasNextPage,
-  } = useGetFeedWorldPosts();
+  } = useGetFeedDiscoverPosts();
 
   const triggerElementRef = useRef<HTMLDivElement>(null);
 

@@ -26,7 +26,7 @@ interface LikeButtonProps extends ButtonProps {
   username: string;
   uuid: string;
   isLiked: boolean;
-  likes?: number;
+  likesCount?: string;
 }
 
 export const LikeButton = ({
@@ -34,7 +34,7 @@ export const LikeButton = ({
   username,
   uuid,
   isLiked: isAlreadyLike,
-  likes = 0,
+  likesCount,
   ...props
 }: LikeButtonProps) => {
   const queryClient = useQueryClient();
@@ -62,7 +62,7 @@ export const LikeButton = ({
       variant="ghost"
       size="sm"
       onClick={() => handleLikePost(postId!)}
-      className="flex-1"
+      className="flex-1 select-none"
       {...props}
     >
       {isAlreadyLike ? (
@@ -75,11 +75,23 @@ export const LikeButton = ({
         {isLikePostLoading ? (
           <Spinner className="animate-spin" />
         ) : (
-          <Typography.Span
-            title="Like"
-            weight="medium"
-            className="text-sm sm:text-base mt-0.5"
-          />
+          <div className="flex items-center">
+            <Typography.Span
+              title="Like"
+              weight="medium"
+              className={`text-sm sm:text-base mt-0.5`}
+              color={isAlreadyLike ? 'primary' : 'foreground'}
+            />
+
+            {likesCount && Number(likesCount) !== 0 && (
+              <Typography.Span
+                title={likesCount}
+                weight="medium"
+                size="xs"
+                className={`${isAlreadyLike ? 'bg-primary' : 'bg-muted'} rounded-full ms-2 px-3 mt-0.5`}
+              />
+            )}
+          </div>
         )}
       </div>
     </Button>
@@ -88,10 +100,10 @@ export const LikeButton = ({
 
 interface CommentButtonProps {
   uuid?: string;
-  comments?: number;
+  commentsCount?: string;
 }
 
-export const CommentButton = ({ uuid, comments = 0 }: CommentButtonProps) => {
+export const CommentButton = ({ uuid, commentsCount }: CommentButtonProps) => {
   const postCtx = useContext(PostContext);
   const modal = postCtx?.modal;
 
@@ -103,6 +115,13 @@ export const CommentButton = ({ uuid, comments = 0 }: CommentButtonProps) => {
           title="Comment"
           weight="medium"
           className="text-sm sm:text-base mt-0.5"
+        />
+
+        <Typography.Span
+          title={commentsCount}
+          weight="medium"
+          size="xs"
+          className="bg-muted rounded-full ms-2 px-3 mt-0.5"
         />
       </Button>
     );
@@ -117,6 +136,13 @@ export const CommentButton = ({ uuid, comments = 0 }: CommentButtonProps) => {
             title="Comment"
             weight="medium"
             className="text-sm sm:text-base mt-0.5"
+          />
+
+          <Typography.Span
+            title={commentsCount}
+            weight="medium"
+            size="xs"
+            className="bg-muted rounded-full ms-2 px-3 mt-0.5"
           />
         </Button>
       }

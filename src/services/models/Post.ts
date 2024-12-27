@@ -10,6 +10,8 @@ export type Post = {
     uuid: string;
     is_saved: boolean;
     is_liked: boolean;
+    likes_count: number;
+    comments_count: number;
     images: Array<{
         image: string;
         created_at: string;

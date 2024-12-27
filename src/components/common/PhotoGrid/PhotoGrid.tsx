@@ -3,6 +3,38 @@ import Typography from '@/components/ui/typography';
 import NextImage from 'next/image';
 import Spinner from '@/components/ui/spinner';
 
+interface PhotoGridProps extends ComponentProps<'div'> {
+  images?: string[];
+}
+
+const PhotoGrid = ({ images, ...props }: PhotoGridProps) => {
+  const imageCount = images && images?.length;
+
+  const gridTemplates =
+    imageCount === 1 ? 'grid-cols-1 grid-rows-1' : 'grid-cols-6 grid-rows-2';
+
+  if (imageCount === 0 || !imageCount) return <></>;
+
+  return (
+    <div
+      className={`${gridTemplates} grid gap-1 h-[25rem] border rounded-lg overflow-hidden`}
+      {...props}
+    >
+      {images &&
+        images
+          ?.slice(0, MAX_IMAGE)
+          .map((image: string, idx: number) => (
+            <PhotoGridItem
+              key={image}
+              id={idx}
+              src={image}
+              totalImages={images.length}
+            />
+          ))}
+    </div>
+  );
+};
+
 interface PhotoGridItemProps extends Omit<ComponentProps<'div'>, 'id'> {
   id: number;
   src: string;
@@ -57,38 +89,6 @@ const PhotoGridItem = ({
         )}
       </div>
     </>
-  );
-};
-
-interface PhotoGridProps extends ComponentProps<'div'> {
-  images?: string[];
-}
-
-const PhotoGrid = ({ images, ...props }: PhotoGridProps) => {
-  const imageCount = images && images?.length;
-
-  const gridTemplates =
-    imageCount === 1 ? 'grid-cols-1 grid-rows-1' : 'grid-cols-6 grid-rows-2';
-
-  if (imageCount === 0 || !imageCount) return <></>;
-
-  return (
-    <div
-      className={`${gridTemplates} grid gap-1 h-[25rem] border rounded-lg overflow-hidden`}
-      {...props}
-    >
-      {images &&
-        images
-          ?.slice(0, MAX_IMAGE)
-          .map((image: string, idx: number) => (
-            <PhotoGridItem
-              key={image}
-              id={idx}
-              src={image}
-              totalImages={images.length}
-            />
-          ))}
-    </div>
   );
 };
 

@@ -29,8 +29,8 @@ const UserProfilePosts = () => {
   });
 
   useEffect(() => {
-    if (entry?.isIntersecting) fetchNextPage();
-  }, [entry?.isIntersecting, fetchNextPage, hasNextPage]);
+    if (entry?.isIntersecting && _posts?.length !== 0) fetchNextPage();
+  }, [entry?.isIntersecting, fetchNextPage, hasNextPage, _posts]);
 
   if (_posts?.length === 0)
     return (
