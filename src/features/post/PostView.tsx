@@ -77,8 +77,12 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
                           name: session.name!,
                           username: session.username!,
                         },
+                        is_liked: false,
+                        likes_count: 0,
                         replies_count: 0,
                         content: comment.comment,
+                        created_at: new Date().toISOString(),
+                        updated_at: new Date().toISOString(),
                       }}
                     />
                   </div>
@@ -86,16 +90,13 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
               })
               .reverse()}
 
-          {_comments?.map((comment, idx) => {
+          {_comments?.map(comment => {
             return (
-              <React.Fragment key={comment.id}>
-                <Comment postId={postData?.post.id!} data={comment} />
-
-                {/* To avoid last comment to be overlayed by comment input */}
-                {!modal && !hasNextPage && _comments.length - 1 === idx && (
-                  <div className="h-24" />
-                )}
-              </React.Fragment>
+              <Comment
+                key={comment.id}
+                postId={postData?.post.id!}
+                data={comment}
+              />
             );
           })}
 
@@ -117,5 +118,12 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
     </>
   );
 };
+
+{
+  /* To avoid last comment to be overlayed by comment input */
+}
+// {!modal && !hasNextPage && _comments.length - 1 === idx && (
+//   <div className="h-24" />
+// )}
 
 export default PostView;

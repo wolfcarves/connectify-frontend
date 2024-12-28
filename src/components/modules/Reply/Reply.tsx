@@ -18,7 +18,7 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
     { id: number; content: string }[]
   >([]);
 
-  const [isReplyActive, setIsReplyActive] = useState<boolean>(
+  const [isReplyOpen, setIsReplyOpen] = useState<boolean>(
     reply?.replies_count === 1 || false,
   );
 
@@ -26,19 +26,19 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
     useGetRepliesByCommentId({
       postId,
       commentId: reply?.id,
-      enabled: reply?.replies_count === 1 || isReplyActive,
+      enabled: reply?.replies_count === 1 || isReplyOpen,
     });
 
   const handleReplyClick = () => {
     replyFormRef.current?.setFocus();
-    setIsReplyActive(true);
+    setIsReplyOpen(true);
   };
 
   return (
     <>
       <ReplyCard>
         <ReplyCard.Content
-          isReplyActive={isReplyActive || reply?.replies_count >= 1}
+          isReplyOpen={isReplyOpen || reply?.replies_count >= 1}
           avatar={reply.user.avatar}
           username={reply.user.username}
           name={reply.user.name}
@@ -46,15 +46,18 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
           isNested={false}
         />
         <ReplyCard.Action
-          isReplyActive={isReplyActive}
           onReplyClick={handleReplyClick}
+          timestamp={reply.created_at}
+        />
+        <ReplyCard.ViewAllButton
+          visible={!isReplyOpen && reply?.replies_count > 1}
+          onClick={handleReplyClick}
           repliesCount={reply.replies_count}
           isLoading={isNestedRepliesLoading}
-          timestamp={reply.created_at}
         />
       </ReplyCard>
 
-      {isReplyActive &&
+      {isReplyOpen &&
         nestedReplies?.data.map(data => {
           return (
             <div
@@ -63,7 +66,7 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
             >
               <ReplyCard>
                 <ReplyCard.Content
-                  isReplyActive={true}
+                  isReplyOpen={true}
                   avatar={data?.user.avatar}
                   username={data?.user.username}
                   name={data?.user.name}
@@ -71,12 +74,14 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
                   isNested
                 />
                 <ReplyCard.Action
-                  isNested
-                  isReplyActive={isReplyActive}
                   onReplyClick={handleReplyClick}
-                  repliesCount={data.replies_count}
-                  isLoading={isNestedRepliesLoading}
                   timestamp={data.created_at}
+                />
+                <ReplyCard.ViewAllButton
+                  visible={!isReplyOpen && data.replies_count > 1}
+                  onClick={handleReplyClick}
+                  isLoading={isNestedRepliesLoading}
+                  repliesCount={data?.replies_count}
                 />
               </ReplyCard>
             </div>
@@ -95,6 +100,8 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
                 data={{
                   id: reply.id,
                   content: reply.content,
+                  is_liked: false,
+                  likes_count: 0,
                   replies_count: 0,
                   user: {
                     avatar: session.avatar!,
@@ -108,7 +115,7 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
           );
         })}
 
-      {isReplyActive && !isNestedRepliesLoading && (
+      {isReplyOpen && !isNestedRepliesLoading && (
         <div className="flex w-full ps-[1.05rem] xs:ps-[1.07rem]">
           <div className="border-l-2 w-[2.250rem] xs:w-[2.130rem]" />
 

@@ -1,4 +1,4 @@
-import { LikeService } from '@/services';
+import { LikeService, Post, User } from '@/services';
 import {
   QueryClient,
   useMutation,
@@ -6,9 +6,10 @@ import {
 } from '@tanstack/react-query';
 import {
   GET_FEED_WORLD_POSTS_KEY,
-  FeedPostData,
+  PostInfiniteData,
 } from '../queries/useGetFeedDiscoverPosts';
 import { GET_ALL_USER_POSTS_KEY } from '../queries/useGetAllUserPosts';
+import { GET_USER_POST_KEY } from '../queries/useGetUserPost';
 
 export default function useLikePost() {
   const queryClient = useQueryClient();
@@ -22,11 +23,13 @@ export default function useLikePost() {
     onMutate: async ({
       postId,
       username,
+      uuid,
     }: {
       postId: number;
       username: string;
+      uuid: string;
     }) => {
-      await updateOptimisticLike({ queryClient, postId, username });
+      await updateOptimisticLike({ queryClient, postId, username, uuid });
     },
   });
 }
@@ -35,18 +38,20 @@ export const updateOptimisticLike = async ({
   queryClient,
   postId,
   username,
+  uuid,
 }: {
   queryClient: QueryClient;
   postId: number;
   username?: String;
+  uuid?: String;
 }) => {
   const getFeedWorldPostsKey = [GET_FEED_WORLD_POSTS_KEY()];
   const isFeedWorldPostsExists = queryClient.getQueryData(getFeedWorldPostsKey);
 
   if (isFeedWorldPostsExists) {
     queryClient.setQueryData(
-      [GET_FEED_WORLD_POSTS_KEY()],
-      (oldPosts: FeedPostData) => {
+      getFeedWorldPostsKey,
+      (oldPosts: PostInfiniteData) => {
         return {
           ...oldPosts,
           pages: oldPosts.pages.map(page => ({
@@ -77,7 +82,7 @@ export const updateOptimisticLike = async ({
   if (isAllUserPostDataExists) {
     queryClient.setQueryData(
       [GET_ALL_USER_POSTS_KEY(), username],
-      (oldPosts: FeedPostData) => {
+      (oldPosts: PostInfiniteData) => {
         return {
           ...oldPosts,
           pages: oldPosts.pages.map(page => ({
@@ -94,6 +99,27 @@ export const updateOptimisticLike = async ({
                 : post;
             }),
           })),
+        };
+      },
+    );
+  }
+
+  const getUserPostKey = [GET_USER_POST_KEY(), uuid];
+  const isGetUserPostExists = queryClient.getQueryData(getUserPostKey);
+
+  if (isGetUserPostExists) {
+    queryClient.setQueryData(
+      getUserPostKey,
+      (oldPost: { post: Post; user: User }): { post: Post; user: User } => {
+        return {
+          post: {
+            ...oldPost.post,
+            is_liked: !oldPost.post.is_liked,
+            likes_count: oldPost.post.is_liked
+              ? oldPost.post.likes_count - 1
+              : oldPost.post.likes_count + 1,
+          },
+          user: oldPost.user,
         };
       },
     );

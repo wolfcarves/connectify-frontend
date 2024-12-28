@@ -1,7 +1,15 @@
-import { CommentService } from '@/services';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { Comment, CommentService, Pagination, User } from '@/services';
+import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 
 export const GET_POST_COMMENTS_KEY = () => 'GET_POST_COMMENTS_KEY';
+
+export type CommentInfiniteData = InfiniteData<
+  {
+    data: Array<Comment>;
+    pagination: Pagination;
+  },
+  unknown
+>;
 
 export default function useGetCommentsByPostId(postId: number) {
   return useInfiniteQuery({

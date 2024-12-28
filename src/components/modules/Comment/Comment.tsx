@@ -1,4 +1,4 @@
-import { forwardRef, useRef, useState } from 'react';
+import { forwardRef, memo, useRef, useState } from 'react';
 import type { Comment as CommentType } from '@/services';
 import { CommentCard } from './CommentCard';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
@@ -8,8 +8,7 @@ import Reply from '../Reply/Reply';
 
 interface CommentProps {
   postId: number;
-  data: Omit<CommentType, 'created_at' | 'updated_at'> &
-    Partial<Pick<CommentType, 'created_at' | 'updated_at'>>;
+  data: CommentType;
 }
 
 const Comment = forwardRef<HTMLInputElement, CommentProps>(
@@ -20,7 +19,7 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
       { id: number; content: string }[]
     >([]);
 
-    const [isReplyActive, setIsReplyActive] = useState<boolean>(
+    const [isReplyOpen, setIsReplyOpen] = useState<boolean>(
       comment?.replies_count === 1 || false,
     );
 
@@ -28,34 +27,41 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
       useGetRepliesByCommentId({
         postId,
         commentId: comment?.id,
-        enabled: comment.replies_count === 1 || isReplyActive,
+        enabled: comment.replies_count === 1 || isReplyOpen,
       });
 
     const handleReplyClick = () => {
+      setIsReplyOpen(true);
       replyFormRef.current?.setFocus();
-      setIsReplyActive(true);
     };
 
     return (
       <div ref={ref}>
         <CommentCard>
           <CommentCard.Content
-            isReplyActive={isReplyActive || comment?.replies_count !== 0}
+            isReplyOpen={isReplyOpen || comment?.replies_count !== 0}
             avatar={comment?.user.avatar}
             name={comment?.user.name}
             username={comment?.user.username}
             content={comment.content}
           />
           <CommentCard.Action
-            isReplyActive={isReplyActive}
-            onReplyClick={handleReplyClick}
-            repliesCount={comment?.replies_count}
-            isLoading={isRepliesLoading}
+            isLiked={comment.is_liked}
+            likesCount={comment.likes_count}
+            postId={postId}
+            commentId={comment?.id}
             timestamp={comment?.created_at}
+            onReplyClick={handleReplyClick}
+          />
+          <CommentCard.ViewAllButton
+            visible={!isReplyOpen && comment?.replies_count > 1}
+            onClick={handleReplyClick}
+            isLoading={isRepliesLoading}
+            repliesCount={comment?.replies_count}
           />
         </CommentCard>
 
-        {isReplyActive &&
+        {isReplyOpen &&
           replies?.data.map(data => {
             return <Reply key={data?.id} postId={postId} data={data} />;
           })}
@@ -69,6 +75,8 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
                 data={{
                   id: reply.id,
                   content: reply.content,
+                  is_liked: false,
+                  likes_count: 0,
                   replies_count: 0,
                   user: {
                     avatar: session.avatar!,
@@ -81,7 +89,7 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
             );
           })}
 
-        {isReplyActive && !isRepliesLoading && (
+        {isReplyOpen && !isRepliesLoading && (
           <ReplyCreateForm
             ref={replyFormRef}
             postId={postId}
@@ -101,4 +109,4 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
 
 Comment.displayName = 'Comment';
 
-export default Comment;
+export default memo(Comment);

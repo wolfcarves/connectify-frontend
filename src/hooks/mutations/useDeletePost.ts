@@ -2,7 +2,7 @@ import { PostService } from '@/services';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   GET_FEED_WORLD_POSTS_KEY,
-  FeedPostData,
+  PostInfiniteData,
 } from '../queries/useGetFeedDiscoverPosts';
 
 export default function useDeletePost() {
@@ -18,7 +18,7 @@ export default function useDeletePost() {
     onMutate: async (postId: number) => {
       queryClient.setQueryData(
         [GET_FEED_WORLD_POSTS_KEY()],
-        (oldPosts: FeedPostData) => {
+        (oldPosts: PostInfiniteData) => {
           return {
             ...oldPosts,
             pages: oldPosts.pages.map(page => ({

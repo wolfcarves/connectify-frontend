@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Spinner from '@/components/ui/spinner';
 import { parseDate } from '@/utils/parseDate';
+import useLikeComment from '@/hooks/mutations/useLikeComment';
+import { toast } from '@/components/ui/use-toast';
 
 export const CommentCard = ({ children }: { children?: ReactNode }) => {
   return (
@@ -17,19 +19,19 @@ export const CommentContent = ({
   username,
   name,
   content,
-  isReplyActive,
+  isReplyOpen,
 }: {
   avatar?: string;
   name?: string;
   username?: string;
   content?: string;
-  isReplyActive?: boolean;
+  isReplyOpen?: boolean;
 }) => {
   return (
     <div className="flex gap-x-2">
       <div>
         <Avatar href={username} src={avatar} size="sm" />
-        {isReplyActive && (
+        {isReplyOpen && (
           <div className="flex justify-center w-full h-full pt-1.5">
             <div className="w-0.5 h-full bg-border" />
           </div>
@@ -58,20 +60,30 @@ export const CommentContent = ({
   );
 };
 
-export const CommentActionCard = ({
+export const CommentAction = ({
+  postId,
+  commentId,
+  isLiked,
+  likesCount,
   timestamp,
-  isReplyActive,
-  repliesCount,
   onReplyClick,
-  isLoading,
 }: {
-  timestamp?: string;
-  isReplyActive?: boolean;
-  repliesCount?: number;
-  onReplyClick?: () => void;
-  isLoading?: boolean;
+  postId: number;
+  commentId: number;
+  likesCount: number;
+  isLiked: boolean;
+  timestamp: string;
+  onReplyClick: () => void;
 }) => {
-  const hasReplies = repliesCount && repliesCount >= 2;
+  const { mutateAsync: likeComment } = useLikeComment();
+
+  const handleLikeClick = async () => {
+    try {
+      await likeComment({ postId, commentId });
+    } catch (error) {
+      toast({ title: 'This post might be deleted' });
+    }
+  };
 
   return (
     <>
@@ -83,13 +95,27 @@ export const CommentActionCard = ({
         />
 
         <div className="flex items-center">
-          <Button type="button" variant="ghost" size="xxs">
+          <Button
+            type="button"
+            variant="ghost"
+            size="xxs"
+            onClick={handleLikeClick}
+          >
             <Typography.Span
               title="Like"
               size="xs"
               weight="medium"
-              color="muted"
+              color={isLiked ? 'primary' : 'muted'}
             />
+
+            {likesCount >= 1 && (
+              <Typography.Span
+                title={`( ${likesCount} )`}
+                size="xs"
+                weight="medium"
+                color={isLiked ? 'primary' : 'muted'}
+              />
+            )}
           </Button>
           <Button
             type="button"
@@ -106,32 +132,49 @@ export const CommentActionCard = ({
           </Button>
         </div>
       </div>
+    </>
+  );
+};
 
-      {(!isReplyActive && hasReplies) || (isLoading && hasReplies) ? (
-        <>
-          <div className="flex h-5 w-full ps-[17px] pb-1">
-            <div className="w-7 border-b-2 border-l-2 rounded-bl-xl" />
+interface CommentViewAllButtonProps {
+  visible?: boolean;
+  repliesCount: number;
+  isLoading: boolean;
+  onClick: () => void;
+}
 
-            <button
-              className="flex gap-x-1 my-auto ms-1 hover:opacity-80 mt-1"
-              onClick={onReplyClick}
-            >
-              <Typography.Span
-                title={`View all ${repliesCount} replies`}
-                size="xs"
-                weight="medium"
-                color="muted"
-              />
-              {isLoading && <Spinner />}
-            </button>
-          </div>
+const CommentViewAllButton = ({
+  visible,
+  repliesCount,
+  isLoading,
+  onClick,
+}: CommentViewAllButtonProps) => {
+  if (!visible) return null;
 
-          <div className="h-3" />
-        </>
-      ) : null}
+  return (
+    <>
+      <div className="flex h-5 w-full ps-[17px] pb-1">
+        <div className="w-7 border-b-2 border-l-2 rounded-bl-xl" />
+
+        <button
+          className="flex gap-x-1 my-auto ms-1 hover:opacity-80 mt-1"
+          onClick={onClick}
+        >
+          <Typography.Span
+            title={`View all ${repliesCount} replies`}
+            size="xs"
+            weight="medium"
+            color="muted"
+          />
+          {isLoading && <Spinner />}
+        </button>
+      </div>
+
+      <div className="h-3" />
     </>
   );
 };
 
 CommentCard.Content = CommentContent;
-CommentCard.Action = CommentActionCard;
+CommentCard.Action = CommentAction;
+CommentCard.ViewAllButton = CommentViewAllButton;

@@ -3,7 +3,7 @@ import { InfiniteData, useInfiniteQuery } from '@tanstack/react-query';
 
 export const GET_FEED_WORLD_POSTS_KEY = () => 'GET_FEED_WORLD_POSTS_KEY';
 
-export type FeedPostData = InfiniteData<
+export type PostInfiniteData = InfiniteData<
   {
     data: Array<{
       post: Post;

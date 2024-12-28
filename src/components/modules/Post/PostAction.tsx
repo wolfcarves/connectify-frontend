@@ -45,7 +45,7 @@ export const LikeButton = ({
 
   const handleLikePost = async (postId: number) => {
     try {
-      await likePostMutate({ postId, username });
+      await likePostMutate({ postId, username, uuid });
 
       if (ctxValue?.modal) {
         await queryClient.invalidateQueries({

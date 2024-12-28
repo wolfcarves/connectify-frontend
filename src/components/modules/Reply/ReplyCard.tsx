@@ -15,7 +15,7 @@ export const ReplyCard = ({ children }: { children?: ReactNode }) => {
 };
 
 export const ReplyContent = ({
-  isReplyActive,
+  isReplyOpen,
   avatar,
   username,
   name,
@@ -23,7 +23,7 @@ export const ReplyContent = ({
   isNested,
   isLast,
 }: {
-  isReplyActive?: boolean;
+  isReplyOpen?: boolean;
   avatar?: string;
   name?: string;
   username?: string;
@@ -40,7 +40,7 @@ export const ReplyContent = ({
 
         <div className="ms-1.5 h-full">
           <Avatar href={username} src={avatar} size="xs" />
-          {!isNested && isReplyActive && (
+          {!isNested && isReplyOpen && (
             <div className="mx-auto w-0.5 h-full bg-border mt-1.5" />
           )}
         </div>
@@ -63,24 +63,12 @@ export const ReplyContent = ({
 };
 
 export const ReplyActionCard = ({
-  isReplyActive,
   onReplyClick,
   timestamp,
-  isNested,
-  isLast,
-  repliesCount,
-  isLoading,
 }: {
-  isReplyActive?: boolean;
   onReplyClick?: () => void;
   timestamp?: string;
-  isNested?: boolean;
-  isLast?: boolean;
-  repliesCount?: number;
-  isLoading: boolean;
 }) => {
-  const hasReplies = repliesCount && repliesCount >= 2;
-
   return (
     <>
       <div className="flex">
@@ -119,34 +107,51 @@ export const ReplyActionCard = ({
           </div>
         </div>
       </div>
-
-      {(!isReplyActive && hasReplies) || (isLoading && hasReplies) ? (
-        <div className="flex">
-          <div className="w-[1.25rem] border-r-2" />
-
-          <div className="flex h-5 w-full ps-[47px] pb-1">
-            <div className="w-7 border-b-2 border-l-2 rounded-bl-xl" />
-
-            <button
-              className="flex gap-x-1 my-auto ms-1 hover:opacity-80 mt-1"
-              onClick={onReplyClick}
-            >
-              <Typography.Span
-                title={`View all ${repliesCount} replies`}
-                size="xs"
-                weight="medium"
-                color="muted"
-              />
-              {isLoading && <Spinner />}
-            </button>
-          </div>
-
-          <div className="h-7" />
-        </div>
-      ) : null}
     </>
+  );
+};
+
+interface ReplyViewAllButtonProps {
+  visible: boolean;
+  onClick: () => void;
+  isLoading: boolean;
+  repliesCount: number;
+}
+
+const ReplyViewAllButton = ({
+  visible,
+  onClick,
+  isLoading,
+  repliesCount,
+}: ReplyViewAllButtonProps) => {
+  if (!visible) return null;
+
+  return (
+    <div className="flex">
+      <div className="w-[1.25rem] border-r-2" />
+
+      <div className="flex h-5 w-full ps-[47px] pb-1">
+        <div className="w-7 border-b-2 border-l-2 rounded-bl-xl" />
+
+        <button
+          className="flex gap-x-1 my-auto ms-1 hover:opacity-80 mt-1"
+          onClick={onClick}
+        >
+          <Typography.Span
+            title={`View all ${repliesCount} replies`}
+            size="xs"
+            weight="medium"
+            color="muted"
+          />
+          {isLoading && <Spinner />}
+        </button>
+      </div>
+
+      <div className="h-7" />
+    </div>
   );
 };
 
 ReplyCard.Content = ReplyContent;
 ReplyCard.Action = ReplyActionCard;
+ReplyCard.ViewAllButton = ReplyViewAllButton;

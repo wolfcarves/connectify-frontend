@@ -12,6 +12,8 @@ export type Comment = (CommentInput & {
         name: string;
         username: string;
     };
+    is_liked: boolean;
+    likes_count: number;
     replies_count: number;
     created_at: string;
     updated_at: string;
