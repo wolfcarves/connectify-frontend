@@ -19,11 +19,11 @@ const config = {
         xs: '480px',
       },
       fontSize: {
-        xxxs: '11px',
-        xxs: '12px',
-        xs: '13px',
-        sm: '14px',
-        base: '15px',
+        xxxs: '10px',
+        xxs: '11px',
+        xs: '12px',
+        sm: '13px',
+        base: '14px',
         md: '18px',
       },
       colors: {

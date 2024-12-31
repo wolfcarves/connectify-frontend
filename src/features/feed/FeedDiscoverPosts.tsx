@@ -4,7 +4,7 @@ import PostContainer from '@/components/modules/Post/PostContainer';
 import Post from '@/components/modules/Post/Post';
 import useGetFeedDiscoverPosts from '@/hooks/queries/useGetFeedDiscoverPosts';
 import { useIntersection } from '@mantine/hooks';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 import Typography from '@/components/ui/typography';
 
 const FeedDiscoverPosts = () => {
@@ -22,11 +22,11 @@ const FeedDiscoverPosts = () => {
     threshold: 1,
   });
 
-  const _posts = posts?.pages.flatMap(p => p.data);
+  const _posts = useMemo(() => posts?.pages.flatMap(p => p.data), [posts]);
 
   useEffect(() => {
     if (entry?.isIntersecting) fetchNextPage();
-  }, []);
+  }, [entry?.isIntersecting, fetchNextPage]);
 
   if (_posts?.length === 0)
     return (

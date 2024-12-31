@@ -15,7 +15,7 @@ const PostCard = ({ children, withBorder = true, ...props }: PostCardProps) => {
   if (!withBorder)
     return (
       <article
-        className={`space-y-5 pt-4 pb-2 ${!withBorder && 'pe-2'}`}
+        className={`space-y-5 pt-4 pb-0 ${!withBorder && 'pe-2'}`}
         {...props}
       >
         {children}
@@ -70,13 +70,16 @@ const PostCardUser = ({ timestamp, ...props }: PostCardUserProps) => {
 };
 
 const PostCardContent = ({ children }: { children?: ReactNode }) => {
+  const postCtx = useContext(PostContext);
+
+  const modal = postCtx?.modal!;
   const charCount = 140;
   const isContentLong = (children as string).length >= charCount;
-  const [expanded, setExpanded] = useState<boolean>(!isContentLong);
+  const [expanded, setExpanded] = useState<boolean>(!isContentLong || modal);
 
   return (
     <>
-      <Typography.P>
+      <Typography.P color="muted" size="sm">
         {expanded ? children : `${(children as string).slice(0, charCount)}...`}
 
         {!expanded && (

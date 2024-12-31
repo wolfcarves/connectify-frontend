@@ -70,7 +70,9 @@ const PhotoGridItem = ({
         {...props}
       >
         {isLoading ? (
-          <Spinner />
+          <div className="flex justify-center items-center h-full">
+            <Spinner />
+          </div>
         ) : (
           <NextImage
             key={id}
@@ -78,7 +80,7 @@ const PhotoGridItem = ({
             src={src}
             fill
             sizes="100%"
-            className={'object-cover'}
+            className={'object-contain'}
           />
         )}
 

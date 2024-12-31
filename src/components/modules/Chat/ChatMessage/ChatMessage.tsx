@@ -56,7 +56,7 @@ const ChatMessageBody = forwardRef<HTMLDivElement, ChatMessageBodyProps>(
     return (
       <div
         ref={ref}
-        className={`flex flex-1 flex-col-reverse w-full px-3 py-2.5 overflow-auto ${center && 'justify-center items-center '}`}
+        className={`flex flex-1 flex-col-reverse w-full py-2.5 overflow-auto ${center && 'justify-center items-center '}`}
         {...props}
       >
         {children}

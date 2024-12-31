@@ -22,7 +22,7 @@ export default function useGetUserProfile({ userId, username }: QueryParams) {
         try {
           avatar = getCloudinaryProfileImageUrl(response.data.avatar) ?? '';
         } catch (err: any) {
-          console.log('Error!', { ...err });
+          //
         }
       }
 

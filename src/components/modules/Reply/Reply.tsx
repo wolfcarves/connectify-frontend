@@ -2,16 +2,17 @@ import React, { useRef, useState } from 'react';
 import { ReplyCard } from './ReplyCard';
 import type { Comment as CommentType } from '@/services';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
-import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
 import useSession from '@/hooks/useSession';
+import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
 
 interface ReplyProps {
   postId: number;
   data: Omit<CommentType, 'created_at' | 'updated_at'> &
     Partial<Pick<CommentType, 'created_at' | 'updated_at'>>;
+  isNested: boolean;
 }
 
-const Reply = ({ postId, data: reply }: ReplyProps) => {
+const Reply = ({ postId, data: reply, isNested }: ReplyProps) => {
   const session = useSession();
   const replyFormRef = useRef<{ setFocus: () => void }>(null);
   const [nestedLocalReplies, setNestedLocalReplies] = useState<
@@ -43,7 +44,7 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
           username={reply.user.username}
           name={reply.user.name}
           content={reply.content}
-          isNested={false}
+          isNested={isNested}
         />
         <ReplyCard.Action
           onReplyClick={handleReplyClick}
@@ -110,6 +111,7 @@ const Reply = ({ postId, data: reply }: ReplyProps) => {
                     username: session.username!,
                   },
                 }}
+                isNested={true}
               />
             </div>
           );

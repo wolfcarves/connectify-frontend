@@ -22,7 +22,7 @@ const schema = z.object({
 type CommentSchema = z.infer<typeof schema>;
 
 interface CommentInputProps {
-  postId?: number;
+  postId: number;
   onSubmit?: (commentId: number, value: string) => void;
   onLoad?: (status: boolean) => void;
   modal?: boolean;
@@ -39,14 +39,14 @@ const CommentInput = ({
   const methods = useForm<CommentSchema>({});
   const { handleSubmit, register, setError, reset } = methods;
 
-  const {
-    mutateAsync: createCommentMutate,
-    isPending: isCreateCommentLoading,
-  } = useCreateComment();
+  const { mutateAsync: createComment, isPending: isCreateCommentLoading } =
+    useCreateComment();
 
-  useEnterToSubmit(inputRef, async () => {
+  const enterToSubmitCallback = async () => {
     await handleSubmit(handleCommentSubmit)();
-  });
+  };
+
+  useEnterToSubmit(inputRef, enterToSubmitCallback);
 
   const handleCommentSubmit = async ({ content }: CommentSchema) => {
     try {
@@ -55,7 +55,7 @@ const CommentInput = ({
         content: content,
       };
 
-      const createdComment = await createCommentMutate(requestData);
+      const createdComment = await createComment(requestData);
       onSubmit?.(createdComment.id, content);
 
       reset();

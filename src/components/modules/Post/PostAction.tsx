@@ -1,13 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useContext } from 'react';
 import { Button } from '@/components/ui/button';
-import {
-  AiOutlineLike,
-  AiFillLike,
-  AiOutlineMessage,
-  AiOutlineShareAlt,
-} from 'react-icons/ai';
+import { PiHeartBold, PiHeartFill } from 'react-icons/pi';
+import { PiShareFat } from 'react-icons/pi';
+import { IoChatbubblesOutline } from 'react-icons/io5';
 import { ButtonProps } from '@/components/ui/button';
 import { Spinner } from '@phosphor-icons/react';
 import useLikePost from '@/hooks/mutations/useLikePost';
@@ -18,7 +15,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { GET_USER_POST_KEY } from '@/hooks/queries/useGetUserPost';
 
 const PostAction = ({ children }: { children?: ReactNode }) => {
-  return <div className="flex">{children}</div>;
+  return <div className="flex border-t pt-1 pb-0">{children}</div>;
 };
 
 interface LikeButtonProps extends ButtonProps {
@@ -43,7 +40,7 @@ export const LikeButton = ({
   const { mutateAsync: likePostMutate, isPending: isLikePostLoading } =
     useLikePost();
 
-  const handleLikePost = async (postId: number) => {
+  const handleLikePost = useCallback(async (postId: number) => {
     try {
       await likePostMutate({ postId, username, uuid });
 
@@ -55,45 +52,38 @@ export const LikeButton = ({
     } catch (error) {
       //
     }
-  };
+  }, []);
 
   return (
     <Button
-      variant="ghost"
-      size="sm"
+      variant="opacity"
+      size="xs"
       onClick={() => handleLikePost(postId!)}
-      className="flex-1 select-none"
+      className="select-none"
       {...props}
     >
       {isAlreadyLike ? (
-        <AiFillLike className="text-lg text-primary" />
+        <PiHeartFill className="text-lg text-primary" />
       ) : (
-        <AiOutlineLike className="text-lg" />
+        <PiHeartBold
+          className={`text-lg text-muted ${isAlreadyLike ? 'text-primary' : 'text-muted'}`}
+        />
       )}
 
-      <div className="w-6">
+      <>
         {isLikePostLoading ? (
           <Spinner className="animate-spin" />
         ) : (
           <div className="flex items-center">
             <Typography.Span
-              title="Like"
+              title={`${likesCount && Number(likesCount) !== 0 ? likesCount : 0} Like`}
               weight="medium"
               className={`text-sm sm:text-base mt-0.5`}
-              color={isAlreadyLike ? 'primary' : 'foreground'}
+              color={isAlreadyLike ? 'primary' : 'muted'}
             />
-
-            {likesCount && Number(likesCount) !== 0 && (
-              <Typography.Span
-                title={likesCount}
-                weight="medium"
-                size="xs"
-                className={`${isAlreadyLike ? 'bg-primary' : 'bg-muted'} rounded-full ms-2 px-3 mt-0.5`}
-              />
-            )}
           </div>
         )}
-      </div>
+      </>
     </Button>
   );
 };
@@ -109,19 +99,14 @@ export const CommentButton = ({ uuid, commentsCount }: CommentButtonProps) => {
 
   if (modal)
     return (
-      <Button variant="ghost" size="sm" className="flex-1">
-        <AiOutlineMessage className="text-lg me-0" />
-        <Typography.Span
-          title="Comment"
-          weight="medium"
-          className="text-sm sm:text-base mt-0.5"
-        />
+      <Button variant="opacity" size="xs">
+        <IoChatbubblesOutline className="text-lg text-muted me-0" />
 
         <Typography.Span
-          title={commentsCount}
+          title={`${commentsCount} Comment`}
           weight="medium"
-          size="xs"
-          className="bg-muted rounded-full ms-2 px-3 mt-0.5"
+          color="muted"
+          className="text-sm sm:text-base mt-0.5"
         />
       </Button>
     );
@@ -130,19 +115,14 @@ export const CommentButton = ({ uuid, commentsCount }: CommentButtonProps) => {
     <PostModal
       uuid={uuid!}
       trigger={
-        <Button variant="ghost" size="sm" className="w-full">
-          <AiOutlineMessage className="text-lg me-0" />
-          <Typography.Span
-            title="Comment"
-            weight="medium"
-            className="text-sm sm:text-base mt-0.5"
-          />
+        <Button variant="opacity" size="xs">
+          <IoChatbubblesOutline className="text-lg text-muted me-0" />
 
           <Typography.Span
-            title={commentsCount}
+            title={`${commentsCount} Comment`}
             weight="medium"
-            size="xs"
-            className="bg-muted rounded-full ms-2 px-3 mt-0.5"
+            color="muted"
+            className="text-sm sm:text-base mt-0.5"
           />
         </Button>
       }
@@ -157,12 +137,13 @@ interface ShareButtonProps {
 
 export const ShareButton = ({ postId, shares = 0 }: ShareButtonProps) => {
   return (
-    <Button variant="ghost" size="sm" className="flex-1">
-      <AiOutlineShareAlt className="text-lg" />
+    <Button variant="opacity" size="xs">
+      <PiShareFat className="text-lg text-muted" />
       <Typography.Span
         title="Share"
         weight="medium"
         className="text-sm sm:text-base mt-0.5"
+        color="muted"
       />
     </Button>
   );

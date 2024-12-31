@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { GlobeHemisphereEast, Users } from '@phosphor-icons/react';
 import { LuLock } from 'react-icons/lu';
 import { Audience } from '@/services';
+import Typography from '@/components/ui/typography';
 
 interface AudienceOptions {
   label: string;
@@ -44,10 +45,14 @@ const PostDeleteModal = ({
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[480px]">
         <DialogHeader>
-          <DialogTitle>Are you sure to delete this post?</DialogTitle>
-          <DialogDescription>
-            This will be permanently deleted from your post.
-          </DialogDescription>
+          <DialogTitle asChild>
+            <Typography.H4 title="Are you sure to delete this post?" />
+          </DialogTitle>
+
+          <Typography.H6
+            title="Are you sure to delete this post?"
+            color="muted"
+          />
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
@@ -57,7 +62,7 @@ const PostDeleteModal = ({
               className="rounded-full text-xs"
               isLoading={isLoading}
             >
-              Cancel
+              <Typography.Span title="Cancel" />
             </Button>
           </DialogClose>
           <DialogClose asChild>
@@ -67,7 +72,7 @@ const PostDeleteModal = ({
               isLoading={isLoading}
               onClick={() => onSubmitClick()}
             >
-              Confirm
+              <Typography.Span title="Confirm" weight="medium" />
             </Button>
           </DialogClose>
         </DialogFooter>

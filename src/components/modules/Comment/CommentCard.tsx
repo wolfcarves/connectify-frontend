@@ -66,6 +66,7 @@ export const CommentAction = ({
   isLiked,
   likesCount,
   timestamp,
+  onLikeClick,
   onReplyClick,
 }: {
   postId: number;
@@ -73,12 +74,15 @@ export const CommentAction = ({
   likesCount: number;
   isLiked: boolean;
   timestamp: string;
+  onLikeClick: () => void;
   onReplyClick: () => void;
 }) => {
-  const { mutateAsync: likeComment } = useLikeComment();
+  const { mutateAsync: likeComment, isPending: isLikeCommentPending } =
+    useLikeComment();
 
   const handleLikeClick = async () => {
     try {
+      onLikeClick();
       await likeComment({ postId, commentId });
     } catch (error) {
       toast({ title: 'This post might be deleted' });
@@ -89,7 +93,7 @@ export const CommentAction = ({
     <>
       <div className="flex gap-2 items-center ms-10 px-2 pt-0.5 pb-1">
         <Typography.Span
-          title={timestamp ? parseDate(timestamp) : 'Just now'}
+          title={timestamp === 'Just now' ? 'Just now' : parseDate(timestamp)}
           size="xs"
           color="muted"
         />
@@ -100,6 +104,7 @@ export const CommentAction = ({
             variant="ghost"
             size="xxs"
             onClick={handleLikeClick}
+            disabled={isLikeCommentPending}
           >
             <Typography.Span
               title="Like"

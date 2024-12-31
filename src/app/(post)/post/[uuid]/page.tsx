@@ -9,7 +9,7 @@ const PostPage = async ({ params }: { params: Promise<Params> }) => {
   const { uuid } = await params;
   await prefetchUserPost(uuid);
 
-  return <PostView uuid={uuid} />;
+  return <PostView uuid={uuid} modal={false} />;
 };
 
 export default PostPage;

@@ -1,13 +1,21 @@
-import { ReactNode, forwardRef, useImperativeHandle, useRef } from 'react';
+import {
+  ComponentProps,
+  ReactNode,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 
-const PostScrollContainer = forwardRef(
+const ScrollContainer = forwardRef(
   (
     {
       children,
       enableScroll,
+      className,
     }: {
       children: ReactNode;
       enableScroll: boolean;
+      className?: ComponentProps<'div'>['className'];
     },
     ref,
   ) => {
@@ -27,15 +35,16 @@ const PostScrollContainer = forwardRef(
         ref={scrollContainerRef}
         className={
           enableScroll
-            ? `sm:max-w-[620px] h-[80vh] max-h-[50rem] rounded-xl p-0 overflow-y-auto
+            ? `h-[80vh] max-h-[50rem] rounded-xl p-0 overflow-y-auto
               [&::-webkit-scrollbar]:w-2
               [&::-webkit-scrollbar-track]:rounded-full
               [&::-webkit-scrollbar-track]:hidden
               [&::-webkit-scrollbar-thumb]:rounded-full
               [&::-webkit-scrollbar-thumb]:bg-muted
               dark:[&::-webkit-scrollbar-thumb]:bg-muted
+              ${className}
               `
-            : ''
+            : `${className}`
         }
       >
         {children}
@@ -44,6 +53,6 @@ const PostScrollContainer = forwardRef(
   },
 );
 
-PostScrollContainer.displayName = 'PostScrollContainer';
+ScrollContainer.displayName = 'ScrollContainer';
 
-export default PostScrollContainer;
+export default ScrollContainer;

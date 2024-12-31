@@ -67,8 +67,8 @@ const Post = ({ data, modal = false }: PostProps) => {
         </PostCard.Header>
 
         <>
-          <PostCard.Content>{data.post.content}</PostCard.Content>
           {!!images && <PhotoGrid images={images} />}
+          <PostCard.Content>{data.post.content}</PostCard.Content>
         </>
 
         <PostAction>

@@ -14,20 +14,13 @@ export type PostInfiniteData = InfiniteData<
   unknown
 >;
 
-interface IQueryParams {
-  page?: number;
-  perPage?: number;
-}
-
-export default function useGetFeedDiscoverPosts(
-  { page, perPage }: IQueryParams = { page: 1, perPage: 10 },
-) {
+export default function useGetFeedDiscoverPosts() {
   return useInfiniteQuery({
     queryKey: [GET_FEED_WORLD_POSTS_KEY()],
-    queryFn: async () => {
+    queryFn: async ({ pageParam }) => {
       const response = await FeedService.getFeedDiscoverPosts({
-        page,
-        perPage,
+        page: pageParam,
+        perPage: 3,
       });
       return response;
     },

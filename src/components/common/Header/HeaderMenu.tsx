@@ -158,9 +158,7 @@ const HeaderMenuProfileDropdown = () => {
   const handleLogout = async () => {
     try {
       await destroySessionMutate();
-    } catch (error) {
-      console.log('error?');
-    }
+    } catch (error) {}
   };
 
   return (

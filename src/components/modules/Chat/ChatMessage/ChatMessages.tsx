@@ -14,6 +14,7 @@ import { ChatMessage as ChatMessageType } from '@/services';
 import useSession from '@/hooks/useSession';
 import socket from '@/lib/socket';
 import { useIntersection } from '@mantine/hooks';
+import ScrollContainer from '@/containers/ScrollContainer';
 
 interface ChatMessagesProps {
   chatId?: number;
@@ -96,22 +97,24 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
           })
           .reverse()}
 
-        {chatMessages?.pages.map((page, pageIdx) => (
-          <React.Fragment key={pageIdx}>
-            {page.data.map(message => (
-              <ChatMessage.Item
-                key={message.id}
-                avatar={
-                  message.sender_id === session.userId
-                    ? session.avatar
-                    : chatDetails?.avatar
-                }
-                isMessageOwn={message.sender_id === session.userId}
-                message={message.content}
-              />
-            ))}
-          </React.Fragment>
-        ))}
+        <ScrollContainer enableScroll className="px-3">
+          {chatMessages?.pages.map((page, pageIdx) => (
+            <React.Fragment key={pageIdx}>
+              {page.data.map(message => (
+                <ChatMessage.Item
+                  key={message.id}
+                  avatar={
+                    message.sender_id === session.userId
+                      ? session.avatar
+                      : chatDetails?.avatar
+                  }
+                  isMessageOwn={message.sender_id === session.userId}
+                  message={message.content}
+                />
+              ))}
+            </React.Fragment>
+          ))}
+        </ScrollContainer>
 
         <div ref={intersectionRef} />
 

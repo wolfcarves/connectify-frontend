@@ -20,6 +20,12 @@ import { Audience } from '@/services';
 import useChangePostAudience from '@/hooks/mutations/useChangePostAudience';
 import { PostContext } from './Post';
 import PostDeleteDialog from './PostDeleteModal';
+import { usePathname, useRouter } from 'next/navigation';
+import {
+  GET_FEED_WORLD_POSTS_KEY,
+  PostInfiniteData,
+} from '@/hooks/queries/useGetFeedDiscoverPosts';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface PostMenu {
   postId?: number;
@@ -34,6 +40,9 @@ const PostMenu = ({
   username,
   audience: audienceFromProps,
 }: PostMenu) => {
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  const pathname = usePathname();
   const session = useSession();
   const postCtx = useContext(PostContext);
 
@@ -82,6 +91,21 @@ const PostMenu = ({
   const handleDeletePost = async () => {
     try {
       await deletePost(postId!);
+
+      queryClient.setQueryData(
+        [GET_FEED_WORLD_POSTS_KEY()],
+        (oldPosts: PostInfiniteData) => {
+          return {
+            ...oldPosts,
+            pages: oldPosts.pages.map(page => ({
+              ...page,
+              data: page.data.filter(p => p.post.id !== postId),
+            })),
+          };
+        },
+      );
+
+      if (pathname.startsWith('post')) router.replace('/feed');
     } catch (error) {
       //
     }
@@ -110,13 +134,13 @@ const PostMenu = ({
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="p-1.5 rounded-full hover:bg-muted">
+        <DropdownMenuTrigger className="p-1.5 rounded-full hover:bg-muted/10/10">
           <BsThreeDots className="text-xl" />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent className="w-[200px] p-1" align="end">
           <button
-            className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted"
+            className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted/10"
             onClick={isSaved ? handleUnSavePost : handleSavePost}
           >
             {isSavePostLoading || isUnSavePostLoading ? (
@@ -134,20 +158,6 @@ const PostMenu = ({
             )}
           </button>
 
-          {/* {isOwn && (
-            <button
-              className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted"
-              onClick={handleDeletePost}
-            >
-              {isDeletePostLoading ? (
-                <Spinner />
-              ) : (
-                <RiDeleteBin5Fill className="text-xl w-5" />
-              )}
-              <Typography.Span title="Delete post" weight="medium" />
-            </button>
-          )} */}
-
           {isOwn && (
             <>
               <PostDeleteDialog
@@ -156,7 +166,7 @@ const PostMenu = ({
                   setIsDeleteDialogOpen(status);
                 }}
                 trigger={
-                  <button className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted">
+                  <button className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted/10">
                     {isDeletePostLoading ? (
                       <Spinner />
                     ) : (
@@ -188,7 +198,7 @@ const PostMenu = ({
                 }}
                 trigger={
                   <button
-                    className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted"
+                    className="flex items-center w-full space-x-2  py-2 px-3 hover:bg-muted/10"
                     onClick={() => setIsAudienceDialogOpen(true)}
                   >
                     <IoPeople className="text-xl w-5" />

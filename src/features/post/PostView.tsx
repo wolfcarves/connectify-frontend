@@ -10,12 +10,10 @@ import { notFound } from 'next/navigation';
 import Comment from '@/components/modules/Comment/Comment';
 import CommentSkeleton from '@/components/modules/Comment/CommentSkeleton';
 import { useIntersection } from '@mantine/hooks';
-import useSession from '@/hooks/useSession';
 import CommentInput from '@/components/modules/Comment/CommentInput';
-import PostScrollContainer from '@/components/modules/Post/PostScrollContainer';
+import ScrollContainer from '@/containers/ScrollContainer';
 
 const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
-  const session = useSession();
   const [localComments, setLocalComments] = useState<
     { id: number; comment: string }[]
   >([]);
@@ -26,7 +24,7 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
     threshold: 1,
   });
 
-  const { data: postData, isPending: isPostLoading } = useGetUserPost(uuid);
+  const { data: postData, isPending: isPostPending } = useGetUserPost(uuid);
   const {
     data: comments,
     isPending: isCommentsLoading,
@@ -47,22 +45,20 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
     setLocalComments(prev => [...prev, { id: commentId, comment: value }]);
   };
 
-  if (!postData && !isPostLoading) return notFound();
+  if (!postData && !isPostPending) return notFound();
 
   return (
     <>
-      <PostScrollContainer enableScroll={modal}>
-        <PostContainer isLoading={isPostLoading} skeletonCount={1}>
+      <ScrollContainer enableScroll={modal}>
+        <PostContainer isLoading={isPostPending} skeletonCount={1}>
           <Post data={postData!} modal={modal} />
         </PostContainer>
 
         <CommentContainer
           isLoading={isCommentsLoading}
-          hasComment={
-            localComments.length > 0 || (_comments && _comments?.length > 0)
-          }
+          hasComment={_comments && _comments?.length > 0}
         >
-          {localComments &&
+          {/* {localComments &&
             localComments
               .map(comment => {
                 return (
@@ -81,14 +77,15 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
                         likes_count: 0,
                         replies_count: 0,
                         content: comment.comment,
-                        created_at: new Date().toISOString(),
+                        created_at: 'Just now',
                         updated_at: new Date().toISOString(),
                       }}
+                      isLocalComment={true}
                     />
                   </div>
                 );
               })
-              .reverse()}
+              .reverse()} */}
 
           {_comments?.map(comment => {
             return (
@@ -96,6 +93,7 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
                 key={comment.id}
                 postId={postData?.post.id!}
                 data={comment}
+                isLocalComment={false}
               />
             );
           })}
@@ -106,7 +104,7 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
             </div>
           )}
         </CommentContainer>
-      </PostScrollContainer>
+      </ScrollContainer>
 
       {postData?.post.id && (
         <CommentInput

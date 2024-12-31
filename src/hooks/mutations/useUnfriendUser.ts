@@ -19,6 +19,5 @@ export default function useUnfriendUser() {
         queryKey: [GET_FRIEND_SUGGESTIONS_KEY()],
       });
     },
-    onError: err => console.log({ ...err }),
   });
 }

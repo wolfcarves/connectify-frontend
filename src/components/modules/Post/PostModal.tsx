@@ -15,6 +15,8 @@ import PostView from '../../../features/post/PostView';
 import Typography from '@/components/ui/typography';
 import { Button } from '@/components/ui/button';
 import { IoCloseSharp } from 'react-icons/io5';
+import useGetUserPost from '@/hooks/queries/useGetUserPost';
+import { concatContraction } from '@/utils/concatContraction';
 
 interface PostModal extends DialogProps {
   trigger: ReactNode;
@@ -24,15 +26,12 @@ interface PostModal extends DialogProps {
 const PostModal = ({ trigger, uuid, ...props }: PostModal) => {
   return (
     <Dialog {...props}>
-      <DialogTrigger className="flex-1" asChild>
-        {trigger}
-      </DialogTrigger>
-
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogTitle />
       <DialogDescription />
-      <DialogContent className="min-w-[620px] p-0 bg-card top-[67%] translate-y-[-67%] data-[state=closed]:slide-out-to-top-[65%] data-[state=open]:slide-in-from-top-[65%] overflow-hidden">
+      <DialogContent className="min-w-[720px] p-0 bg-card top-[67%] translate-y-[-67%] data-[state=closed]:slide-out-to-top-[65%] data-[state=open]:slide-in-from-top-[65%] overflow-hidden">
         <Card className="p-0 border-0">
-          <PostModalHeader />
+          <PostModalHeader uuid={uuid} />
           <PostView uuid={uuid} modal={true} />
         </Card>
       </DialogContent>
@@ -40,10 +39,19 @@ const PostModal = ({ trigger, uuid, ...props }: PostModal) => {
   );
 };
 
-const PostModalHeader = () => {
+const PostModalHeader = ({ uuid }: { uuid: string }) => {
+  const { data: postData, isPending: isPostPending } = useGetUserPost(uuid);
+
   return (
-    <div className="sticky top-0 bg-card border-b text-center pb-3 pt-2 z-50">
-      <Typography.H4 title="Rodel's Post" weight="medium" />
+    <div className="flex justify-center items-center sticky top-0 bg-card border-b text-center h-12 z-50">
+      {!isPostPending && (
+        <Typography.H4
+          title={`${concatContraction(postData?.user.name!)} Post`}
+          weight="medium"
+          className="text-center pb-1.5"
+        />
+      )}
+
       <DialogClose asChild>
         <Button
           size="icon"
