@@ -10,14 +10,14 @@ const CenterContainer = ({
   ...props
 }: CenterContainerProps) => {
   return (
-    <main className="flex flex-1">
+    <div className="flex flex-1">
       <div
         className={`flex-grow mx-auto w-full max-w-3xl ${className}`}
         {...props}
       >
         {children}
       </div>
-    </main>
+    </div>
   );
 };
 

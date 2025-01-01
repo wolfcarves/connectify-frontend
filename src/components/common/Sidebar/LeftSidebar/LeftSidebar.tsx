@@ -6,7 +6,7 @@ import Navigator from '../../Navigator/Navigator';
 
 const LeftSidebar = () => {
   return (
-    <Sidebar position="left">
+    <Sidebar position="left" includedRoutes={['/feed']}>
       <UserOverviewCard />
       <Navigator />
     </Sidebar>

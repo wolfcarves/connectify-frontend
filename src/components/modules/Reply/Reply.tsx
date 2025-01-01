@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { ReplyCard } from './ReplyCard';
 import type { Comment as CommentType } from '@/services';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
-import useSession from '@/hooks/useSession';
 import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 interface ReplyProps {
   postId: number;
@@ -13,7 +13,7 @@ interface ReplyProps {
 }
 
 const Reply = ({ postId, data: reply, isNested }: ReplyProps) => {
-  const session = useSession();
+  const { data: session } = useGetCurrentSession();
   const replyFormRef = useRef<{ setFocus: () => void }>(null);
   const [nestedLocalReplies, setNestedLocalReplies] = useState<
     { id: number; content: string }[]
@@ -105,10 +105,10 @@ const Reply = ({ postId, data: reply, isNested }: ReplyProps) => {
                   likes_count: 0,
                   replies_count: 0,
                   user: {
-                    avatar: session.avatar!,
-                    id: session.userId!,
-                    name: session.name!,
-                    username: session.username!,
+                    id: session?.id!,
+                    avatar: session?.avatar!,
+                    name: session?.name!,
+                    username: session?.username!,
                   },
                 }}
                 isNested={true}

@@ -85,7 +85,7 @@ const NavigationTab = () => {
               <Link href={href} className="hidden md:block">
                 <Button
                   size="lg"
-                  variant={isActive ? 'default' : 'ghost'}
+                  variant={isActive ? 'primary' : 'ghost'}
                   className="justify-start w-full rounded-full px-5"
                   icon={icon}
                 >

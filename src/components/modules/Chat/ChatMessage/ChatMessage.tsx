@@ -12,10 +12,10 @@ import { BsThreeDots } from 'react-icons/bs';
 import { HiPaperAirplane } from 'react-icons/hi2';
 import Typography from '@/components/ui/typography';
 import Avatar from '@/components/common/Avatar/Avatar';
-import useSession from '@/hooks/useSession';
 import useSendChatMessage from '@/hooks/mutations/useSendChatMessage';
 import { ChatMessage as ChatMessageType } from '@/services';
 import socket from '@/lib/socket';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 const ChatMessage = ({ className, ...props }: ComponentProps<'div'>) => {
   return <div className={`flex flex-col h-full ${className}`} {...props} />;
@@ -98,7 +98,7 @@ interface ChatMessageInputProps {
 const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { userId } = useSession();
+  const { data: session } = useGetCurrentSession();
   const { mutateAsync: sendMessage, isPending: isSendMessageLoading } =
     useSendChatMessage();
 
@@ -111,7 +111,7 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
 
         const message: ChatMessageType = {
           id: messageId,
-          sender_id: userId!,
+          sender_id: session?.id!,
           chat_id: chatId,
           content,
           created_at: new Date().toISOString(),

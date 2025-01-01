@@ -8,6 +8,9 @@ const config = {
     container: {
       center: true,
       padding: '1rem',
+      screens: {
+        lg: '1366px',
+      },
     },
     fontFamily: {
       display: 'var(--display-font)',

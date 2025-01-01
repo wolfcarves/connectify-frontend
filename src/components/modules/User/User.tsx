@@ -30,14 +30,14 @@ const User = ({
             <Typography.Span
               title={name}
               weight="semibold"
-              className="line-clamp-1 hover:opacity-80"
+              className="line-clamp-1 hover:opacity-80 select-none"
             />
           </Link>
         ) : (
           <Typography.Span
             title={name}
             weight="semibold"
-            className="line-clamp-1"
+            className="line-clamp-1 select-none"
           />
         )}
 
@@ -47,6 +47,7 @@ const User = ({
             color="muted"
             size="xs"
             weight="medium"
+            className="select-none"
           />
         )}
       </div>

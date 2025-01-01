@@ -9,7 +9,6 @@ import {
   UserPlus,
   X,
 } from '@phosphor-icons/react';
-import useSession from '@/hooks/useSession';
 import useGetUserProfile, {
   GET_USER_PROFILE_KEY,
 } from '@/hooks/queries/useGetUserProfile';
@@ -21,6 +20,7 @@ import { useToast } from '@/components/ui/use-toast';
 import UserProfileActionSkeleton from './UserProfileActionSkeleton';
 import useUnfriendUser from '@/hooks/mutations/useUnfriendUser';
 import { useParams } from 'next/navigation';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 const UserProfileAction = () => {
   const params = useParams<{ username: string }>();
@@ -28,7 +28,7 @@ const UserProfileAction = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { username } = useSession();
+  const { data: session } = useGetCurrentSession();
 
   const { data: userProfile, isLoading: isUserProfileLoading } =
     useGetUserProfile({
@@ -112,12 +112,11 @@ const UserProfileAction = () => {
 
   return (
     <div className="inline-flex ms-auto self-end place-self-end w-max">
-      {username !== params.username && (
+      {session?.username !== params.username && (
         <div className="flex gap-2">
           <Button
             visible={!userProfile?.has_request && !userProfile?.is_friend}
             icon={<UserPlus size={18} />}
-            variant="default"
             size="sm"
             className="rounded-full"
             isLoading={isSendRequestLoading}
@@ -135,7 +134,6 @@ const UserProfileAction = () => {
               !userProfile?.is_friend
             }
             icon={<Check size={18} />}
-            variant="default"
             size="sm"
             className="rounded-full"
             isLoading={isAcceptFriendRequestLoading}
@@ -202,7 +200,6 @@ const UserProfileAction = () => {
 
           <Button
             icon={<ChatCircle size={18} />}
-            variant="default"
             size="sm"
             className="rounded-full"
             onClick={handleCreateChat}

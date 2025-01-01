@@ -7,28 +7,27 @@ import { SlPeople } from 'react-icons/sl';
 import { RiChat3Line } from 'react-icons/ri';
 import { usePathname, useRouter } from 'next/navigation';
 import Card from '../Card/Card';
-import { withAuthModal } from '@/higher-order/withAuthModal';
 
 const Navigator = () => {
   return (
-    <Card className="mt-4">
+    <Card className="mt-4 select-none py-3.5z">
       <NavigatorItem
         title="Feed"
         href="/feed"
         icon={<RiHome2Line size={18} />}
       />
 
-      <NavigatorItemWithAuth
+      <NavigatorItem
         title="Friends"
         href="/friends"
         icon={<SlPeople size={16} />}
       />
-      <NavigatorItemWithAuth
+      <NavigatorItem
         title="Saved"
         href="/saved"
         icon={<IoBookmarksOutline size={17} />}
       />
-      <NavigatorItemWithAuth
+      <NavigatorItem
         title="Chats"
         href="/chats"
         icon={<RiChat3Line size={17} />}
@@ -80,7 +79,5 @@ const NavigatorItem = ({ href, title, icon, ...props }: NavigatorItemProps) => {
     </Button>
   );
 };
-
-const NavigatorItemWithAuth = withAuthModal(NavigatorItem);
 
 export default Navigator;

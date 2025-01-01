@@ -1,18 +1,22 @@
 'use client';
 
 import React from 'react';
-
-import { useParams, usePathname } from 'next/navigation';
 import { ComponentProps, useEffect, useState } from 'react';
-import useSession from '@/hooks/useSession';
+import { useParams, usePathname } from 'next/navigation';
+import SideContainer from '@/containers/SideContainer';
+
 interface SidebarProps extends ComponentProps<'aside'> {
   position: 'left' | 'right';
   includedRoutes?: string[];
 }
 
-const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
+const Sidebar = ({
+  children,
+  className,
+  position,
+  includedRoutes,
+}: SidebarProps) => {
   const params = useParams();
-  const { username } = useSession();
 
   const pathname = usePathname();
   const [render, setRender] = useState<boolean>(false);
@@ -26,32 +30,28 @@ const Sidebar = ({ children, className, includedRoutes }: SidebarProps) => {
     } else {
       setRender(true);
     }
-
-    if (params.username) {
-      setRender(username === params.username);
-    }
-  }, [includedRoutes, params.username, pathname, username]);
+  }, [includedRoutes, params.username, pathname]);
 
   if (!render) {
-    return <aside className={`w-[16rem] ${className}`} />;
+    return <SideContainer position={position} />;
   }
 
   return (
-    <aside className={`w-[16rem] ${className}`}>
+    <SideContainer position={position}>
       <div
-        className={`fixed w-[16rem] h-[calc(100vh-10rem)] overflow-auto
+        className={`fixed ${position === 'left' ? 'w-[16rem]' : 'w-[20rem]'} h-[calc(100vh-10rem)] overflow-auto
         [&::-webkit-scrollbar]:w-2
         [&::-webkit-scrollbar-track]:rounded-full
       [&::-webkit-scrollbar-track]:bg-gray-100
         [&::-webkit-scrollbar-thumb]:rounded-full
       [&::-webkit-scrollbar-thumb]:bg-gray-300
-      dark:[&::-webkit-scrollbar-track]:bg-muted/20
-      dark:[&::-webkit-scrollbar-thumb]:bg-muted
-        `}
+        dark:[&::-webkit-scrollbar-track]:bg-muted/20
+        dark:[&::-webkit-scrollbar-thumb]:bg-muted
+        ${className}`}
       >
         {children}
       </div>
-    </aside>
+    </SideContainer>
   );
 };
 

@@ -7,10 +7,10 @@ import { z } from 'zod';
 import errorHandler from '@/utils/errorHandler';
 import useEnterToSubmit from '@/utils/useEnterToSubmit';
 import Avatar from '@/components/common/Avatar/Avatar';
-import useSession from '@/hooks/useSession';
 import TextArea from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { IoIosPaperPlane } from 'react-icons/io';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 const schema = z.object({
   content: z
@@ -23,7 +23,9 @@ type CommentSchema = z.infer<typeof schema>;
 
 interface CommentInputProps {
   postId: number;
+  // eslint-disable-next-line no-unused-vars
   onSubmit?: (commentId: number, value: string) => void;
+  // eslint-disable-next-line no-unused-vars
   onLoad?: (status: boolean) => void;
   modal?: boolean;
 }
@@ -33,7 +35,7 @@ const CommentInput = ({
   onSubmit,
   modal = false,
 }: CommentInputProps) => {
-  const { avatar } = useSession();
+  const { data: session } = useGetCurrentSession();
 
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const methods = useForm<CommentSchema>({});
@@ -73,7 +75,7 @@ const CommentInput = ({
       onSubmit={handleSubmit(handleCommentSubmit)}
     >
       <div className="flex gap-2.5 pt-2 pe-2 w-full">
-        <Avatar src={avatar!} size="sm" />
+        <Avatar src={session?.avatar!} size="sm" />
 
         <TextArea
           {...registerContent}

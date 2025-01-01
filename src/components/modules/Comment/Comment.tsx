@@ -2,9 +2,9 @@ import { forwardRef, memo, useRef, useState } from 'react';
 import type { Comment as CommentType } from '@/services';
 import { CommentCard } from './CommentCard';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
-import useSession from '@/hooks/useSession';
 import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
 import Reply from '../Reply/Reply';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 interface CommentProps {
   postId: number;
@@ -14,7 +14,7 @@ interface CommentProps {
 
 const Comment = forwardRef<HTMLInputElement, CommentProps>(
   ({ postId, data: comment, isLocalComment }: CommentProps, ref) => {
-    const session = useSession();
+    const { data: session } = useGetCurrentSession();
     const replyFormRef = useRef<{ setFocus: () => void }>(null);
     const [localReplies, setLocalReplies] = useState<
       { id: number; content: string }[]
@@ -93,10 +93,10 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
                   likes_count: 0,
                   replies_count: 0,
                   user: {
-                    avatar: session.avatar!,
-                    id: session.userId!,
-                    name: session.name!,
-                    username: session.username!,
+                    id: session?.id!,
+                    avatar: session?.avatar!,
+                    name: session?.name!,
+                    username: session?.username!,
                   },
                 }}
                 isNested={false}

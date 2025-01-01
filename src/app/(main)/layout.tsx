@@ -6,8 +6,9 @@ import LeftSidebar from '@/components/common/Sidebar/LeftSidebar/LeftSidebar';
 import RightSidebar from '@/components/common/Sidebar/RightSidebar';
 import MainContainer from '@/containers/MainContainer';
 import BodyContainer from '@/containers/BodyContainer';
+import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
-export default function MainLayout({ children }: { children: ReactNode }) {
+const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <MainContainer>
       <Header />
@@ -18,4 +19,6 @@ export default function MainLayout({ children }: { children: ReactNode }) {
       </BodyContainer>
     </MainContainer>
   );
-}
+};
+
+export default withAuthGuard(MainLayout);

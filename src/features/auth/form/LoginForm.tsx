@@ -9,6 +9,7 @@ import useLoginUser from '@/hooks/mutations/useLoginUser';
 import errorHandler from '@/utils/errorHandler';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Typography from '@/components/ui/typography';
+import Card from '@/components/common/Card/Card';
 
 export const schema = z.object({
   username: z.string().min(1, 'Please enter your username'),
@@ -28,7 +29,7 @@ const LoginForm = () => {
 
   const { handleSubmit, control, setError } = methods;
 
-  const { mutateAsync: loginUserMutate, isPending: isLoginUserLoading } =
+  const { mutateAsync: loginUserMutate, isPending: isLoginUserPending } =
     useLoginUser();
 
   const handleLoginForm = async (data: LoginSchema) => {
@@ -40,58 +41,79 @@ const LoginForm = () => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <form className="space-y-6" onSubmit={handleSubmit(handleLoginForm)}>
-        <div className="space-y-4 rounded-md">
-          <div>
-            <Input
-              type="text"
-              name="username"
-              control={control}
-              placeholder="Username or email"
-              autoComplete="off"
-            />
+    <Card className="w-full max-w-xl px-4 py-5">
+      <div className="w-full pb-5">
+        <div className="sm:max-w-[320px] space-y-1">
+          <Typography.H5 title="Login to VibeOut" weight="medium" />
+          <Typography.H6
+            title="Lorem ipsum dolor sit amet consectetur adipisicing elit."
+            color="muted"
+          />
+        </div>
+      </div>
+
+      <FormProvider {...methods}>
+        <form className="space-y-6" onSubmit={handleSubmit(handleLoginForm)}>
+          <div className="space-y-4 rounded-md">
+            <div>
+              <Input
+                type="text"
+                name="username"
+                control={control}
+                placeholder="Username or email"
+                autoComplete="off"
+              />
+            </div>
+            <div>
+              <Input
+                type="password"
+                name="password"
+                control={control}
+                placeholder="Password"
+              />
+            </div>
           </div>
-          <div>
-            <Input
-              type="password"
-              name="password"
-              control={control}
-              placeholder="Password"
-            />
+
+          <div className="space-y-2">
+            <Button
+              type="submit"
+              className="w-full rounded-xl"
+              isLoading={isLoginUserPending}
+              disabled={isLoginUserPending}
+            >
+              Login
+            </Button>
+
+            <Button type="button" variant="link" className="w-full rounded-xl">
+              Create an account
+            </Button>
           </div>
-        </div>
 
-        <div className="space-y-2">
-          <Button
-            type="submit"
-            className="w-full rounded-xl"
-            isLoading={isLoginUserLoading}
-          >
-            Login
-          </Button>
+          <div className="flex gap-x-2 items-center w-full">
+            <div className="h-[1px] flex flex-1 bg-muted/20" />
+            <Typography.Span title="Or authorize with" size="sm" />
+            <div className="h-[1px] flex flex-1 bg-muted/20" />
+          </div>
 
-          <Button type="button" variant="link" className="w-full rounded-xl">
-            Create an account
-          </Button>
-        </div>
-
-        <div className="flex gap-x-2 items-center w-full">
-          <div className="h-[1px] flex flex-1 bg-muted" />
-          <Typography.Span title="Or authorize with" size="sm" />
-          <div className="h-[1px] flex flex-1 bg-muted" />
-        </div>
-
-        <div className="flex gap-x-2">
-          <Button type="button" variant="outline" className="w-full rounded-xl">
-            Google
-          </Button>
-          <Button type="button" variant="outline" className="w-full rounded-xl">
-            Facebook
-          </Button>
-        </div>
-      </form>
-    </FormProvider>
+          <div className="flex gap-x-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full rounded-xl"
+            >
+              Google
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full rounded-xl"
+            >
+              Facebook
+            </Button>
+          </div>
+        </form>
+      </FormProvider>
+    </Card>
   );
 };
 

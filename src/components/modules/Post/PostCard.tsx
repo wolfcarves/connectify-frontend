@@ -79,7 +79,7 @@ const PostCardContent = ({ children }: { children?: ReactNode }) => {
 
   return (
     <>
-      <Typography.P color="muted" size="sm">
+      <Typography.P color="muted">
         {expanded ? children : `${(children as string).slice(0, charCount)}...`}
 
         {!expanded && (

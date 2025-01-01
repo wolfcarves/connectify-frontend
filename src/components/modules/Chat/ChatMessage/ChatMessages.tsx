@@ -11,10 +11,10 @@ import useGetChat from '@/hooks/queries/useGetChat';
 import Spinner from '@/components/ui/spinner';
 import useGetChatMessages from '@/hooks/queries/useGetChatMessages';
 import { ChatMessage as ChatMessageType } from '@/services';
-import useSession from '@/hooks/useSession';
 import socket from '@/lib/socket';
 import { useIntersection } from '@mantine/hooks';
 import ScrollContainer from '@/containers/ScrollContainer';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 interface ChatMessagesProps {
   chatId?: number;
@@ -22,7 +22,7 @@ interface ChatMessagesProps {
 }
 
 const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
-  const session = useSession();
+  const { data: session } = useGetCurrentSession();
 
   const [localChatMessages, setLocalChatMessages] = useState<ChatMessageType[]>(
     [],
@@ -86,11 +86,11 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
                 <ChatMessage.Item
                   key={message.id}
                   avatar={
-                    message.sender_id === session.userId
+                    message.sender_id === session?.id
                       ? session.avatar
                       : chatDetails?.avatar
                   }
-                  isMessageOwn={message.sender_id === session.userId}
+                  isMessageOwn={message.sender_id === session?.id}
                   message={message.content}
                 />
               );
@@ -104,11 +104,11 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
                 <ChatMessage.Item
                   key={message.id}
                   avatar={
-                    message.sender_id === session.userId
+                    message.sender_id === session?.id
                       ? session.avatar
                       : chatDetails?.avatar
                   }
-                  isMessageOwn={message.sender_id === session.userId}
+                  isMessageOwn={message.sender_id === session?.id}
                   message={message.content}
                 />
               ))}

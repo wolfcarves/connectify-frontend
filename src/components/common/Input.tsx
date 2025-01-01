@@ -9,13 +9,20 @@ import { Control, FieldValues, Path, PathValue } from 'react-hook-form';
 import { Input as ShadInput, InputProps as ShadInputProps } from '../ui/input';
 import { cva, VariantProps } from 'class-variance-authority';
 
-const input = cva('border bg-card rounded-md focus:outline-none', {
+const input = cva('placeholder:font-medium', {
   variants: {
+    variant: {
+      default: 'bg-background-light border-0',
+      outline: '',
+    },
     size: {
       sm: '',
       base: '',
       lg: 'h-12',
     },
+  },
+  defaultVariants: {
+    variant: 'default',
   },
 });
 
@@ -35,6 +42,7 @@ const Input = <T extends FieldValues>({
   type,
   label,
   defaultValue,
+  variant,
   size,
   className,
   ...restProps
@@ -46,7 +54,7 @@ const Input = <T extends FieldValues>({
       <ShadInput
         type={type}
         {...restProps}
-        className={input({ size, className })}
+        className={input({ variant, size, className })}
       />
     );
   }
@@ -58,14 +66,14 @@ const Input = <T extends FieldValues>({
       defaultValue={def as PathValue<T, Path<T>>}
       render={({ field, fieldState: { error } }) => (
         <>
-          <FormItem className={!label ? 'space-y-0' : ''}>
+          <FormItem className={`${!label ? 'space-y-0' : ''} select-none`}>
             <FormLabel>{label}</FormLabel>
             <FormControl>
               <ShadInput
                 type={type}
                 {...field}
                 {...restProps}
-                className={input({ size, className })}
+                className={input({ variant, size, className })}
               />
             </FormControl>
             <FormMessage>{error?.message}</FormMessage>

@@ -3,19 +3,18 @@
 import Sidebar from './Sidebar';
 import Typography from '@/components/ui/typography';
 import useGetFriendList from '@/hooks/queries/useGetFriendList';
-import useSession from '@/hooks/useSession';
 import { useRouter } from 'next/navigation';
 import Avatar from '../Avatar/Avatar';
 import Card from '../Card/Card';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 const RightSidebar = () => {
   const router = useRouter();
-  const { userId } = useSession();
-
-  const { data: friends } = useGetFriendList(userId);
+  const { data: session } = useGetCurrentSession();
+  const { data: friends } = useGetFriendList(session?.id);
 
   return (
-    <Sidebar position="left">
+    <Sidebar position="right">
       <div>
         <Typography.Span
           title="Friends"

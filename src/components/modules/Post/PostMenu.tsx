@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import Typography from '@/components/ui/typography';
 import {
   DropdownMenu,
@@ -12,7 +12,6 @@ import useUnSaveUserPost from '@/hooks/mutations/useUnSaveUserPost';
 import { MdBookmarkRemove } from 'react-icons/md';
 import { RiDeleteBin5Fill } from 'react-icons/ri';
 import Spinner from '@/components/ui/spinner';
-import useSession from '@/hooks/useSession';
 import useDeletePost from '@/hooks/mutations/useDeletePost';
 import { IoPeople } from 'react-icons/io5';
 import PostAudienceDialog from './PostAudienceModal';
@@ -26,6 +25,7 @@ import {
   PostInfiniteData,
 } from '@/hooks/queries/useGetFeedDiscoverPosts';
 import { useQueryClient } from '@tanstack/react-query';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 interface PostMenu {
   postId?: number;
@@ -43,10 +43,13 @@ const PostMenu = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
-  const session = useSession();
+  const { data: session } = useGetCurrentSession();
   const postCtx = useContext(PostContext);
 
-  const isOwn = session.username === username;
+  const isOwn = useMemo(
+    () => session?.username === username,
+    [session, username],
+  );
 
   const [isSaved, setIsSaved] = useState<boolean | undefined>(isPostSaved);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false);

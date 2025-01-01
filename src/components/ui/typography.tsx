@@ -29,7 +29,7 @@ const weights = {
   extrabold: 'font-extrabold',
 };
 
-const typography = cva('-translate-y-[1px]', {
+const typography = cva('', {
   variants: {
     size: sizes,
     color: {

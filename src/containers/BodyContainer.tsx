@@ -8,7 +8,10 @@ const BodyContainer = ({
   ...props
 }: BodyContainerProps) => {
   return (
-    <div className={`flex xl:container min-h-screen py-10 ${className}`} {...props}>
+    <div
+      className={`flex gap-x-4 lg:container min-h-screen py-10 ${className}`}
+      {...props}
+    >
       {children}
     </div>
   );

@@ -19,9 +19,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Image as ImageIcon, UploadSimple } from '@phosphor-icons/react';
-import useSession from '@/hooks/useSession';
 import { notFound, useParams } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 const MAX_FILE_SIZE = 3000000; // 3MB
 const ACCEPTED_IMAGE_MIME_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
@@ -42,7 +42,7 @@ type UploadProfileImage = z.infer<typeof schema>;
 
 const UserProfileImage = () => {
   const params = useParams<{ username: string }>();
-  const session = useSession();
+  const { data: session } = useGetCurrentSession();
 
   const { data: userProfile, isPending: isUserProfileLoading } =
     useGetUserProfile({
@@ -150,7 +150,7 @@ const UserProfileImage = () => {
                 <ImageIcon size={20} />
                 <Typography.Span title="View Photo" weight="medium" size="sm" />
               </DropdownMenuItem>
-              {session.username === userProfile?.username && (
+              {session?.username === userProfile?.username && (
                 <DropdownMenuItem
                   className="p-2 gap-2"
                   onClick={handleOpenFileExplorer}
@@ -184,7 +184,7 @@ const UserProfileImage = () => {
             <Button
               type="submit"
               size="xs"
-              variant={!isUploadImageLoading ? 'default' : 'ghost'}
+              variant={!isUploadImageLoading ? 'primary' : 'ghost'}
               isLoading={isUploadImageLoading}
               disabled={isUploadImageLoading}
             >

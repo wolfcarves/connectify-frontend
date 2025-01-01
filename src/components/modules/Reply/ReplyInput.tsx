@@ -5,14 +5,14 @@ import Avatar from '@/components/common/Avatar/Avatar';
 import TextArea from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { IoIosPaperPlane } from 'react-icons/io';
-import useSession from '@/hooks/useSession';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 interface ReplyInputProps extends ComponentProps<'textarea'> {
   isLoading: boolean;
 }
 
 const ReplyInput = forwardRef<HTMLTextAreaElement, ReplyInputProps>(
   ({ isLoading, ...props }: ReplyInputProps, ref) => {
-    const { avatar } = useSession();
+    const { data: session } = useGetCurrentSession();
 
     return (
       <div className="flex w-full ps-[17.1px] pb-2.5">
@@ -22,7 +22,7 @@ const ReplyInput = forwardRef<HTMLTextAreaElement, ReplyInputProps>(
 
         <div className="flex gap-x-1.5 mt-[0.5rem] w-full">
           <div className="flex gap-x-2 w-full">
-            <Avatar src={avatar} size="xs" />
+            <Avatar src={session?.avatar} size="xs" />
             <TextArea
               ref={ref}
               placeholder="Post reply"

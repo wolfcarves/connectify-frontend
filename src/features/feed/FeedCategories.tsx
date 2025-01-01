@@ -1,12 +1,12 @@
 'use client';
 
 import Typography from '@/components/ui/typography';
-import useSession from '@/hooks/useSession';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const FeedCategories = () => {
-  const session = useSession();
+  const { data: session } = useGetCurrentSession();
   const pathname = usePathname();
 
   return (
@@ -19,7 +19,7 @@ const FeedCategories = () => {
         />
       </Link>
 
-      {session.isAuth && (
+      {session?.isAuth && (
         <Link href="/feed/friends" className="hover:opacity-70">
           <Typography.H6
             title="Connections"

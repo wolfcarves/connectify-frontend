@@ -4,8 +4,9 @@ import PostContainer from '@/components/modules/Post/PostContainer';
 import Post from '@/components/modules/Post/Post';
 import useGetFeedDiscoverPosts from '@/hooks/queries/useGetFeedDiscoverPosts';
 import { useIntersection } from '@mantine/hooks';
-import { memo, useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import Typography from '@/components/ui/typography';
+import PostCreate from '@/components/modules/Post/PostCreate';
 
 const FeedDiscoverPosts = () => {
   const {
@@ -36,16 +37,21 @@ const FeedDiscoverPosts = () => {
     );
 
   return (
-    <PostContainer
-      isLoading={isPostsPending}
-      isFetchingNextPage={hasNextPage}
-      skeletonCount={10}
-    >
-      {_posts?.map(post => {
-        return <Post key={post.post.id} data={post} />;
-      })}
-      <div ref={ref} />
-    </PostContainer>
+    <>
+      <PostCreate />
+
+      <PostContainer
+        isLoading={isPostsPending}
+        isFetchingNextPage={hasNextPage}
+        skeletonCount={10}
+        className="mt-5"
+      >
+        {_posts?.map(post => {
+          return <Post key={post.post.id} data={post} />;
+        })}
+        <div ref={ref} />
+      </PostContainer>
+    </>
   );
 };
 

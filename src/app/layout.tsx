@@ -1,14 +1,15 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Work_Sans } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/providers/Providers';
 import getQueryClient from '@/lib/getQueryClient';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import prefetchCurrentSession from '@/requests/prefetch/prefetchCurrentSession';
 
-const workSans = Work_Sans({
+const marRope = Manrope({
   subsets: ['latin'],
+  weight: ['200', '300', '400', '500', '600', '700'],
   display: 'auto',
   variable: '--body-font',
 });
@@ -29,7 +30,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${workSans.className} bg-background-light`}>
+      <body className={`${marRope.className} bg-background-light`}>
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
             <main>{children}</main>
