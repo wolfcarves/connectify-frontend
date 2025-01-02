@@ -80,7 +80,7 @@ const PhotoGridItem = ({
             src={src}
             fill
             sizes="100%"
-            className={'object-contain'}
+            className={'object-cover'}
           />
         )}
 

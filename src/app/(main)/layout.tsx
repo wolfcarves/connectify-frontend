@@ -1,21 +1,29 @@
-import React from 'react';
 import type { ReactNode } from 'react';
 import Header from '@/components/common/Header/Header';
 import CenterContainer from '@/containers/CenterContainer';
-import LeftSidebar from '@/components/common/Sidebar/LeftSidebar/LeftSidebar';
-import RightSidebar from '@/components/common/Sidebar/RightSidebar';
 import MainContainer from '@/containers/MainContainer';
 import BodyContainer from '@/containers/BodyContainer';
 import { withAuthGuard } from '@/higher-order/withAuthGuard';
+import Sidebar from '@/components/common/Sidebar/Sidebar';
+import ChatSidebar from '@/components/modules/Chat/Chat/ChatSidebar';
+import UserOverviewCard from '@/components/modules/User/UserOverviewCard';
+import Navigator from '@/components/common/Navigator/Navigator';
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
     <MainContainer>
       <Header />
       <BodyContainer>
-        <LeftSidebar />
+        <Sidebar position="left" includedRoutes={['/feed', '/friends']}>
+          <UserOverviewCard />
+          <Navigator />
+        </Sidebar>
+
         <CenterContainer>{children}</CenterContainer>
-        <RightSidebar />
+
+        <Sidebar position="right">
+          <ChatSidebar />
+        </Sidebar>
       </BodyContainer>
     </MainContainer>
   );

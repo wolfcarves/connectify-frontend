@@ -40,8 +40,8 @@ const ScrollContainer = forwardRef(
               [&::-webkit-scrollbar-track]:rounded-full
               [&::-webkit-scrollbar-track]:hidden
               [&::-webkit-scrollbar-thumb]:rounded-full
-              [&::-webkit-scrollbar-thumb]:bg-muted
-              dark:[&::-webkit-scrollbar-thumb]:bg-muted
+              [&::-webkit-scrollbar-thumb]:bg-muted/50
+              dark:[&::-webkit-scrollbar-thumb]:bg-muted/50
               ${className}
               `
             : `${className}`

@@ -6,7 +6,6 @@ import useGetFeedDiscoverPosts from '@/hooks/queries/useGetFeedDiscoverPosts';
 import { useIntersection } from '@mantine/hooks';
 import { useEffect, useMemo, useRef } from 'react';
 import Typography from '@/components/ui/typography';
-import PostCreate from '@/components/modules/Post/PostCreate';
 
 const FeedDiscoverPosts = () => {
   const {
@@ -31,27 +30,22 @@ const FeedDiscoverPosts = () => {
 
   if (_posts?.length === 0)
     return (
-      <div className="my-10 mx-auto w-max">
+      <div className="mx-auto w-max">
         <Typography.Span title="No posts to show" color="muted" />
       </div>
     );
 
   return (
-    <>
-      <PostCreate />
-
-      <PostContainer
-        isLoading={isPostsPending}
-        isFetchingNextPage={hasNextPage}
-        skeletonCount={10}
-        className="mt-5"
-      >
-        {_posts?.map(post => {
-          return <Post key={post.post.id} data={post} />;
-        })}
-        <div ref={ref} />
-      </PostContainer>
-    </>
+    <PostContainer
+      isLoading={isPostsPending}
+      isFetchingNextPage={hasNextPage}
+      skeletonCount={10}
+    >
+      {_posts?.map(post => {
+        return <Post key={post.post.id} data={post} />;
+      })}
+      <div ref={ref} />
+    </PostContainer>
   );
 };
 

@@ -20,7 +20,6 @@ export default function useGetFeedDiscoverPosts() {
     queryFn: async ({ pageParam }) => {
       const response = await FeedService.getFeedDiscoverPosts({
         page: pageParam,
-        perPage: 3,
       });
       return response;
     },

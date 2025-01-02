@@ -17,13 +17,31 @@ import Typography from '@/components/ui/typography';
 import { RxExit } from 'react-icons/rx';
 import { RiArrowDownSLine } from 'react-icons/ri';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { RiNotification2Line } from 'react-icons/ri';
+import { LuBookmark } from 'react-icons/lu';
 
 const HeaderMenu = () => {
+  const { isPending } = useGetCurrentSession();
+
   return (
     <div className="flex items-center gap-x-4">
-      <div className="flex items-center gap-x-2">
-        <HeaderMenuProfileDropdown />
-      </div>
+      {!isPending && (
+        <div className="flex items-center gap-x-3">
+          <Button
+            variant="tertiary"
+            icon={<RiNotification2Line size={18} />}
+            size="icon"
+          />
+          <Button
+            variant="tertiary"
+            icon={<LuBookmark size={18} />}
+            size="icon"
+          />
+        </div>
+      )}
+
+      <HeaderMenuProfileDropdown />
     </div>
   );
 };
@@ -59,8 +77,8 @@ const HeaderMenuProfileDropdown = () => {
         ) : (
           <div className="flex gap-x-5">
             <div className="flex items-center gap-x-2">
-              <Skeleton className="w-9 h-9 rounded-md" />
-              <Skeleton className="w-9 h-9 rounded-md" />
+              <Skeleton className="w-10 h-10 rounded-md" />
+              <Skeleton className="w-10 h-10 rounded-md" />
             </div>
 
             <div className="flex items-center gap-x-2">

@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import Chat from '@/components/modules/Chat/Chat/Chat';
 import ChatContainer from '@/components/modules/Chat/Chat/ChatContainer';
@@ -7,6 +9,8 @@ import { User } from '@/services';
 import ChatSkeleton from '@/components/modules/Chat/Chat/ChatSkeleton';
 import useCreateChat from '@/hooks/mutations/useCreateChat';
 import socket from '@/lib/socket';
+import { Button } from '@/components/ui/button';
+import { MdOpenInNew } from 'react-icons/md';
 
 interface ChatsProps {
   // eslint-disable-next-line no-unused-vars
@@ -41,13 +45,16 @@ const Chats = ({ onChatClick }: ChatsProps) => {
   return (
     <ChatContainer>
       <Chat.Header>
-        <Typography.Span
-          title="Messages"
-          className="uppercase"
-          color="muted"
-          size="sm"
-          weight="medium"
-        />
+        <div className="flex justify-between items-center">
+          <Typography.H5 title="Messages" weight="bold" />
+          <Button
+            variant="ghost"
+            icon={<MdOpenInNew size={18} />}
+            size="sm"
+            className="h-max p-2"
+          />
+        </div>
+
         <Chat.Search
           onResultChange={(data, isLoading) => {
             setHasResults(data?.length > 0);
@@ -74,7 +81,7 @@ const Chats = ({ onChatClick }: ChatsProps) => {
 
       {searchResults?.map(user => {
         return (
-          <Chat.Item
+          <Chat.User
             key={user?.id}
             id={user.id}
             user_id={user.id}
@@ -88,7 +95,7 @@ const Chats = ({ onChatClick }: ChatsProps) => {
       {!search &&
         chats?.data?.map(chat => {
           return (
-            <Chat.Item
+            <Chat.User
               key={chat?.id}
               {...chat}
               onClick={() => handleChatClick(chat?.id)}

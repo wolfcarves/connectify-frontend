@@ -1,3 +1,5 @@
+'use client';
+
 import type { ReactNode } from 'react';
 import { Button, ButtonProps } from '@/components/ui/button';
 import Typography from '@/components/ui/typography';

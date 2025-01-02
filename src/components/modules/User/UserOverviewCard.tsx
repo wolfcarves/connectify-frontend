@@ -1,3 +1,5 @@
+'use client';
+
 import Card from '@/components/common/Card/Card';
 import User from '@/components/modules/User/User';
 import Typography from '@/components/ui/typography';

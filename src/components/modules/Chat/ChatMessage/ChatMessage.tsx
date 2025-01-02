@@ -28,7 +28,7 @@ interface ChatMessageHeaderProps {
 
 const ChatMessageHeader = ({ name, onBackClick }: ChatMessageHeaderProps) => {
   return (
-    <div className="flex justify-between items-center p-2 border-b">
+    <div className="flex justify-between items-center pb-1 border-b">
       <div className="flex items-center gap-x-2">
         <Button
           size="icon"

@@ -9,10 +9,10 @@ import { Control, FieldValues, Path, PathValue } from 'react-hook-form';
 import { Input as ShadInput, InputProps as ShadInputProps } from '../ui/input';
 import { cva, VariantProps } from 'class-variance-authority';
 
-const input = cva('placeholder:font-medium', {
+const input = cva('placeholder:font-medium placeholder:select-none', {
   variants: {
     variant: {
-      default: 'bg-background-light border-0',
+      default: 'bg-accent border-0',
       outline: '',
     },
     size: {

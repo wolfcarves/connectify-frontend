@@ -20,26 +20,30 @@ const Chat = ({ ...props }: ComponentProps<'div'>) => {
   return <div {...props} />;
 };
 
-interface ChatItemProps
+interface ChatUserProps
   extends Omit<ChatType, 'latest_message' | 'latest_message_at'> {
   latest_message?: string;
   latest_message_at?: string;
   onClick?: () => void;
 }
 
-const ChatItem = ({ avatar, name, latest_message, onClick }: ChatItemProps) => {
+const ChatUser = ({ avatar, name, latest_message, onClick }: ChatUserProps) => {
   return (
     <>
       <button
         type="button"
-        className="relative w-full hover:bg-muted/30 p-3"
+        className="relative w-full hover:bg-accent rounded-sm p-1"
         onClick={onClick}
       >
         <div className="flex gap-x-2.5">
           <Avatar src={avatar} size="lg" />
 
           <div className="flex flex-col text-start">
-            <Typography.Span title={name} className="line-clamp-1 my-auto" />
+            <Typography.Span
+              title={name}
+              className="line-clamp-1 my-auto"
+              weight="medium"
+            />
 
             {latest_message && (
               <Typography.Span
@@ -57,7 +61,7 @@ const ChatItem = ({ avatar, name, latest_message, onClick }: ChatItemProps) => {
 };
 
 const ChatHeader = ({ children }: { children: ReactNode }) => {
-  return <div className="p-2.5 space-y-2">{children}</div>;
+  return <div className="space-y-2">{children}</div>;
 };
 
 interface ChatSearchProps {
@@ -106,7 +110,7 @@ const ChatSearch = ({
   }, [users, isUsersLoading, isRefetchingUsers]);
 
   return (
-    <>
+    <div className="pb-2">
       <Input
         type="text"
         placeholder="Search friends or people"
@@ -114,12 +118,12 @@ const ChatSearch = ({
         value={search}
         onChange={handleSearchChange}
       />
-    </>
+    </div>
   );
 };
 
 Chat.Search = ChatSearch;
 Chat.Header = ChatHeader;
-Chat.Item = ChatItem;
+Chat.User = ChatUser;
 
 export default Chat;

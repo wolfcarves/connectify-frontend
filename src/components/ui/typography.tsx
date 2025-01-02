@@ -131,7 +131,7 @@ const H5 = ({
   children,
 }: TypographyProps) => {
   return (
-    <h5 className={`text-lg ${typography({ size, color, weight, className })}`}>
+    <h5 className={`text-md ${typography({ size, color, weight, className })}`}>
       {title ?? children}
     </h5>
   );

@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+
 import Card from '@/components/common/Card/Card';
 import Avatar from '@/components/common/Avatar/Avatar';
 import Input from '@/components/common/Input';
@@ -8,11 +9,12 @@ import { FaImage } from 'react-icons/fa';
 import { IoIosArrowDown } from 'react-icons/io';
 import Link from 'next/link';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
+import Divider from '@/components/common/Divider/Divider';
 
 const PostCreate = () => {
   const { data: session } = useGetCurrentSession();
 
-  if (!session?.isAuth) return null;
+  if (!session?.id) return null;
 
   return (
     <Card>
@@ -41,7 +43,7 @@ const PostCreate = () => {
         </Button>
       </div>
 
-      <div className="h-[1px] w-full bg-border" />
+      <Divider />
 
       <div className="flex justify-between items-center gap-x-4 mt-1">
         <Button
