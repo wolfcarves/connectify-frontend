@@ -1,7 +1,6 @@
 import React, { type ReactNode } from 'react';
 import UserProfileImage from '@/features/username/UserProfileImage';
 import UserProfileTabs from '@/features/username/UserProfileTabs';
-import { withAuthGuard } from '@/higher-order/withAuthGuard';
 import UserProfileAction from '@/features/username/UserProfileAction';
 
 interface UserProfileLayout {
@@ -21,4 +20,4 @@ const UserProfileLayout = ({ children }: UserProfileLayout) => {
   );
 };
 
-export default withAuthGuard(UserProfileLayout);
+export default UserProfileLayout;

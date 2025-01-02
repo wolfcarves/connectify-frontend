@@ -16,6 +16,7 @@ import useSendChatMessage from '@/hooks/mutations/useSendChatMessage';
 import { ChatMessage as ChatMessageType } from '@/services';
 import socket from '@/lib/socket';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
+import Input from '@/components/common/Input';
 
 const ChatMessage = ({ className, ...props }: ComponentProps<'div'>) => {
   return <div className={`flex flex-col h-full ${className}`} {...props} />;
@@ -28,7 +29,7 @@ interface ChatMessageHeaderProps {
 
 const ChatMessageHeader = ({ name, onBackClick }: ChatMessageHeaderProps) => {
   return (
-    <div className="flex justify-between items-center pb-1 border-b">
+    <div className="flex justify-between items-center border-b">
       <div className="flex items-center gap-x-2">
         <Button
           size="icon"
@@ -56,7 +57,7 @@ const ChatMessageBody = forwardRef<HTMLDivElement, ChatMessageBodyProps>(
     return (
       <div
         ref={ref}
-        className={`flex flex-1 flex-col-reverse w-full py-2.5 overflow-auto ${center && 'justify-center items-center '}`}
+        className={`flex flex-1 flex-col-reverse w-full overflow-auto ${center && 'justify-center items-center '}`}
         {...props}
       >
         {children}
@@ -80,7 +81,7 @@ const ChatMessageItem = memo(
         className={`flex gap-x-2 ${isMessageOwn && 'flex-row-reverse'} py-2`}
       >
         <Avatar src={avatar} size="sm" />
-        <div className="h-max max-w-56 bg-muted rounded-xl px-2.5 py-1.5">
+        <div className="h-max max-w-56 bg-accent rounded-xl px-2.5 py-1.5">
           <Typography.P title={message} />
         </div>
       </div>
@@ -107,6 +108,8 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
       if (chatId && inputRef.current) {
         const content = inputRef.current.value;
 
+        console.log('content', content);
+
         const { messageId } = await sendMessage({ chatId, data: { content } });
 
         const message: ChatMessageType = {
@@ -128,6 +131,8 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
   };
 
   useEffect(() => {
+    const input = inputRef.current;
+
     const enterToSubmit = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         event.preventDefault();
@@ -135,26 +140,26 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
       }
     };
 
-    inputRef.current?.addEventListener('keypress', enterToSubmit);
+    input?.addEventListener('keypress', enterToSubmit);
 
     return () => {
-      inputRef.current?.removeEventListener('keypress', enterToSubmit);
+      input?.removeEventListener('keypress', enterToSubmit);
     };
   }, []);
 
   return (
-    <div className="flex items-center border-t p-2">
-      <input
+    <div className="flex gap-x-2 items-center px-0 py-1">
+      <Input
         ref={inputRef}
         type="text"
         placeholder="Type a message..."
-        className="flex-1 bg-transparent border rounded-full outline-none px-3 py-2"
+        className="flex-1 bg-transparent border rounded-lg outline-none px-3 py-2"
       />
 
       <Button
+        variant="secondary"
         size="icon"
         icon={<HiPaperAirplane />}
-        variant="ghost"
         isLoading={isSendMessageLoading}
         onClick={handleSendMessage}
       />

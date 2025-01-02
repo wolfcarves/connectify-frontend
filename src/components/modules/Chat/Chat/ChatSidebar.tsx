@@ -6,10 +6,12 @@ import Card from '@/components/common/Card/Card';
 import ChatMessages from '../ChatMessage/ChatMessages';
 
 const ChatSidebar = () => {
+  const [isChatWindowOpen, setIsChatWindowOpen] = useState<boolean>(false);
   const [chatId, setChatId] = useState<number>();
 
-  const handleBackClick = useCallback(() => {
-    setChatId(undefined);
+  const handleChatClick = useCallback((chatId: number) => {
+    setChatId(chatId);
+    setIsChatWindowOpen(true);
   }, []);
 
   return (
@@ -17,13 +19,13 @@ const ChatSidebar = () => {
       className="relative h-max py-2 overflow-hidden"
       style={{ paddingInline: '0px' }}
     >
-      <ChatSidebarCarousel index={chatId ? 1 : 0}>
+      <ChatSidebarCarousel index={isChatWindowOpen ? 1 : 0}>
         <ChatSidebarCarouselItem>
-          <Chats onChatClick={setChatId} />
+          <Chats onChatClick={handleChatClick} />
         </ChatSidebarCarouselItem>
 
         <ChatSidebarCarouselItem>
-          <ChatMessages chatId={chatId} onBackClick={handleBackClick} />
+          <ChatMessages chatId={chatId} onBackClick={setIsChatWindowOpen} />
         </ChatSidebarCarouselItem>
       </ChatSidebarCarousel>
     </Card>

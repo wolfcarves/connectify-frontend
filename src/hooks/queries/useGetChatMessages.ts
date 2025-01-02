@@ -3,17 +3,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const GET_CHAT_MESSAGES_KEY = () => 'GET_CHAT_MESSAGES_KEY';
 
-export default function useGetChatMessages({
-  chatId,
-  page,
-  perPage,
-}: {
-  chatId: number;
-  page?: number;
-  perPage?: number;
-}) {
+export default function useGetChatMessages({ chatId }: { chatId: number }) {
   return useInfiniteQuery({
-    queryKey: [GET_CHAT_MESSAGES_KEY(), chatId, page, perPage],
+    queryKey: [GET_CHAT_MESSAGES_KEY(), chatId],
     queryFn: async ({ pageParam = 1 }) => {
       const response = await ChatService.getChatMessages({
         chatId,
@@ -30,5 +22,6 @@ export default function useGetChatMessages({
         ? pages.length + 1
         : undefined;
     },
+    gcTime: 0,
   });
 }

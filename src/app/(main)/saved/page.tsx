@@ -1,5 +1,4 @@
 import SavedList from '@/features/saved/SavedList';
-import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 const SavedPage = () => {
   return (
@@ -9,4 +8,4 @@ const SavedPage = () => {
   );
 };
 
-export default withAuthGuard(SavedPage);
+export default (SavedPage);

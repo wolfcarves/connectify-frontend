@@ -22,7 +22,6 @@ export default function useLoginUser() {
       });
 
       router.push('/feed');
-      window.location.reload();
     },
   });
 }

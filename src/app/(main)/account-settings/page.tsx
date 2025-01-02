@@ -1,6 +1,5 @@
 import LogoutForm from '@/features/account-settings/LogoutForm';
 import ThemeSwitch from '@/features/account-settings/ThemeSwitch';
-import { withAuthGuard } from '@/higher-order/withAuthGuard';
 
 const AccountSettings = () => {
   return (
@@ -11,4 +10,4 @@ const AccountSettings = () => {
   );
 };
 
-export default withAuthGuard(AccountSettings);
+export default AccountSettings;

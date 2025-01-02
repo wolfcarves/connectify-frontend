@@ -3,7 +3,6 @@ import Header from '@/components/common/Header/Header';
 import CenterContainer from '@/containers/CenterContainer';
 import MainContainer from '@/containers/MainContainer';
 import BodyContainer from '@/containers/BodyContainer';
-import { withAuthGuard } from '@/higher-order/withAuthGuard';
 import Sidebar from '@/components/common/Sidebar/Sidebar';
 import ChatSidebar from '@/components/modules/Chat/Chat/ChatSidebar';
 import UserOverviewCard from '@/components/modules/User/UserOverviewCard';
@@ -29,4 +28,4 @@ const MainLayout = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default withAuthGuard(MainLayout);
+export default MainLayout;
