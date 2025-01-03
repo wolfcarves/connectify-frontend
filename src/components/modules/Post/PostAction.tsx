@@ -78,7 +78,7 @@ export const LikeButton = ({
             <Typography.Span
               title={`${likesCount && Number(likesCount) !== 0 ? likesCount : 0} Like`}
               weight="medium"
-              className={`text-sm sm:text-base mt-0.5`}
+              className={`text-sm sm:text-base`}
               color={isAlreadyLike ? 'primary' : 'muted'}
             />
           </div>
@@ -106,7 +106,7 @@ export const CommentButton = ({ uuid, commentsCount }: CommentButtonProps) => {
           title={`${commentsCount} Comment`}
           weight="medium"
           color="muted"
-          className="text-sm sm:text-base mt-0.5"
+          className="text-sm sm:text-base"
         />
       </Button>
     );
@@ -122,7 +122,7 @@ export const CommentButton = ({ uuid, commentsCount }: CommentButtonProps) => {
             title={`${commentsCount} Comment`}
             weight="medium"
             color="muted"
-            className="text-sm sm:text-base mt-0.5"
+            className="text-sm sm:text-base"
           />
         </Button>
       }
@@ -142,7 +142,7 @@ export const ShareButton = ({ postId, shares = 0 }: ShareButtonProps) => {
       <Typography.Span
         title="Share"
         weight="medium"
-        className="text-sm sm:text-base mt-0.5"
+        className="text-sm sm:text-base"
         color="muted"
       />
     </Button>

@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -50,7 +49,7 @@ const PostDeleteModal = ({
           </DialogTitle>
 
           <Typography.H6
-            title="Are you sure to delete this post?"
+            title="Once confirmed, this post will be deleted permanently."
             color="muted"
           />
         </DialogHeader>
@@ -59,7 +58,7 @@ const PostDeleteModal = ({
             <Button
               type="button"
               variant="ghost"
-              className="rounded-full text-xs"
+              className="rounded-full"
               isLoading={isLoading}
             >
               <Typography.Span title="Cancel" />
@@ -68,11 +67,11 @@ const PostDeleteModal = ({
           <DialogClose asChild>
             <Button
               type="button"
-              className="rounded-full text-xs"
+              className="rounded-full"
               isLoading={isLoading}
               onClick={() => onSubmitClick()}
             >
-              <Typography.Span title="Confirm" weight="medium" />
+              Confirm
             </Button>
           </DialogClose>
         </DialogFooter>

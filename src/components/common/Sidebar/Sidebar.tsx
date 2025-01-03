@@ -4,6 +4,7 @@ import React from 'react';
 import { ComponentProps, useEffect, useState } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import SideContainer from '@/containers/SideContainer';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 
 interface SidebarProps extends ComponentProps<'aside'> {
   position: 'left' | 'right';
@@ -17,7 +18,7 @@ const Sidebar = ({
   includedRoutes,
 }: SidebarProps) => {
   const params = useParams();
-
+  const { data: session } = useGetCurrentSession();
   const pathname = usePathname();
   const [render, setRender] = useState<boolean>(false);
 
@@ -32,7 +33,7 @@ const Sidebar = ({
     }
   }, [includedRoutes, params.username, pathname]);
 
-  if (!render) {
+  if (!render || pathname.startsWith(`/${session?.username}`)) {
     return <SideContainer position={position} />;
   }
 

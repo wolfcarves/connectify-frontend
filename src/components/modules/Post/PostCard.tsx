@@ -55,14 +55,14 @@ const PostCardUser = ({ timestamp, ...props }: PostCardUserProps) => {
           {...props}
         />
 
-        <Typography.Span title="•" color="muted" />
+        <Typography.Span title="•" color="muted" className="-mt-1" />
 
         <Typography.Span
           title={
             AUDIENCE.find(aud => aud.value === postCtx?.ctxValue.audience)?.icon
           }
           color="muted"
-          className="text-xxs mt-[0.27rem]"
+          className="text-xxs -mt-[1px]"
         />
       </div>
     </>

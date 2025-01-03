@@ -29,16 +29,16 @@ interface ChatMessageHeaderProps {
 
 const ChatMessageHeader = ({ name, onBackClick }: ChatMessageHeaderProps) => {
   return (
-    <div className="flex justify-between items-center border-b">
+    <div className="flex justify-between items-center border-b pb-0.5">
       <div className="flex items-center gap-x-2">
         <Button
           size="icon"
-          icon={<IoArrowBackOutline />}
+          icon={<IoArrowBackOutline size={18} />}
           variant="ghost"
           onClick={onBackClick}
         />
         <div className="pb-0.5">
-          <Typography.Span title={name} />
+          <Typography.Span title={name} weight="semibold" />
         </div>
       </div>
 
@@ -68,14 +68,14 @@ const ChatMessageBody = forwardRef<HTMLDivElement, ChatMessageBodyProps>(
 
 ChatMessageBody.displayName = 'ChatMessageBody';
 
-interface ChatMessageItemProps {
+interface ChatMessageContentProps {
   avatar?: string;
   message: string;
   isMessageOwn: boolean;
 }
 
-const ChatMessageItem = memo(
-  ({ avatar, message, isMessageOwn }: ChatMessageItemProps) => {
+const ChatMessageContent = memo(
+  ({ avatar, message, isMessageOwn }: ChatMessageContentProps) => {
     return (
       <div
         className={`flex gap-x-2 ${isMessageOwn && 'flex-row-reverse'} py-2`}
@@ -89,7 +89,7 @@ const ChatMessageItem = memo(
   },
 );
 
-ChatMessageItem.displayName = 'ChatMessageItem';
+ChatMessageContent.displayName = 'ChatMessageContent';
 
 interface ChatMessageInputProps {
   chatId?: number;
@@ -169,7 +169,7 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
 
 ChatMessage.Header = ChatMessageHeader;
 ChatMessage.Body = ChatMessageBody;
-ChatMessage.Item = ChatMessageItem;
+ChatMessage.Content = ChatMessageContent;
 ChatMessage.Input = ChatMessageInput;
 
 export default ChatMessage;

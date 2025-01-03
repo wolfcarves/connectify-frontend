@@ -10,6 +10,7 @@ import errorHandler from '@/utils/errorHandler';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Typography from '@/components/ui/typography';
 import Card from '@/components/common/Card/Card';
+import Link from 'next/link';
 
 export const schema = z.object({
   username: z.string().min(1, 'Please enter your username'),
@@ -44,7 +45,9 @@ const LoginForm = () => {
     <Card className="w-full max-w-xl px-4 py-5">
       <div className="w-full pb-5">
         <div className="sm:max-w-[320px] space-y-1">
-          <Typography.H5 title="Login to VibeOut" weight="medium" />
+          <Link href="/feed">
+            <Typography.H5 title="Login to VibeOut" weight="medium" />
+          </Link>
           <Typography.H6
             title="Lorem ipsum dolor sit amet consectetur adipisicing elit."
             color="muted"

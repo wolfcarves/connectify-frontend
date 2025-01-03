@@ -1,22 +1,33 @@
-'use client';
-
 import React, { ComponentProps } from 'react';
-import { useTheme } from 'next-themes';
 import { RiReactjsLine } from 'react-icons/ri';
 
 interface LogoProps extends ComponentProps<'div'> {
+  animated?: boolean;
   size?: 'base' | 'lg';
 }
 
-const Logo = ({ size = 'base', className, ...props }: LogoProps) => {
-  const { theme } = useTheme();
-
+const Logo = ({
+  animated = false,
+  size = 'base',
+  className,
+  ...props
+}: LogoProps) => {
   return (
     <div
-      className={`${theme === 'dark' && 'border-white'} ${size === 'base' ? 'w-11 h-11' : 'w-16 h-16'} flex justify-center items-center bg-primary rounded-full p-0.5 ${className}`}
+      className={`
+      ${size === 'base' ? 'w-11 h-11' : 'w-16 h-16'}
+      group relative flex justify-center items-center bg-primary rounded-full select-none p-0.5 ${className}`}
       {...props}
     >
-      <RiReactjsLine color="#FFFFFF" size={24} />
+      <div
+        className={`${animated ? 'animate-ping' : 'hidden'} absolute w-full h-full bg-primary rounded-full`}
+      />
+
+      <RiReactjsLine
+        color="#FFFFFF"
+        size={size === 'lg' ? 30 : 24}
+        className={`${animated ? '' : 'group-hover:animate-spin'} duration-1000`}
+      />
     </div>
   );
 };

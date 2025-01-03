@@ -1,36 +1,36 @@
 'use client';
 
 import { ReactNode, useEffect } from 'react';
-import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import { usePathname, useRouter } from 'next/navigation';
+import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import LoadingPage from '@/components/modules/Loading/LoadingPage';
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const pathname = usePathname();
   const router = useRouter();
-  const { data, isPending } = useGetCurrentSession();
+  const pathname = usePathname();
 
-  const isAuthenticated = !!data?.id;
+  const { data: session } = useGetCurrentSession();
+
+  const hasSession = !!session;
 
   useEffect(() => {
-    if (!isPending) {
-      if (isAuthenticated && pathname.startsWith('/login')) {
-        router.replace('/');
-        return;
-      }
-
-      if (!isAuthenticated && !pathname.startsWith('/login')) {
-        router.replace('/login');
-        return;
-      }
+    if (!hasSession && !pathname.startsWith('/login')) {
+      router.replace('/login');
     }
-  }, [isAuthenticated, isPending, pathname, router]);
 
-  if (isAuthenticated === undefined || isPending) {
+    if (hasSession && pathname.startsWith('/login')) {
+      router.replace('/feed');
+    }
+  }, [hasSession, pathname, router]);
+
+  if (
+    (!hasSession && !pathname.startsWith('/login')) ||
+    (hasSession && pathname.startsWith('/login'))
+  ) {
     return <LoadingPage />;
   }
 
-  return <>{children}</>;
+  return children;
 };
 
 export default AuthProvider;

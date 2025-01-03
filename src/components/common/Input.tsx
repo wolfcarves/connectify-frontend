@@ -1,4 +1,4 @@
-import { forwardRef, LegacyRef } from 'react';
+import React, { forwardRef, LegacyRef, ReactElement } from 'react';
 import {
   FormControl,
   FormField,
@@ -37,7 +37,7 @@ export interface InputProps<T extends FieldValues>
   defaultValue?: PathValue<T, Path<T>>;
 }
 
-const Input = <T extends FieldValues>(
+const InputComp = <T extends FieldValues>(
   {
     name,
     control,
@@ -49,7 +49,7 @@ const Input = <T extends FieldValues>(
     className,
     ...restProps
   }: InputProps<T>,
-  ref: LegacyRef<HTMLInputElement> | undefined,
+  ref: React.Ref<HTMLInputElement>,
 ) => {
   const def = defaultValue ? defaultValue : type === 'number' ? 0 : '';
 
@@ -90,4 +90,9 @@ const Input = <T extends FieldValues>(
   );
 };
 
-export default forwardRef(Input);
+const Input = React.forwardRef(InputComp) as <T extends FieldValues>(
+  // eslint-disable-next-line no-unused-vars
+  p: InputProps<T> & { ref?: React.Ref<HTMLInputElement> },
+) => ReactElement;
+
+export default Input;

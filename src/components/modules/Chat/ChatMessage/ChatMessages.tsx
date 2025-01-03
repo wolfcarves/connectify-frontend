@@ -1,12 +1,4 @@
-import React, {
-  Dispatch,
-  memo,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
 import ChatMessage from './ChatMessage';
 import useGetChat from '@/hooks/queries/useGetChat';
 import Spinner from '@/components/ui/spinner';
@@ -18,18 +10,19 @@ import socket from '@/lib/socket';
 import { useIntersection } from '@mantine/hooks';
 import ScrollContainer from '@/containers/ScrollContainer';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
-import { useQueryClient } from '@tanstack/react-query';
+import useResetQueryData from '@/hooks/useResetQueryData';
+import { usePathname } from 'next/navigation';
 
 interface ChatMessagesProps {
   chatId?: number;
-  onBackClick?: Dispatch<SetStateAction<boolean>>;
+  onBackClick?: () => void;
 }
 
 const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
-  const queryClient = useQueryClient();
+  const pathname = usePathname();
+  const { resetData } = useResetQueryData();
   const scrollRef = useRef<HTMLElement>(null);
   const { data: session } = useGetCurrentSession();
-
   const [localChatMessages, setLocalChatMessages] = useState<ChatMessageType[]>(
     [],
   );
@@ -42,9 +35,9 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
     data: chatMessages,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
   } = useGetChatMessages({
     chatId: chatId!,
+    enabled: !!chatId,
   });
 
   const listenerRef = useRef<HTMLDivElement>(null);
@@ -54,28 +47,25 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
     threshold: 1,
   });
 
-  const handleBackClick = useCallback(async () => {
-    onBackClick?.(false);
-  }, []);
-
-  useEffect(() => {
-    queryClient.removeQueries({
-      queryKey: [GET_CHAT_MESSAGES_KEY(), chatId],
-      exact: true,
+  const handleBackClick = useCallback(() => {
+    resetData({
+      queryKey: [GET_CHAT_MESSAGES_KEY(), chatId!],
     });
-  }, [chatId]);
+
+    onBackClick?.();
+  }, [chatId, onBackClick, resetData]);
 
   useEffect(() => {
-    scrollRef?.current?.scrollTo(0, scrollRef?.current?.scrollHeight);
-
-    socket.on('receive_message', (data: ChatMessageType) => {
+    const handleReceiveMessage = (data: ChatMessageType) => {
       setLocalChatMessages(prev => [...prev, { ...data }]);
-    });
+    };
+
+    socket.on('receive_message', handleReceiveMessage);
 
     return () => {
-      socket.off('receive_message');
+      socket.off('receive_message', handleReceiveMessage);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (entry?.isIntersecting && hasNextPage) {
@@ -83,10 +73,10 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
     }
   }, [entry?.isIntersecting, fetchNextPage, hasNextPage]);
 
-  if (isChatPending)
+  if (isChatPending || !chatId)
     return (
       <ChatMessage>
-        <ChatMessage.Header name="" onBackClick={() => onBackClick?.(false)} />
+        <ChatMessage.Header name="" onBackClick={() => onBackClick?.()} />
         <ChatMessage.Body center>
           <Spinner />
         </ChatMessage.Body>
@@ -109,7 +99,7 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
             ?.map(message => {
               if (message.chat_id === chatId)
                 return (
-                  <ChatMessage.Item
+                  <ChatMessage.Content
                     key={message.id}
                     avatar={
                       message.sender_id === session?.id
@@ -126,7 +116,7 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
           {chatMessages?.pages.map((page, pageIdx) => (
             <React.Fragment key={pageIdx}>
               {page.data.map(message => (
-                <ChatMessage.Item
+                <ChatMessage.Content
                   key={message.id}
                   avatar={
                     message.sender_id === session?.id
@@ -140,13 +130,13 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
             </React.Fragment>
           ))}
 
-          <div ref={intersectionRef} />
-
-          {hasNextPage && isFetchingNextPage && (
-            <div className="flex justify-center items-center py-2">
+          {hasNextPage && (
+            <div className="flex justify-center contents-center py-2">
               <Spinner />
             </div>
           )}
+
+          <div ref={intersectionRef} />
         </ScrollContainer>
       </ChatMessage.Body>
 

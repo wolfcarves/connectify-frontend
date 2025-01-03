@@ -10,21 +10,23 @@ import Navigator from '@/components/common/Navigator/Navigator';
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <MainContainer>
-      <Header />
-      <BodyContainer>
-        <Sidebar position="left" includedRoutes={['/feed', '/friends']}>
-          <UserOverviewCard />
-          <Navigator />
-        </Sidebar>
+    <>
+      <MainContainer>
+        <Header />
+        <BodyContainer>
+          <Sidebar position="left" includedRoutes={['/feed', '/friends']}>
+            <UserOverviewCard />
+            <Navigator />
+          </Sidebar>
 
-        <CenterContainer>{children}</CenterContainer>
+          <CenterContainer>{children}</CenterContainer>
 
-        <Sidebar position="right">
-          <ChatSidebar />
-        </Sidebar>
-      </BodyContainer>
-    </MainContainer>
+          <Sidebar position="right" includedRoutes={['/']}>
+            <ChatSidebar />
+          </Sidebar>
+        </BodyContainer>
+      </MainContainer>
+    </>
   );
 };
 

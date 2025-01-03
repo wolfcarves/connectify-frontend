@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Chat from '@/components/modules/Chat/Chat/Chat';
 import ChatContainer from '@/components/modules/Chat/Chat/ChatContainer';
 import useGetChats from '@/hooks/queries/useGetChats';
+import { ChatMessage as ChatMessageType } from '@/services';
 import Typography from '@/components/ui/typography';
 import { User } from '@/services';
 import ChatSkeleton from '@/components/modules/Chat/Chat/ChatSkeleton';
@@ -11,6 +12,7 @@ import useCreateChat from '@/hooks/mutations/useCreateChat';
 import socket from '@/lib/socket';
 import { Button } from '@/components/ui/button';
 import { MdOpenInNew } from 'react-icons/md';
+import { useSocketStore } from '@/store/useSocketStore';
 
 interface ChatsProps {
   // eslint-disable-next-line no-unused-vars
@@ -18,6 +20,7 @@ interface ChatsProps {
 }
 
 const Chats = ({ onChatClick }: ChatsProps) => {
+  const { isSocketConnected } = useSocketStore();
   const [search, setSearch] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[] | undefined>([]);
   const [hasResults, setHasResults] = useState<boolean>(false);
@@ -39,8 +42,8 @@ const Chats = ({ onChatClick }: ChatsProps) => {
   };
 
   useEffect(() => {
-    if (chatId) socket.emit('join_chat', String(chatId));
-  }, [chatId]);
+    if (chatId && isSocketConnected) socket.emit('join_chat', String(chatId));
+  }, [chatId, isSocketConnected]);
 
   return (
     <ChatContainer>

@@ -6,6 +6,7 @@ import Providers from '@/providers/Providers';
 import getQueryClient from '@/lib/getQueryClient';
 import { HydrationBoundary, dehydrate } from '@tanstack/react-query';
 import prefetchCurrentSession from '@/requests/prefetch/prefetchCurrentSession';
+import AuthProvider from '@/providers/AuthProvider';
 
 const marRope = Manrope({
   subsets: ['latin'],
@@ -33,7 +34,9 @@ export default async function RootLayout({
       <body className={`${marRope.className} bg-background-light`}>
         <Providers>
           <HydrationBoundary state={dehydrate(queryClient)}>
-            <main>{children}</main>
+            <AuthProvider>
+              <main>{children}</main>
+            </AuthProvider>
           </HydrationBoundary>
           <Toaster />
         </Providers>

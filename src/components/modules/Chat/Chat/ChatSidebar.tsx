@@ -14,6 +14,10 @@ const ChatSidebar = () => {
     setIsChatWindowOpen(true);
   }, []);
 
+  const handleBackClick = useCallback(() => {
+    setIsChatWindowOpen(false);
+  }, []);
+
   return (
     <Card
       className="relative h-max py-2 overflow-hidden"
@@ -24,9 +28,9 @@ const ChatSidebar = () => {
           <Chats onChatClick={handleChatClick} />
         </ChatSidebarCarouselItem>
 
-        <ChatSidebarCarouselItem>
-          <ChatMessages chatId={chatId} onBackClick={setIsChatWindowOpen} />
-        </ChatSidebarCarouselItem>
+        {/* <ChatSidebarCarouselItem>
+          <ChatMessages chatId={chatId} onBackClick={handleBackClick} />
+        </ChatSidebarCarouselItem> */}
       </ChatSidebarCarousel>
     </Card>
   );

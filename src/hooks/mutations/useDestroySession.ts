@@ -18,7 +18,6 @@ export default function useDestroySession() {
         queryKey: [GET_CURRENT_SESSION_KEY()],
       });
 
-      router.push('/login');
       window.location.reload();
     },
   });

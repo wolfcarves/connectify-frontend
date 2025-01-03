@@ -1,10 +1,13 @@
+'use client';
+
 import React from 'react';
-import Header from '@/components/common/Header/Header';
+import Logo from '@/components/common/Logo';
 
 const LoadingPage = () => {
   return (
-    <main className="min-h-screen">
-      <Header />
+    <main className="min-h-screen flex justify-center items-center">
+      <Logo animated size="lg" />
+      {/* <Header /> */}
     </main>
   );
 };

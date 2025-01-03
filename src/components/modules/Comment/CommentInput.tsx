@@ -74,7 +74,7 @@ const CommentInput = ({
       className={`${modal ? '' : 'fixed start-0 end-0 -bottom-0 max-w-xl mx-auto bg-background-light w-full pb-4'}`}
       onSubmit={handleSubmit(handleCommentSubmit)}
     >
-      <div className="flex gap-2.5 pt-2 pe-2 w-full">
+      <div className="flex gap-2.5 pt-2 pb-1 pe-2 w-full">
         <Avatar src={session?.avatar!} size="sm" />
 
         <TextArea
@@ -85,7 +85,6 @@ const CommentInput = ({
             ref(e);
           }}
           placeholder="Post comment"
-          className="bg-muted"
         />
         <Button
           variant="secondary"

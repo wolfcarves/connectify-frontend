@@ -32,6 +32,5 @@ export default function useGetCurrentSession() {
         }
       }
     },
-    staleTime: 1000 * 60 * 3,
   });
 }
