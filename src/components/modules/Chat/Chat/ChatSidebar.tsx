@@ -24,9 +24,10 @@ const ChatSidebar = () => {
       style={{ paddingInline: '0px' }}
     >
       <ChatSidebarCarousel index={isChatWindowOpen ? 1 : 0}>
-        <ChatSidebarCarouselItem>
+        <></>
+        {/* <ChatSidebarCarouselItem>
           <Chats onChatClick={handleChatClick} />
-        </ChatSidebarCarouselItem>
+        </ChatSidebarCarouselItem> */}
 
         {/* <ChatSidebarCarouselItem>
           <ChatMessages chatId={chatId} onBackClick={handleBackClick} />

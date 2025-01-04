@@ -1,13 +1,26 @@
 'use client';
 
-import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import { useSessionStore } from '@/store/useSessionStore';
-import { useSocketStore } from '@/store/useSocketStore';
+import { useSocketStatusStore } from '@/store/useSocketStatusStore';
 import { ReactNode, useEffect } from 'react';
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
-  // const { isSocketConnected, connectSocket, disconnectSocket } =
-  //   useSocketStore();
+  // const { session, fetchSession } = useSessionStore();
+  // const hasSession = !!session;
+
+  // const { isSocketConnected, connectSocket } = useSocketStatusStore();
+
+  // useEffect(() => {
+  //   fetchSession();
+
+  //   if (hasSession && !isSocketConnected) {
+  //     connectSocket();
+  //   }
+  // }, [connectSocket, fetchSession, hasSession, isSocketConnected]);
+
+  // useEffect(() => {
+  //   console.log('isSocketConnected', isSocketConnected);
+  // }, [isSocketConnected]);
 
   return <>{children}</>;
 };

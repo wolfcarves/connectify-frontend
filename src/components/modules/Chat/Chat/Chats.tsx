@@ -12,7 +12,7 @@ import useCreateChat from '@/hooks/mutations/useCreateChat';
 import socket from '@/lib/socket';
 import { Button } from '@/components/ui/button';
 import { MdOpenInNew } from 'react-icons/md';
-import { useSocketStore } from '@/store/useSocketStore';
+import { useSocketStatusStore } from '@/store/useSocketStatusStore';
 
 interface ChatsProps {
   // eslint-disable-next-line no-unused-vars
@@ -20,7 +20,7 @@ interface ChatsProps {
 }
 
 const Chats = ({ onChatClick }: ChatsProps) => {
-  const { isSocketConnected } = useSocketStore();
+  const { isSocketConnected } = useSocketStatusStore();
   const [search, setSearch] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[] | undefined>([]);
   const [hasResults, setHasResults] = useState<boolean>(false);
