@@ -47,7 +47,7 @@ const ChatUser = ({
     <>
       <button
         type="button"
-        className="relative w-full hover:bg-accent rounded-sm p-1 my-20"
+        className="relative w-full hover:bg-accent rounded-sm py-2 px-1"
         onClick={onClick}
       >
         <div className="flex gap-x-2.5">

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Chat from '@/components/modules/Chat/Chat/Chat';
 import ChatContainer from '@/components/modules/Chat/Chat/ChatContainer';
 import useGetChats from '@/hooks/queries/useGetChats';
@@ -14,6 +14,8 @@ import { MdOpenInNew } from 'react-icons/md';
 import { useSocketStatusStore } from '@/store/useSocketStatusStore';
 import { ChatMessage as ChatMessageType } from '@/services';
 import ScrollContainer from '@/containers/ScrollContainer';
+import Spinner from '@/components/ui/spinner';
+import { useIntersection } from '@mantine/hooks';
 
 interface ChatsProps {
   // eslint-disable-next-line no-unused-vars
@@ -21,6 +23,8 @@ interface ChatsProps {
 }
 
 const Chats = ({ onChatClick }: ChatsProps) => {
+  const listenerRef = useRef<HTMLDivElement>(null);
+
   const { isSocketConnected } = useSocketStatusStore();
   const [search, setSearch] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[] | undefined>([]);
@@ -28,8 +32,25 @@ const Chats = ({ onChatClick }: ChatsProps) => {
   const [isResultsLoading, setIsResultLoading] = useState<boolean>(false);
   const [chatId, setChatId] = useState<number>();
 
-  const { data: chats, isPending: isChatsPending } = useGetChats();
+  const {
+    data: chats,
+    isPending: isChatsPending,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useGetChats();
+
+  const _chats = useMemo(
+    () => chats?.pages.flatMap(page => page.data),
+    [chats],
+  );
+
   const { mutateAsync: createChat } = useCreateChat();
+
+  const { ref: intersectionRef, entry } = useIntersection({
+    root: listenerRef.current,
+    threshold: 1,
+  });
 
   const handleInitiateChat = async (recipientId: number) => {
     const chatId = await createChat(recipientId);
@@ -43,15 +64,19 @@ const Chats = ({ onChatClick }: ChatsProps) => {
   };
 
   useEffect(() => {
-    socket.on('receive_message', (data: ChatMessageType) => {
-      if (chats?.data) {
-      }
-    });
+    socket.on('receive_message', (data: ChatMessageType) => {});
 
     return () => {
       socket.off('receive_message');
     };
   }, []);
+
+  useEffect(() => {
+    if (entry?.isIntersecting && hasNextPage) {
+      console.log('triggered?');
+      fetchNextPage();
+    }
+  }, [entry?.isIntersecting, fetchNextPage, hasNextPage]);
 
   useEffect(() => {
     if (chatId && isSocketConnected) socket.emit('join_chat', String(chatId));
@@ -90,11 +115,13 @@ const Chats = ({ onChatClick }: ChatsProps) => {
         </div>
       )}
 
-      {(isChatsPending || isResultsLoading) && search && (
-        <ChatSkeleton count={5} />
-      )}
+      <div className="px-3">
+        {(isChatsPending || isResultsLoading) && search && (
+          <ChatSkeleton count={5} />
+        )}
+      </div>
 
-      <ScrollContainer enableScroll className="px-3">
+      <ScrollContainer enableScroll className="px-3 pb-5">
         {searchResults?.map(user => {
           return (
             <Chat.User
@@ -109,7 +136,7 @@ const Chats = ({ onChatClick }: ChatsProps) => {
         })}
 
         {!search &&
-          chats?.data?.map(chat => {
+          _chats?.map(chat => {
             return (
               <Chat.User
                 key={chat?.id}
@@ -118,6 +145,14 @@ const Chats = ({ onChatClick }: ChatsProps) => {
               />
             );
           })}
+
+        <div ref={intersectionRef} />
+
+        {hasNextPage && isFetchingNextPage && (
+          <div className="flex justify-center contents-center py-2">
+            <Spinner />
+          </div>
+        )}
       </ScrollContainer>
     </ChatContainer>
   );

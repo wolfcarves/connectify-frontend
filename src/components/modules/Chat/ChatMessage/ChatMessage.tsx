@@ -29,7 +29,7 @@ interface ChatMessageHeaderProps {
 
 const ChatMessageHeader = ({ name, onBackClick }: ChatMessageHeaderProps) => {
   return (
-    <div className="flex justify-between items-center border-b pb-0.5">
+    <div className="flex justify-between items-center border-b pb-0.5 px-1">
       <div className="flex items-center gap-x-2">
         <Button
           size="icon"
@@ -57,7 +57,7 @@ const ChatMessageBody = forwardRef<HTMLDivElement, ChatMessageBodyProps>(
     return (
       <div
         ref={ref}
-        className={`flex flex-1 flex-col-reverse w-full overflow-auto ${center && 'justify-center items-center '}`}
+        className={`flex flex-1 flex-col-reverse w-full overflow-auto px-2 ${center && 'justify-center items-center '}`}
         {...props}
       >
         {children}
@@ -146,7 +146,7 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
   }, []);
 
   return (
-    <div className="flex gap-x-2 items-center px-0 py-1">
+    <div className="flex gap-x-2 items-center px-3 py-1">
       <Input
         ref={inputRef}
         type="text"
