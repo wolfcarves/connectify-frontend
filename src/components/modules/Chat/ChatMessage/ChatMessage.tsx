@@ -108,8 +108,6 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
       if (chatId && inputRef.current) {
         const content = inputRef.current.value;
 
-        console.log('content', content);
-
         const { messageId } = await sendMessage({ chatId, data: { content } });
 
         const message: ChatMessageType = {

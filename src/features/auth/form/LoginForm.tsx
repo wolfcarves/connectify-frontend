@@ -87,9 +87,15 @@ const LoginForm = () => {
               Login
             </Button>
 
-            <Button type="button" variant="link" className="w-full rounded-xl">
-              Create an account
-            </Button>
+            <Link href="/signup">
+              <Button
+                type="button"
+                variant="link"
+                className="w-full rounded-xl"
+              >
+                Create an account
+              </Button>
+            </Link>
           </div>
 
           <div className="flex gap-x-2 items-center w-full">

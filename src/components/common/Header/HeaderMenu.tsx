@@ -25,7 +25,7 @@ const HeaderMenu = () => {
   const { isPending } = useGetCurrentSession();
 
   return (
-    <div className="flex items-center gap-x-4">
+    <div className="flex justify-end items-center gap-x-4">
       {!isPending && (
         <div className="flex items-center gap-x-3">
           <Button

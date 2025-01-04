@@ -21,7 +21,7 @@ const User = ({
   ...props
 }: UserProps) => {
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex items-center gap-2">
       <Avatar href={username!} src={avatar} size={size} {...props} />
 
       <div className="flex flex-col">
@@ -37,7 +37,7 @@ const User = ({
           <Typography.Span
             title={name}
             weight="semibold"
-            className="line-clamp-1 "
+            className="line-clamp-1"
           />
         )}
 

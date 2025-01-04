@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Chat from '@/components/modules/Chat/Chat/Chat';
 import ChatContainer from '@/components/modules/Chat/Chat/ChatContainer';
 import useGetChats from '@/hooks/queries/useGetChats';
-import { ChatMessage as ChatMessageType } from '@/services';
 import Typography from '@/components/ui/typography';
 import { User } from '@/services';
 import ChatSkeleton from '@/components/modules/Chat/Chat/ChatSkeleton';
@@ -13,6 +12,8 @@ import socket from '@/lib/socket';
 import { Button } from '@/components/ui/button';
 import { MdOpenInNew } from 'react-icons/md';
 import { useSocketStatusStore } from '@/store/useSocketStatusStore';
+import { ChatMessage as ChatMessageType } from '@/services';
+import ScrollContainer from '@/containers/ScrollContainer';
 
 interface ChatsProps {
   // eslint-disable-next-line no-unused-vars
@@ -27,7 +28,7 @@ const Chats = ({ onChatClick }: ChatsProps) => {
   const [isResultsLoading, setIsResultLoading] = useState<boolean>(false);
   const [chatId, setChatId] = useState<number>();
 
-  const { data: chats, isPending: isChatsLoading } = useGetChats();
+  const { data: chats, isPending: isChatsPending } = useGetChats();
   const { mutateAsync: createChat } = useCreateChat();
 
   const handleInitiateChat = async (recipientId: number) => {
@@ -40,6 +41,17 @@ const Chats = ({ onChatClick }: ChatsProps) => {
     setChatId(chatId);
     onChatClick?.(chatId);
   };
+
+  useEffect(() => {
+    socket.on('receive_message', (data: ChatMessageType) => {
+      if (chats?.data) {
+      }
+    });
+
+    return () => {
+      socket.off('receive_message');
+    };
+  }, []);
 
   useEffect(() => {
     if (chatId && isSocketConnected) socket.emit('join_chat', String(chatId));
@@ -78,33 +90,35 @@ const Chats = ({ onChatClick }: ChatsProps) => {
         </div>
       )}
 
-      {(isChatsLoading || isResultsLoading) && search && (
+      {(isChatsPending || isResultsLoading) && search && (
         <ChatSkeleton count={5} />
       )}
 
-      {searchResults?.map(user => {
-        return (
-          <Chat.User
-            key={user?.id}
-            id={user.id}
-            user_id={user.id}
-            avatar={user.avatar}
-            name={user.name}
-            onClick={() => handleInitiateChat(user?.id)}
-          />
-        );
-      })}
-
-      {!search &&
-        chats?.data?.map(chat => {
+      <ScrollContainer enableScroll className="px-3">
+        {searchResults?.map(user => {
           return (
             <Chat.User
-              key={chat?.id}
-              {...chat}
-              onClick={() => handleChatClick(chat?.id)}
+              key={user?.id}
+              id={user.id}
+              user_id={user.id}
+              avatar={user.avatar}
+              name={user.name}
+              onClick={() => handleInitiateChat(user?.id)}
             />
           );
         })}
+
+        {!search &&
+          chats?.data?.map(chat => {
+            return (
+              <Chat.User
+                key={chat?.id}
+                {...chat}
+                onClick={() => handleChatClick(chat?.id)}
+              />
+            );
+          })}
+      </ScrollContainer>
     </ChatContainer>
   );
 };

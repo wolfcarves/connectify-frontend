@@ -36,7 +36,7 @@ export default function useGetChatMessages({
         ? pages.length + 1
         : undefined;
     },
-    refetchOnReconnect: false,
+    refetchOnReconnect: true,
     refetchOnMount: false,
   });
 }

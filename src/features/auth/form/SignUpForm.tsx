@@ -10,7 +10,10 @@ import useSignUpUser from '@/hooks/mutations/useSignUpUser';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import errorHandler from '@/utils/errorHandler';
+import Card from '@/components/common/Card/Card';
 import { useToast } from '@/components/ui/use-toast';
+import Link from 'next/link';
+import Typography from '@/components/ui/typography';
 
 export const signUpSchema = z
   .object({
@@ -83,76 +86,76 @@ const SignUpForm = () => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <div className="my-10 mx-auto w-full max-w-[28rem]">
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="w-full max-w-lg space-y-8">
-            <div className="flex items-start">
-              <BackButton />
-            </div>
-            <div>
-              <h2 className=" text-center text-3xl font-bold tracking-tight text-foreground">
-                Sign up for an account
-              </h2>
-            </div>
-
-            <form
-              onSubmit={handleSubmit(handleSignUpForm)}
-              className="mt-8 space-y-6"
-            >
-              <div className="space-y-4 rounded-md ">
-                <Input
-                  label="Email"
-                  name="email"
-                  control={control}
-                  placeholder="Email address"
-                />
-
-                <Input
-                  label="Name"
-                  name="name"
-                  control={control}
-                  placeholder="Full name"
-                />
-
-                <Input
-                  label="Username"
-                  name="username"
-                  control={control}
-                  placeholder="Username"
-                />
-
-                <Input
-                  label="Password"
-                  name="password"
-                  type="password"
-                  control={control}
-                  placeholder="Password"
-                />
-
-                <Input
-                  label="Confirm password"
-                  name="confirm_password"
-                  type="password"
-                  control={control}
-                  placeholder="Re-enter your password"
-                />
-              </div>
-
+    <div className="flex items-center w-full max-w-2xl h-full bg-muted px-4 py-5">
+      <FormProvider {...methods}>
+        <BackButton />
+        <div className="mx-auto w-full max-w-[28rem]">
+          <div className="px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-lg space-y-8">
               <div>
-                <Button
-                  type="submit"
-                  className="w-full mt-32 rounded-full"
-                  isLoading={isSignUpUserLoading}
-                >
-                  Sign up
-                </Button>
+                <h2 className="text-3xl tracking-tight text-foreground">
+                  Sign up for an account
+                </h2>
               </div>
-            </form>
+
+              <form
+                onSubmit={handleSubmit(handleSignUpForm)}
+                className="mt-8 space-y-6"
+              >
+                <div className="space-y-4 rounded-md ">
+                  <Input
+                    label="Email"
+                    name="email"
+                    control={control}
+                    placeholder="Email address"
+                  />
+
+                  <Input
+                    label="Name"
+                    name="name"
+                    control={control}
+                    placeholder="Full name"
+                  />
+
+                  <Input
+                    label="Username"
+                    name="username"
+                    control={control}
+                    placeholder="Username"
+                  />
+
+                  <Input
+                    label="Password"
+                    name="password"
+                    type="password"
+                    control={control}
+                    placeholder="Password"
+                  />
+
+                  <Input
+                    label="Confirm password"
+                    name="confirm_password"
+                    type="password"
+                    control={control}
+                    placeholder="Re-enter your password"
+                  />
+                </div>
+
+                <div>
+                  <Button
+                    type="submit"
+                    className="w-full mt-10 rounded-full"
+                    isLoading={isSignUpUserLoading}
+                  >
+                    Sign up
+                  </Button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </FormProvider>
+      </FormProvider>
+    </div>
   );
 };
 

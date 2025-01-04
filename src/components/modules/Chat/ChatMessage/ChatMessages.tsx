@@ -11,7 +11,6 @@ import { useIntersection } from '@mantine/hooks';
 import ScrollContainer from '@/containers/ScrollContainer';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import useResetQueryData from '@/hooks/useResetQueryData';
-import { usePathname } from 'next/navigation';
 
 interface ChatMessagesProps {
   chatId?: number;
@@ -19,7 +18,6 @@ interface ChatMessagesProps {
 }
 
 const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
-  const pathname = usePathname();
   const { resetData } = useResetQueryData();
   const scrollRef = useRef<HTMLElement>(null);
   const { data: session } = useGetCurrentSession();
@@ -65,7 +63,7 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
     return () => {
       socket.off('receive_message', handleReceiveMessage);
     };
-  }, [pathname]);
+  }, []);
 
   useEffect(() => {
     if (entry?.isIntersecting && hasNextPage) {

@@ -24,14 +24,13 @@ const ChatSidebar = () => {
       style={{ paddingInline: '0px' }}
     >
       <ChatSidebarCarousel index={isChatWindowOpen ? 1 : 0}>
-        <></>
-        {/* <ChatSidebarCarouselItem>
+        <ChatSidebarCarouselItem>
           <Chats onChatClick={handleChatClick} />
-        </ChatSidebarCarouselItem> */}
+        </ChatSidebarCarouselItem>
 
-        {/* <ChatSidebarCarouselItem>
+        <ChatSidebarCarouselItem>
           <ChatMessages chatId={chatId} onBackClick={handleBackClick} />
-        </ChatSidebarCarouselItem> */}
+        </ChatSidebarCarouselItem>
       </ChatSidebarCarousel>
     </Card>
   );
@@ -63,7 +62,7 @@ const ChatSidebarCarouselItem = ({
   className,
 }: ChatSidebarCarouselItemProps) => {
   return (
-    <div className={`min-w-full max-h-[calc(100vh-20rem)] px-3 ${className}`}>
+    <div className={`min-w-full max-h-[calc(100vh-20rem)] ${className}`}>
       {children}
     </div>
   );

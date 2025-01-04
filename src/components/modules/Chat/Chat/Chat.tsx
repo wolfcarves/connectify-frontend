@@ -15,6 +15,7 @@ import _ from 'lodash';
 import useGetUsers from '@/hooks/queries/useGetUsers';
 import Avatar from '@/components/common/Avatar/Avatar';
 import Typography from '@/components/ui/typography';
+import socket from '@/lib/socket';
 
 const Chat = ({ ...props }: ComponentProps<'div'>) => {
   return <div {...props} />;
@@ -27,12 +28,26 @@ interface ChatUserProps
   onClick?: () => void;
 }
 
-const ChatUser = ({ avatar, name, latest_message, onClick }: ChatUserProps) => {
+const ChatUser = ({
+  id,
+  avatar,
+  name,
+  latest_message,
+  onClick,
+}: ChatUserProps) => {
+  useEffect(() => {
+    socket.emit('join_chat', String(id));
+
+    return () => {
+      socket.emit('leave_chat', String(id));
+    };
+  }, []);
+
   return (
     <>
       <button
         type="button"
-        className="relative w-full hover:bg-accent rounded-sm p-1"
+        className="relative w-full hover:bg-accent rounded-sm p-1 my-20"
         onClick={onClick}
       >
         <div className="flex gap-x-2.5">
@@ -61,7 +76,7 @@ const ChatUser = ({ avatar, name, latest_message, onClick }: ChatUserProps) => {
 };
 
 const ChatHeader = ({ children }: { children: ReactNode }) => {
-  return <div className="space-y-2">{children}</div>;
+  return <div className="space-y-2 px-3">{children}</div>;
 };
 
 interface ChatSearchProps {
