@@ -38,5 +38,6 @@ export default function useGetChatMessages({
     },
     refetchOnReconnect: true,
     refetchOnMount: false,
+    staleTime: 0,
   });
 }

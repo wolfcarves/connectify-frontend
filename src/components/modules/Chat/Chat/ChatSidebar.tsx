@@ -25,7 +25,10 @@ const ChatSidebar = () => {
     >
       <ChatSidebarCarousel index={isChatWindowOpen ? 1 : 0}>
         <ChatSidebarCarouselItem>
-          <Chats onChatClick={handleChatClick} />
+          <Chats
+            isChatWindowOpen={isChatWindowOpen}
+            onChatClick={handleChatClick}
+          />
         </ChatSidebarCarouselItem>
 
         <ChatSidebarCarouselItem>

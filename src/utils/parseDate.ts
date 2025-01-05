@@ -1,13 +1,13 @@
 import { subHours, formatDistanceToNowStrict } from 'date-fns';
 
-export const parseDate = (dateString?: string) => {
+export const parseDate = (dateString: string, addSuffix: boolean) => {
   if (!dateString) return undefined;
 
   const date = new Date(dateString);
-  const refactorDate = subHours(date, 8);
+  const refactorDate = subHours(date, 0);
 
   const formatted = formatDistanceToNowStrict(refactorDate, {
-    addSuffix: true,
+    addSuffix: addSuffix ?? true,
   });
 
   const abbreviated = formatted

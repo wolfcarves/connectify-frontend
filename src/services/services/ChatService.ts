@@ -33,6 +33,7 @@ export class ChatService {
             },
             errors: {
                 401: `Not Found`,
+                403: `Forbidden`,
                 500: `Server Internal Error.`,
             },
         });
@@ -52,6 +53,7 @@ export class ChatService {
             user_id: number;
             avatar: string;
             name: string;
+            is_read: boolean;
         };
     }> {
         return __request(OpenAPI, {

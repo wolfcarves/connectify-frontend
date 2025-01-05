@@ -18,8 +18,10 @@ interface ChatMessagesProps {
 }
 
 const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
-  const { resetData } = useResetQueryData();
   const scrollRef = useRef<HTMLElement>(null);
+  const listenerRef = useRef<HTMLDivElement>(null);
+
+  const { resetData } = useResetQueryData();
   const { data: session } = useGetCurrentSession();
   const [localChatMessages, setLocalChatMessages] = useState<ChatMessageType[]>(
     [],
@@ -33,12 +35,11 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
     data: chatMessages,
     fetchNextPage,
     hasNextPage,
+    isFetchingNextPage,
   } = useGetChatMessages({
     chatId: chatId!,
     enabled: !!chatId,
   });
-
-  const listenerRef = useRef<HTMLDivElement>(null);
 
   const { ref: intersectionRef, entry } = useIntersection({
     root: listenerRef.current,
@@ -128,7 +129,7 @@ const ChatMessages = ({ chatId, onBackClick }: ChatMessagesProps) => {
             </React.Fragment>
           ))}
 
-          {hasNextPage && (
+          {hasNextPage && isFetchingNextPage && (
             <div className="flex justify-center contents-center py-2">
               <Spinner />
             </div>

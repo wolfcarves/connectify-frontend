@@ -54,23 +54,25 @@ export const updateOptimisticLike = async ({
       (oldPosts: PostInfiniteData) => {
         return {
           ...oldPosts,
-          pages: oldPosts.pages.map(page => ({
-            ...page,
-            data: page.data.map(post => {
-              return post.post.id === postId
-                ? {
-                    ...post,
-                    post: {
-                      ...post.post,
-                      is_liked: !post.post.is_liked,
-                      likes_count: post.post.is_liked
-                        ? post.post.likes_count - 1
-                        : post.post.likes_count + 1,
-                    },
-                  }
-                : post;
-            }),
-          })),
+          pages: oldPosts.pages.map(page => {
+            return {
+              ...page,
+              data: page.data.map(post => {
+                return post.post.id === postId
+                  ? {
+                      ...post,
+                      post: {
+                        ...post.post,
+                        is_liked: !post.post.is_liked,
+                        likes_count: post.post.is_liked
+                          ? post.post.likes_count - 1
+                          : post.post.likes_count + 1,
+                      },
+                    }
+                  : post;
+              }),
+            };
+          }),
         };
       },
     );

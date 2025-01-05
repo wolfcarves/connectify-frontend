@@ -17,6 +17,7 @@ import { ChatMessage as ChatMessageType } from '@/services';
 import socket from '@/lib/socket';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import Input from '@/components/common/Input';
+import useOptimisticUpdateChats from '@/hooks/modules/chats/useOptimisticUpdateChats';
 
 const ChatMessage = ({ className, ...props }: ComponentProps<'div'>) => {
   return <div className={`flex flex-col h-full ${className}`} {...props} />;
@@ -99,6 +100,7 @@ interface ChatMessageInputProps {
 const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const { optimiticUpdateChatOrder } = useOptimisticUpdateChats();
   const { data: session } = useGetCurrentSession();
   const { mutateAsync: sendMessage, isPending: isSendMessageLoading } =
     useSendChatMessage();
@@ -118,6 +120,11 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         };
+
+        optimiticUpdateChatOrder({
+          chatId,
+          latestMessage: content,
+        });
 
         socket.emit('send_message', message);
         onSubmit?.(message);

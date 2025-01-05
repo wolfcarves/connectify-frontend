@@ -9,5 +9,6 @@ export type Chat = {
     name: string;
     latest_message: string;
     latest_message_at: string;
+    is_read: boolean;
 };
 

@@ -29,8 +29,10 @@ const UserProfilePosts = () => {
   });
 
   useEffect(() => {
-    if (entry?.isIntersecting && _posts?.length !== 0) fetchNextPage();
-  }, [entry?.isIntersecting, fetchNextPage, hasNextPage, _posts]);
+    if (entry?.isIntersecting && _posts !== undefined) {
+      fetchNextPage();
+    }
+  }, [_posts, entry?.isIntersecting, fetchNextPage]);
 
   if (_posts?.length === 0)
     return (
@@ -58,9 +60,11 @@ const UserProfilePosts = () => {
         skeletonCount={10}
       >
         {isPostsPending && <PostCardSkeleton count={3} />}
+
         {_posts?.map(post => {
           return <Post key={post.post.id} data={post} />;
         })}
+
         <div ref={ref} />
       </PostContainer>
     </>

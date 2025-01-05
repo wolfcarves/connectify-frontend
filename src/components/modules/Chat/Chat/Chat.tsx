@@ -16,6 +16,7 @@ import useGetUsers from '@/hooks/queries/useGetUsers';
 import Avatar from '@/components/common/Avatar/Avatar';
 import Typography from '@/components/ui/typography';
 import socket from '@/lib/socket';
+import { parseDate } from '@/utils/parseDate';
 
 const Chat = ({ ...props }: ComponentProps<'div'>) => {
   return <div {...props} />;
@@ -33,8 +34,15 @@ const ChatUser = ({
   avatar,
   name,
   latest_message,
+  latest_message_at,
+  is_read,
   onClick,
 }: ChatUserProps) => {
+  const timestamp = useMemo(
+    () => (latest_message_at ? parseDate(latest_message_at, false) : ''),
+    [latest_message_at],
+  );
+
   useEffect(() => {
     socket.emit('join_chat', String(id));
 
@@ -50,23 +58,40 @@ const ChatUser = ({
         className="relative w-full hover:bg-accent rounded-sm py-2 px-1"
         onClick={onClick}
       >
-        <div className="flex gap-x-2.5">
+        <div className="flex w-full gap-x-2.5">
           <Avatar src={avatar} size="lg" />
 
-          <div className="flex flex-col text-start">
-            <Typography.Span
-              title={name}
-              className="line-clamp-1 my-auto"
-              weight="medium"
-            />
-
-            {latest_message && (
+          <div className="flex justify-between items-center w-full">
+            <div className="flex flex-col text-start w-full">
               <Typography.Span
-                title={latest_message}
-                color="muted"
-                size="sm"
-                className="line-clamp-1"
+                title={name}
+                className="line-clamp-1 my-auto"
+                weight="medium"
               />
+
+              {latest_message && (
+                <div className="flex justify-between">
+                  <Typography.Span
+                    title={latest_message}
+                    color="muted"
+                    size="sm"
+                    className="line-clamp-1"
+                    weight={is_read ? 'medium' : 'semibold'}
+                  />
+
+                  <Typography.Span
+                    title={timestamp}
+                    color="muted"
+                    size="sm"
+                    weight={is_read ? 'medium' : 'semibold'}
+                    className="pe-2"
+                  />
+                </div>
+              )}
+            </div>
+
+            {!is_read && (
+              <div className="bg-blue-500 w-2 h-2 rounded-full me-1" />
             )}
           </div>
         </div>

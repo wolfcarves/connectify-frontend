@@ -51,7 +51,7 @@ const PostCardUser = ({ timestamp, ...props }: PostCardUserProps) => {
         <UserComponent
           quality={50}
           unoptimized
-          timestamp={parseDate(timestamp)}
+          timestamp={timestamp ? parseDate(timestamp, true) : ''}
           {...props}
         />
 

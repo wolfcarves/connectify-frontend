@@ -17,8 +17,8 @@ export default function useGetChats() {
     queryFn: async ({ pageParam }) => {
       const response = await ChatService.getChats({
         page: pageParam,
-        perPage: 2,
       });
+
       return response;
     },
     getNextPageParam: (lastPage, pages) => {
@@ -27,5 +27,8 @@ export default function useGetChats() {
         : undefined;
     },
     initialPageParam: 1,
+    staleTime: 0,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 }

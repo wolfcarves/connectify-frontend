@@ -16,16 +16,21 @@ import { ChatMessage as ChatMessageType } from '@/services';
 import ScrollContainer from '@/containers/ScrollContainer';
 import Spinner from '@/components/ui/spinner';
 import { useIntersection } from '@mantine/hooks';
+import useOptimisticUpdateChats from '@/hooks/modules/chats/useOptimisticUpdateChats';
 
 interface ChatsProps {
   // eslint-disable-next-line no-unused-vars
   onChatClick?: (chatId: number) => void;
+  isChatWindowOpen: boolean;
 }
 
-const Chats = ({ onChatClick }: ChatsProps) => {
+const Chats = ({ isChatWindowOpen, onChatClick }: ChatsProps) => {
+  const isChatWindowOpenRef = useRef<boolean>(isChatWindowOpen);
   const listenerRef = useRef<HTMLDivElement>(null);
 
   const { isSocketConnected } = useSocketStatusStore();
+  const { optimiticUpdateChatOrder, optimiticUpdateChatReadStatus } =
+    useOptimisticUpdateChats();
   const [search, setSearch] = useState<string>('');
   const [searchResults, setSearchResults] = useState<User[] | undefined>([]);
   const [hasResults, setHasResults] = useState<boolean>(false);
@@ -58,22 +63,40 @@ const Chats = ({ onChatClick }: ChatsProps) => {
     onChatClick?.(chatId);
   };
 
-  const handleChatClick = (chatId: number) => {
+  const handleChatClick = async (chatId: number) => {
     setChatId(chatId);
     onChatClick?.(chatId);
+    await optimiticUpdateChatReadStatus(chatId, true);
   };
 
   useEffect(() => {
-    socket.on('receive_message', (data: ChatMessageType) => {});
+    isChatWindowOpenRef.current = isChatWindowOpen;
+  }, [isChatWindowOpen]);
+
+  useEffect(() => {
+    const handleReceiveMessage = async (data: ChatMessageType) => {
+      optimiticUpdateChatOrder({
+        chatId: data?.chat_id,
+        latestMessage: data.content,
+      });
+
+      console.log(isChatWindowOpenRef.current);
+
+      await optimiticUpdateChatReadStatus(
+        data?.chat_id,
+        isChatWindowOpenRef.current,
+      );
+    };
+
+    socket.on('receive_message', handleReceiveMessage);
 
     return () => {
-      socket.off('receive_message');
+      socket.off('receive_message', handleReceiveMessage);
     };
-  }, []);
+  }, [optimiticUpdateChatOrder, optimiticUpdateChatReadStatus]);
 
   useEffect(() => {
     if (entry?.isIntersecting && hasNextPage) {
-      console.log('triggered?');
       fetchNextPage();
     }
   }, [entry?.isIntersecting, fetchNextPage, hasNextPage]);
@@ -105,6 +128,16 @@ const Chats = ({ onChatClick }: ChatsProps) => {
         />
       </Chat.Header>
 
+      {search === '' && _chats === undefined && !isChatsPending ? (
+        <div className="text-center mt-10 px-2">
+          <Typography.Span
+            title="Initiate a chat by searching people above!"
+            className="text-center mx-auto"
+            color="muted"
+          />
+        </div>
+      ) : null}
+
       {search && !isResultsLoading && (
         <div className="px-2">
           <Typography.Span
@@ -130,6 +163,7 @@ const Chats = ({ onChatClick }: ChatsProps) => {
               user_id={user.id}
               avatar={user.avatar}
               name={user.name}
+              is_read={true}
               onClick={() => handleInitiateChat(user?.id)}
             />
           );
