@@ -11,6 +11,7 @@ import TextArea from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { IoIosPaperPlane } from 'react-icons/io';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
+import { useOptimisticAddComment } from '@/hooks/modules/comments/useOptimisticAddComment';
 
 const schema = z.object({
   content: z
@@ -35,6 +36,7 @@ const CommentInput = ({
   onSubmit,
   modal = false,
 }: CommentInputProps) => {
+  const { optimisticAddComment } = useOptimisticAddComment();
   const { data: session } = useGetCurrentSession();
 
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
@@ -57,12 +59,13 @@ const CommentInput = ({
         content: content,
       };
 
-      const createdComment = await createComment(requestData);
-      onSubmit?.(createdComment.id, content);
+      const { id: commentId } = await createComment(requestData);
+      optimisticAddComment({ postId, content, commentId });
+
+      onSubmit?.(commentId, content);
 
       reset();
     } catch (error: unknown) {
-      //
       errorHandler(error, schema, setError);
     }
   };

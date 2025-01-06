@@ -93,7 +93,9 @@ export const CommentAction = ({
     <>
       <div className="flex gap-2 items-center ms-10 px-2 pt-0.5 pb-1">
         <Typography.Span
-          title={timestamp === 'Just now' ? 'Just now' : parseDate(timestamp)}
+          title={
+            timestamp === 'Just now' ? 'Just now' : parseDate(timestamp, true)
+          }
           size="xs"
           color="muted"
         />

@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { ReplyCard } from './ReplyCard';
 import type { Comment as CommentType } from '@/services';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
-import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
+import ReplyInput from './ReplyInput';
 
 interface ReplyProps {
   postId: number;
@@ -14,7 +14,9 @@ interface ReplyProps {
 
 const Reply = ({ postId, data: reply, isNested }: ReplyProps) => {
   const { data: session } = useGetCurrentSession();
-  const replyFormRef = useRef<{ setFocus: () => void }>(null);
+  const replyFormRef = useRef<HTMLTextAreaElement & { setFocus: () => void }>(
+    null,
+  );
   const [nestedLocalReplies, setNestedLocalReplies] = useState<
     { id: number; content: string }[]
   >([]);
@@ -122,16 +124,10 @@ const Reply = ({ postId, data: reply, isNested }: ReplyProps) => {
           <div className="border-l-2 w-[2.250rem] xs:w-[2.130rem]" />
 
           <div className="w-full">
-            <ReplyCreateForm
+            <ReplyInput
               ref={replyFormRef}
               postId={postId}
               commentId={reply?.id}
-              onSubmit={(commentId, value) =>
-                setNestedLocalReplies(prev => [
-                  ...prev,
-                  { id: commentId, content: value },
-                ])
-              }
             />
           </div>
         </div>

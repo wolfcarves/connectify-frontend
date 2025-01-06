@@ -1,14 +1,8 @@
 import { CommentService } from '@/services';
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { QueryClient, useMutation } from '@tanstack/react-query';
 import { GET_POST_COMMENTS_KEY } from '../queries/useGetCommentsByPostId';
 
 export default function useCreateComment() {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationKey: ['CREATE_POST_COMMENT_KEY'],
     mutationFn: async ({
@@ -27,19 +21,17 @@ export default function useCreateComment() {
 
       return response.data;
     },
-    onMutate: ({ postId }) => {
-      addOptimisticComment({ queryClient, postId });
-    },
-    onSuccess: data => console.log('success', data),
   });
 }
 
 const addOptimisticComment = ({
   queryClient,
   postId,
+  content,
 }: {
   queryClient: QueryClient;
   postId: number;
+  content: string;
 }) => {
   const getPostCommentsKey = [GET_POST_COMMENTS_KEY(), postId];
 
@@ -50,7 +42,7 @@ const addOptimisticComment = ({
           data: [
             {
               id: 1,
-              content: 'This is a sample comment.',
+              content,
               user: {
                 id: 101,
                 avatar: '/m_avatar_1.svg',
@@ -58,16 +50,16 @@ const addOptimisticComment = ({
                 username: 'johndoe',
               },
               is_liked: true,
-              likes_count: 15,
-              replies_count: 2,
-              created_at: '2024-12-28T12:34:56Z',
-              updated_at: '2024-12-28T13:00:00Z',
+              likes_count: 0,
+              replies_count: 0,
+              created_at: 'Just now',
+              updated_at: new Date().toISOString(),
             },
-          ], // Initialize comments data
+          ],
           pagination: {
-            total: 0, // Total comments
-            page: 1, // Current page
-            limit: 10, // Default limit
+            total: 0,
+            page: 1,
+            limit: 10,
           },
         },
       ],

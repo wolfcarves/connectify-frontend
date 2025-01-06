@@ -2,9 +2,9 @@ import { forwardRef, memo, useRef, useState } from 'react';
 import type { Comment as CommentType } from '@/services';
 import { CommentCard } from './CommentCard';
 import useGetRepliesByCommentId from '@/hooks/queries/useGetRepliesByCommentId';
-import ReplyCreateForm from '@/features/reply/form/ReplyCreateForm';
 import Reply from '../Reply/Reply';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
+import ReplyInput from '../Reply/ReplyInput';
 
 interface CommentProps {
   postId: number;
@@ -15,7 +15,9 @@ interface CommentProps {
 const Comment = forwardRef<HTMLInputElement, CommentProps>(
   ({ postId, data: comment, isLocalComment }: CommentProps, ref) => {
     const { data: session } = useGetCurrentSession();
-    const replyFormRef = useRef<{ setFocus: () => void }>(null);
+    const replyFormRef = useRef<HTMLTextAreaElement & { setFocus: () => void }>(
+      null,
+    );
     const [localReplies, setLocalReplies] = useState<
       { id: number; content: string }[]
     >([]);
@@ -105,16 +107,10 @@ const Comment = forwardRef<HTMLInputElement, CommentProps>(
           })}
 
         {isReplyOpen && !isRepliesLoading && (
-          <ReplyCreateForm
+          <ReplyInput
             ref={replyFormRef}
             postId={postId}
             commentId={comment?.id}
-            onSubmit={(commentId, value) =>
-              setLocalReplies(prev => [
-                ...prev,
-                { id: commentId, content: value },
-              ])
-            }
           />
         )}
       </div>

@@ -26,7 +26,7 @@ const useOptimisticUpdateChats = () => {
               movedChat = {
                 ...chat,
                 latest_message: latestMessage,
-                latest_message_at: new Date().toISOString(),
+                latest_message_at: 'Just now',
               } as ChatType;
 
               return false;

@@ -27,9 +27,9 @@ const PostModal = ({ trigger, uuid, ...props }: PostModal) => {
   return (
     <Dialog {...props}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogTitle />
       <DialogDescription />
-      <DialogContent className="min-w-[720px] p-0 bg-card top-[67%] translate-y-[-67%] data-[state=closed]:slide-out-to-top-[65%] data-[state=open]:slide-in-from-top-[65%] overflow-hidden">
+      <DialogContent className="min-w-[720px] p-0 bg-card overflow-hidden">
+        <DialogTitle />
         <Card className="p-0 border-0">
           <PostModalHeader uuid={uuid} />
           <PostView uuid={uuid} modal={true} />

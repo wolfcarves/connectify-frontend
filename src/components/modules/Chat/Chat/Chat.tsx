@@ -39,7 +39,12 @@ const ChatUser = ({
   onClick,
 }: ChatUserProps) => {
   const timestamp = useMemo(
-    () => (latest_message_at ? parseDate(latest_message_at, false) : ''),
+    () =>
+      latest_message_at === 'Just now'
+        ? 'Just now '
+        : latest_message_at
+          ? parseDate(latest_message_at, false)
+          : 'Unknown',
     [latest_message_at],
   );
 
@@ -70,21 +75,21 @@ const ChatUser = ({
               />
 
               {latest_message && (
-                <div className="flex justify-between">
+                <div className="flex justify-between line-clamp-1">
                   <Typography.Span
                     title={latest_message}
                     color="muted"
                     size="sm"
-                    className="line-clamp-1"
+                    className="flex-[0.7] line-clamp-1"
                     weight={is_read ? 'medium' : 'semibold'}
                   />
 
                   <Typography.Span
                     title={timestamp}
                     color="muted"
-                    size="sm"
+                    size="xs"
                     weight={is_read ? 'medium' : 'semibold'}
-                    className="pe-2"
+                    className="flex-[0.3] text-end"
                   />
                 </div>
               )}

@@ -80,8 +80,6 @@ const Chats = ({ isChatWindowOpen, onChatClick }: ChatsProps) => {
         latestMessage: data.content,
       });
 
-      console.log(isChatWindowOpenRef.current);
-
       await optimiticUpdateChatReadStatus(
         data?.chat_id,
         isChatWindowOpenRef.current,

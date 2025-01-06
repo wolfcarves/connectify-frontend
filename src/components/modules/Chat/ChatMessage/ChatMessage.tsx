@@ -123,7 +123,7 @@ const ChatMessageInput = ({ chatId, onSubmit }: ChatMessageInputProps) => {
 
         optimiticUpdateChatOrder({
           chatId,
-          latestMessage: content,
+          latestMessage: 'You: ' + content,
         });
 
         socket.emit('send_message', message);

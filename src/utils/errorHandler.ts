@@ -1,6 +1,5 @@
 import { ApiError } from '@/services/core/ApiError';
 
-// eslint-disable-next-line no-unused-vars
 const errorHandler = <T, K extends (...args: any[]) => void>(
   error: unknown,
   schema: T,
