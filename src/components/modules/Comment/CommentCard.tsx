@@ -109,20 +109,11 @@ export const CommentAction = ({
             disabled={isLikeCommentPending}
           >
             <Typography.Span
-              title="Like"
+              title={`${likesCount} Like`}
               size="xs"
               weight="medium"
               color={isLiked ? 'primary' : 'muted'}
             />
-
-            {likesCount >= 1 && (
-              <Typography.Span
-                title={`( ${likesCount} )`}
-                size="xs"
-                weight="medium"
-                color={isLiked ? 'primary' : 'muted'}
-              />
-            )}
           </Button>
           <Button
             type="button"

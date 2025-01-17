@@ -27,42 +27,48 @@ const PostCreate = () => {
           <Avatar src={session.avatar} size="sm" />
         </Link>
 
-        <Button variant="ghost" className="w-full p-0 hover:opacity-80">
+        <Link href="/create" className="w-full">
           <Input
             placeholder="What's on your mind?"
             className="hover:cursor-pointer"
           />
-        </Button>
+        </Link>
 
-        <Button variant="secondary" className="px-8">
-          <Typography.Span
-            title="Share Post"
-            weight="semibold"
-            color="primary"
-          />
-        </Button>
+        <Link href="/create">
+          <Button variant="secondary" className="px-8">
+            <Typography.Span
+              title="Share Post"
+              weight="semibold"
+              color="primary"
+            />
+          </Button>
+        </Link>
       </div>
 
       <Divider />
 
       <div className="flex justify-between items-center gap-x-4 mt-1">
-        <Button
-          variant="ghost"
-          icon={<FaImage className="text-md text-primary" />}
-          size="sm"
-        >
-          <Typography.Span
-            title="Image/Video"
-            weight="semibold"
-            color="muted"
+        <Link href="/create">
+          <Button
+            variant="ghost"
+            icon={<FaImage className="text-md text-primary" />}
             size="sm"
-          />
-        </Button>
+          >
+            <Typography.Span
+              title="Image/Video"
+              weight="semibold"
+              color="muted"
+              size="sm"
+            />
+          </Button>
+        </Link>
 
-        <Button variant="ghost" size="sm">
-          <Typography.Span title="Public" weight="medium" color="muted" />
-          <IoIosArrowDown className="text-md text-muted" />
-        </Button>
+        <Link href="/create">
+          <Button variant="ghost" size="sm">
+            <Typography.Span title="Public" weight="medium" color="muted" />
+            <IoIosArrowDown className="text-md text-muted" />
+          </Button>
+        </Link>
       </div>
     </Card>
   );

@@ -76,9 +76,7 @@ const ReplyInput = forwardRef(
                   registerFormRef(e);
                 }}
                 {...registerForm}
-                // {...register('content')}
                 placeholder="Post reply"
-                className="bg-muted"
                 {...props}
               />
             </div>

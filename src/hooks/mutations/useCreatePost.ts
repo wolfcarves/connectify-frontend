@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { GET_ALL_USER_POSTS_KEY } from '../queries/useGetAllUserPosts';
+import { GET_FEED_WORLD_POSTS_KEY } from '../queries/useGetFeedDiscoverPosts';
 
 export default function useCreatePost() {
   const queryClient = useQueryClient();
@@ -19,6 +20,9 @@ export default function useCreatePost() {
       return response;
     },
     onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: [GET_FEED_WORLD_POSTS_KEY()],
+      });
       await queryClient.invalidateQueries({
         queryKey: [GET_ALL_USER_POSTS_KEY()],
       });

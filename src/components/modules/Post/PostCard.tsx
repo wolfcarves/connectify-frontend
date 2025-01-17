@@ -74,7 +74,7 @@ const PostCardContent = ({ children }: { children?: ReactNode }) => {
 
   const modal = postCtx?.modal!;
   const charCount = 140;
-  const isContentLong = (children as string).length >= charCount;
+  const isContentLong = (children as string)?.length >= charCount;
   const [expanded, setExpanded] = useState<boolean>(!isContentLong || modal);
 
   return (

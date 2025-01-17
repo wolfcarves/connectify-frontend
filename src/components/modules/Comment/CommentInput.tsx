@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 'use client';
 
 import React, { useRef } from 'react';
@@ -24,18 +25,11 @@ type CommentSchema = z.infer<typeof schema>;
 
 interface CommentInputProps {
   postId: number;
-  // eslint-disable-next-line no-unused-vars
-  onSubmit?: (commentId: number, value: string) => void;
-  // eslint-disable-next-line no-unused-vars
   onLoad?: (status: boolean) => void;
   modal?: boolean;
 }
 
-const CommentInput = ({
-  postId,
-  onSubmit,
-  modal = false,
-}: CommentInputProps) => {
+const CommentInput = ({ postId, modal = false }: CommentInputProps) => {
   const { optimisticAddComment } = useOptimisticAddComment();
   const { data: session } = useGetCurrentSession();
 
@@ -61,8 +55,6 @@ const CommentInput = ({
 
       const { id: commentId } = await createComment(requestData);
       optimisticAddComment({ postId, content, commentId });
-
-      onSubmit?.(commentId, content);
 
       reset();
     } catch (error: unknown) {

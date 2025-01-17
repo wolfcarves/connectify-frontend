@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import useGetUserPost from '@/hooks/queries/useGetUserPost';
 import useGetCommentsByPostId from '@/hooks/queries/useGetCommentsByPostId';
 import Post from '@/components/modules/Post/Post';
@@ -14,10 +14,6 @@ import CommentInput from '@/components/modules/Comment/CommentInput';
 import ScrollContainer from '@/containers/ScrollContainer';
 
 const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
-  const [localComments, setLocalComments] = useState<
-    { id: number; comment: string }[]
-  >([]);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const { ref, entry } = useIntersection({
     root: containerRef.current,
@@ -41,10 +37,6 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
     if (entry?.isIntersecting && hasNextPage) fetchNextPage();
   }, [entry?.isIntersecting, fetchNextPage, hasNextPage]);
 
-  const handleCommentSubmit = (commentId: number, value: string) => {
-    setLocalComments(prev => [...prev, { id: commentId, comment: value }]);
-  };
-
   if (!postData && !isPostPending) return notFound();
 
   return (
@@ -58,35 +50,6 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
           isLoading={isCommentsLoading}
           hasComment={_comments && _comments?.length > 0}
         >
-          {/* {localComments &&
-            localComments
-              .map(comment => {
-                return (
-                  <div key={comment?.id}>
-                    <Comment
-                      postId={postData?.post.id!}
-                      data={{
-                        id: comment.id,
-                        user: {
-                          avatar: session.avatar!,
-                          id: session.userId!,
-                          name: session.name!,
-                          username: session.username!,
-                        },
-                        is_liked: false,
-                        likes_count: 0,
-                        replies_count: 0,
-                        content: comment.comment,
-                        created_at: 'Just now',
-                        updated_at: new Date().toISOString(),
-                      }}
-                      isLocalComment={true}
-                    />
-                  </div>
-                );
-              })
-              .reverse()} */}
-
           {_comments?.map(comment => {
             return (
               <Comment
@@ -107,11 +70,7 @@ const PostView = ({ uuid, modal }: { uuid: string; modal: boolean }) => {
       </ScrollContainer>
 
       {postData?.post.id && (
-        <CommentInput
-          postId={postData?.post?.id}
-          onSubmit={handleCommentSubmit}
-          modal={modal}
-        />
+        <CommentInput postId={postData?.post?.id} modal={modal} />
       )}
     </>
   );

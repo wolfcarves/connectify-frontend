@@ -30,7 +30,7 @@ const PostModal = ({ trigger, uuid, ...props }: PostModal) => {
       <DialogDescription />
       <DialogContent className="min-w-[720px] p-0 bg-card overflow-hidden">
         <DialogTitle />
-        <Card className="p-0 border-0">
+        <Card className="border-0 py-0 pb-2">
           <PostModalHeader uuid={uuid} />
           <PostView uuid={uuid} modal={true} />
         </Card>
@@ -43,21 +43,21 @@ const PostModalHeader = ({ uuid }: { uuid: string }) => {
   const { data: postData, isPending: isPostPending } = useGetUserPost(uuid);
 
   return (
-    <div className="flex justify-center items-center sticky top-0 bg-card border-b text-center h-12 z-50">
+    <div className="relative flex items-center border-b pb-3.5">
       {!isPostPending && (
-        <Typography.H4
-          title={`${concatContraction(postData?.user.name!)} Post`}
-          weight="medium"
-          className="text-center pb-1.5"
-        />
+        <div className="m-auto">
+          <Typography.H4
+            title={`${concatContraction(postData?.user.name!)} Post`}
+            weight="medium"
+          />
+        </div>
       )}
-
       <DialogClose asChild>
         <Button
           size="icon"
           icon={<IoCloseSharp size={24} />}
           variant="ghost"
-          className="absolute end-2 top-0 bottom-0 my-auto"
+          className="absolute end-2 top-0 bottom-2 my-auto"
         />
       </DialogClose>
     </div>

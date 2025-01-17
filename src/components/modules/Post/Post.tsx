@@ -40,7 +40,7 @@ const Post = ({ data, modal = false }: PostProps) => {
 
   const images = useMemo(
     () =>
-      data?.post.images?.map(({ image }) => {
+      data?.post.images?.map(image => {
         return getCldImageUrl({
           src: `${env?.cloudinaryPostPublicID}/${data?.post.uuid}/${image}`,
         });
@@ -67,7 +67,7 @@ const Post = ({ data, modal = false }: PostProps) => {
         </PostCard.Header>
 
         <>
-          {!!images && <PhotoGrid images={images} />}
+          {images?.length > 0 && <PhotoGrid images={images} />}
           <PostCard.Content>{data.post.content}</PostCard.Content>
         </>
 

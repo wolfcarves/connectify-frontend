@@ -4,7 +4,6 @@ import {
 } from '@/hooks/queries/useGetCommentsByPostId';
 import useGetCurrentSession from '@/hooks/queries/useGetCurrentSession';
 import { useQueryClient } from '@tanstack/react-query';
-import { pages } from 'next/dist/build/templates/app-page';
 
 export const useOptimisticAddComment = () => {
   const { data: user } = useGetCurrentSession();
@@ -24,8 +23,6 @@ export const useOptimisticAddComment = () => {
     queryClient.setQueryData(
       getPostCommentsKey,
       (previousState: CommentInfiniteData): CommentInfiniteData => {
-        const prevPages = Array.from(previousState.pages);
-
         const newValue = {
           id: commentId,
           content: content,
@@ -36,6 +33,24 @@ export const useOptimisticAddComment = () => {
           created_at: 'Just now',
           updated_at: 'Just now',
         };
+
+        if (!previousState) {
+          return {
+            pages: [
+              {
+                data: [newValue],
+                pagination: {
+                  current_page: 1,
+                  remaining_items: 0,
+                  total_items: 1,
+                },
+              },
+            ],
+            pageParams: [1],
+          };
+        }
+
+        const prevPages = Array.from(previousState.pages);
 
         prevPages[0] = {
           ...prevPages[0],

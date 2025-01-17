@@ -12,11 +12,7 @@ export type Post = {
     is_liked: boolean;
     likes_count: number;
     comments_count: number;
-    images: Array<{
-        image: string;
-        created_at: string;
-        updated_at: string;
-    }>;
+    images: Array<string>;
     created_at: string;
     updated_at: string;
 };

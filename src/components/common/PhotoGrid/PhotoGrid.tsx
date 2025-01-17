@@ -2,6 +2,7 @@ import { ComponentProps, useEffect, useState } from 'react';
 import Typography from '@/components/ui/typography';
 import NextImage from 'next/image';
 import Spinner from '@/components/ui/spinner';
+import { PiImageBrokenLight } from 'react-icons/pi';
 
 interface PhotoGridProps extends ComponentProps<'div'> {
   images?: string[];
@@ -50,11 +51,19 @@ const PhotoGridItem = ({
   ...props
 }: PhotoGridItemProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     const img = new Image();
     img.src = src;
-    img.onload = () => setIsLoading(false);
+    img.onload = () => {
+      setIsError(false);
+      setIsLoading(false);
+    };
+    img.onerror = () => {
+      setIsLoading(false);
+      setIsError(true);
+    };
   }, [src]);
 
   return (
@@ -69,19 +78,28 @@ const PhotoGridItem = ({
         `}
         {...props}
       >
+        {isError && (
+          <div className="flex flex-col justify-center items-center h-full">
+            <PiImageBrokenLight size={24} />
+            <Typography.Span title="Failed to load" />
+          </div>
+        )}
+
         {isLoading ? (
           <div className="flex justify-center items-center h-full">
             <Spinner />
           </div>
         ) : (
-          <NextImage
-            key={id}
-            alt={`preview-image-${id}`}
-            src={src}
-            fill
-            sizes="100%"
-            className={'object-cover'}
-          />
+          !isError && (
+            <NextImage
+              key={id}
+              alt={`preview-image-${id}`}
+              src={src}
+              fill
+              sizes="100%"
+              className={'object-cover'}
+            />
+          )
         )}
 
         {totalImages > 5 && id === 4 && (
